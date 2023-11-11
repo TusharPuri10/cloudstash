@@ -63,9 +63,10 @@ export default function App() {
         style={{ height: "100vh", backgroundColor: "#80B3FF" }}
         camera={{ position: [0, 3, 7] }}
       >
-        <ambientLight intensity={3} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-        <pointLight position={[0.4, 1, -2]} intensity={4} />
+        <ambientLight intensity={1.3} />
+        <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
+            <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
+        </directionalLight>
         <Box position={[0, 0, 0]} />
         <Cloud position={[0, 0, 0]} target={new THREE.Vector3(0, 0, -2)} />
       </Canvas>
