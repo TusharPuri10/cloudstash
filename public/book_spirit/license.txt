@@ -1,0 +1,11 @@
+Model Information:
+* title:	Book Spirit
+* source:	https://sketchfab.com/3d-models/book-spirit-b77935c3c789430a95513171cf868054
+* author:	jummydoodles (https://sketchfab.com/jummydoodles)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Book Spirit" (https://sketchfab.com/3d-models/book-spirit-b77935c3c789430a95513171cf868054) by jummydoodles (https://sketchfab.com/jummydoodles) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

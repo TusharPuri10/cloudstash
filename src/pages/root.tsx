@@ -1,49 +1,16 @@
-import { Suspense, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Stats, OrbitControls } from "@react-three/drei";
-import * as three from "three";
-import { DragControls } from 'three/addons/controls/DragControls.js';
+import Bin from "@/components/Bin";
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import axios from "axios";
+import Router from "next/router";
 
-const Cube = () => {
-    const ref = useRef<THREE.Mesh>(null!);
 
-  useFrame(() => {
-    ref.current!.rotation.y += 0.01;
-  });
+export default function App() {
 
   return (
-    <mesh ref={ref}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#FFA41B" />
-    </mesh>
-  );
-};
-
-const Scene = () => {
-  return (
-    <>
-        <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
-            <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
-        </directionalLight>
-        <Cube />
-    </>
-  );
-};
-
-const App = () => {
-  return (
-    <div className="relative z-0 w-full h-screen">
-      <Canvas
-        style={{ height: "100vh", backgroundColor: "#80B3FF" }}
-        camera={{ position: [0, 3, 7] }}
-      >
-        {/* <OrbitControls /> */}
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-      </Canvas>
+    <div className="relative" style={{backgroundColor: "#0D1F23", height: "100vh"}}>
+        <Bin/>
+        
     </div>
   );
-};
-
-export default App;
+}
