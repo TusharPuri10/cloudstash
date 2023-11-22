@@ -38,7 +38,7 @@ export default function Bin(){
             <Canvas
             camera={{ position: [1.5, 3, 7.5] }}
             >
-                <ambientLight intensity={2} />
+                <ambientLight intensity={3} />
                 <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
                     <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                 </directionalLight>

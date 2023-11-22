@@ -9,3 +9,33 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id  String  @unique
+  email String   @unique
+  rootURL String @db.VarChar(255)
+  folders  Folder[]
+}
+
+model Folder {
+  id       Int      @id @default(autoincrement())
+  userId   String
+  parent     Folder?  @relation("ChildFolders", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId Int?
+  name     String
+  files    File[]
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childFolders Folder[] @relation("ChildFolders")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model File {
+  id       Int     @id @default(autoincrement())
+  folderId Int
+  folder   Folder  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  name     String
+  type     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,8 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { pageState } from "@/atoms/state";
 import Breadcrumb from "@/components/Breadcrumb";
 
 export default function Topbar() {
@@ -10,46 +8,51 @@ export default function Topbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const router = useRouter();
-  const [page, setPage] = useRecoilState(pageState);
   console.log(status);
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
       <nav>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
-            <button className="ml-6 flex items-center py-6 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+          <button
+            className="ml-6 flex items-center py-6 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             onClick={() => {
               router.push("/");
-              setPage("/");
               setIsMenuOpen(false);
-            }}>
-              CloudStash
-            </button>
+            }}
+          >
+            CloudStash
+          </button>
           {/* Menu - Home, About, contact */}
-          {
-            (page==="") && <div>
-              <Breadcrumb/>
+          {router.asPath === "/root" && (
+            <div>
+              <Breadcrumb />
             </div>
-          }
+          )}
           <div
-            onMouseEnter={() => setIsMenuOpen(true && page === "")}
+            onMouseEnter={() => setIsMenuOpen(true && router.asPath === "/root")}
             onMouseLeave={() => setIsMenuOpen(false)}
             id="navbar-cta"
           >
             <ul
-              style={ (isMenuOpen)?{backgroundColor: "#2D4A53"}:{ backgroundColor: "#0D1F23" }}
+              style={
+                isMenuOpen
+                  ? { backgroundColor: "#2D4A53" }
+                  : { backgroundColor: "#0D1F23" }
+              }
               className={
                 isMenuOpen
                   ? " z-50 absolute space-y-2 mt-8 right-16 flex flex-col font-medium px-6 py-3 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-                  : (page==="" ? "my-3 right-0 flex flex-col hidden font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8" : "my-3 mr-24 flex flex-col font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8")
+                  : router.asPath === "/root"
+                  ? "my-3 right-0 flex flex-col hidden font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
+                  : "my-3 mr-24 flex flex-col font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
               }
             >
               <li>
                 <button
-                  style={{ color: page === "/" ? "#FFA33C" : "white" }}
+                  style={{ color: router.asPath === "/" ? "#FFA33C" : "white" }}
                   onClick={() => {
                     router.push("/");
-                    setPage("/");
                     setIsMenuOpen(false);
                   }}
                   type="button"
@@ -59,10 +62,9 @@ export default function Topbar() {
               </li>
               <li>
                 <button
-                  style={{ color: page === "/about" ? "#FFA33C" : "white" }}
+                  style={{ color: router.asPath === "/about" ? "#FFA33C" : "white" }}
                   onClick={() => {
                     router.push("/about");
-                    setPage("/about");
                     setIsMenuOpen(false);
                   }}
                   type="button"
@@ -72,10 +74,9 @@ export default function Topbar() {
               </li>
               <li>
                 <button
-                  style={{ color: page === "/contact" ? "#FFA33C" : "white" }}
+                  style={{ color: router.asPath === "/contact" ? "#FFA33C" : "white" }}
                   onClick={() => {
                     router.push("/contact");
-                    setPage("/contact");
                     setIsMenuOpen(false);
                   }}
                   type="button"
@@ -91,7 +92,7 @@ export default function Topbar() {
             <div
               onMouseEnter={() => setIsMenuOpen(true)}
               onMouseLeave={() => setIsMenuOpen(false)}
-              className={page === "" ? "" : "hidden"}
+              className={router.asPath === "/root" ? "" : "hidden"}
             >
               <button
                 data-collapse-toggle="navbar-cta"
@@ -110,9 +111,9 @@ export default function Topbar() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M1 1h15M1 7h15M1 13h15"
                   />
                 </svg>
@@ -125,20 +126,17 @@ export default function Topbar() {
                   onMouseEnter={() => setIsUserMenuOpen(true)}
                   onMouseLeave={() => setIsUserMenuOpen(false)}
                 >
-                  <button
-                    type="button"
-                    className="flex mx-4 rounded-full py-3"
-                  >
+                  <button type="button" className="flex mx-4 rounded-full py-3">
                     <img
                       className="rounded-full w-11 h-11 hover:opacity-75"
                       src={session.user.image!}
-                      alt="user profile"
                     ></img>
                   </button>
                   {/* Drop Down Menu */}
                   <div>
                     {isUserMenuOpen && (
-                      <div style={{backgroundColor: "#2D4A53"}}
+                      <div
+                        style={{ backgroundColor: "#2D4A53" }}
                         className="z-50 absolute right-2 min-w-40 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                         id="user-dropdown"
                       >
@@ -156,7 +154,7 @@ export default function Topbar() {
                         >
                           <li>
                             <button
-                              style={{backgroundColor: "#5A636A"}}
+                              style={{ backgroundColor: "#5A636A" }}
                               className="h-8 px-4 m-2 text-sm bg-blue-700 hover:bg-blue-800 text-white font-bold border border-green-900 rounded"
                               onClick={() => {
                                 signOut();
@@ -194,7 +192,7 @@ export default function Topbar() {
                     </div>
                   ) : (
                     <button
-                      className="bg-transparent hover:bg-yellow-600 text-yellow-50 rounded-lg font-semibold hover:text-white py-1 px-3 mt-4 mr-4"
+                      className="bg-transparent border-2 border-yellow-600 hover:bg-yellow-600 text-yellow-50 rounded-lg font-semibold hover:text-white py-1 px-3 mt-4 mr-4"
                       onClick={() => signIn()}
                     >
                       Signin

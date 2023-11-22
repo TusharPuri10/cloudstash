@@ -7,8 +7,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useRouter } from "next/router";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
-import {useSetRecoilState} from "recoil";
-import { pageState } from "@/atoms/state";
+import { useSession, signIn} from "next-auth/react";
 
 function Cloud(
     props:{ target: THREE.Vector3 }
@@ -38,7 +37,7 @@ function Cloud(
   }
   
   function Box() {
-    const setPage = useSetRecoilState(pageState);
+    const { data: session, status } = useSession();
     const router = useRouter();
     // This reference will give us direct access to the THREE.Mesh object
     const ref = useRef<THREE.Mesh>(null!);
@@ -55,7 +54,6 @@ function Cloud(
       },
       onClick: () => {
         router.push("/root");
-        setPage("");
       }
     })
     return (

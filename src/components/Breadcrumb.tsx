@@ -1,11 +1,8 @@
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { pageState } from "@/atoms/state";
 import { useState } from "react";
 
 export default function Breadcrumb() {
   const router = useRouter();
-  const [page, setPage] = useRecoilState(pageState);
   const [dropDown, setDropDown] = useState(false);
   return (
     <nav className="flex justify-between ml-32" aria-label="Breadcrumb">
@@ -15,7 +12,6 @@ export default function Breadcrumb() {
             className="text-white font-medium  px-2 hover:text-yellow-500"
             onClick={() => {
               router.push("/");
-              setPage("/");
             }}
             type="button"
           >
@@ -39,9 +35,9 @@ export default function Breadcrumb() {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="m1 1 4 4 4-4"
                 />
               </svg>
