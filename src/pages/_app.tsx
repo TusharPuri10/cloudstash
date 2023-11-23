@@ -7,11 +7,11 @@ import {RecoilRoot} from 'recoil';
 
 export default function App({ Component, pageProps }: AppProps) {
   return <SessionProvider session={pageProps.session}>
-      <RecoilRoot>
-      <AnimatePresence>
-            <Topbar/>
-              <Component {...pageProps} />
-            </AnimatePresence>
-      </RecoilRoot>
+    <RecoilRoot>
+    <AnimatePresence>
+          <Topbar/>
+            <Component {...pageProps} />
+          </AnimatePresence>
+    </RecoilRoot>
     </SessionProvider>
 }

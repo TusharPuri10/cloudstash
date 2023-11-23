@@ -9,6 +9,7 @@ export default function Topbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const router = useRouter();
   console.log(status);
+  console.log(session?.user?.email);
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
       <nav>
