@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Character from "@/components/Character";
+import NextNProgress from 'nextjs-progressbar';
 
 export default function App() {
 
   return (
     <div className="relative z-0 w-full h-screen">
+      <NextNProgress color='#FFB000'/>
       <Head>
         <title>Cloud Stash</title>
         <link rel="icon" href="/favicon.ico" />

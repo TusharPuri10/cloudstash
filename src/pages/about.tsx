@@ -1,8 +1,10 @@
 import React from 'react';
+import NextNProgress from 'nextjs-progressbar';
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen justify-center" style={{backgroundColor: "#0D1F23" }}>
+      <NextNProgress color='#FFB000'/>
       <div className="pt-10 text-center">
         <div className="flex justify-center">
           <img

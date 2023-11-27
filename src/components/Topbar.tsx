@@ -8,8 +8,6 @@ export default function Topbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const router = useRouter();
-  console.log(status);
-  console.log(session?.user?.email);
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
       <nav>
@@ -43,7 +41,7 @@ export default function Topbar() {
               }
               className={
                 isMenuOpen
-                  ? " z-50 absolute space-y-2 mt-8 right-16 flex flex-col font-medium px-6 py-3 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                  ? " z-50 absolute space-y-2 mt-8 right-36 flex flex-col font-medium px-6 py-3 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                   : router.asPath === "/root"
                   ? "my-3 right-0 flex flex-col hidden font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
                   : "my-3 mr-24 flex flex-col font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
@@ -127,7 +125,7 @@ export default function Topbar() {
                   onMouseEnter={() => setIsUserMenuOpen(true)}
                   onMouseLeave={() => setIsUserMenuOpen(false)}
                 >
-                  <button type="button" className="flex mx-4 rounded-full py-3">
+                  <button type="button" className="flex mr-4 ml-6 rounded-full py-3">
                     <img
                       className="rounded-full w-11 h-11 hover:opacity-75"
                       src={session.user.image!}
@@ -193,7 +191,7 @@ export default function Topbar() {
                     </div>
                   ) : (
                     <button
-                      className="bg-transparent border-2 border-yellow-600 hover:bg-yellow-600 text-yellow-50 rounded-lg font-semibold hover:text-white py-1 px-3 mt-4 mr-4"
+                      className="bg-transparent border-2 border-yellow-600 hover:bg-yellow-600 text-yellow-50 rounded-lg font-semibold hover:text-white py-1 px-3 my-4 mr-4"
                       onClick={() => signIn()}
                     >
                       Signin
