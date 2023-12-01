@@ -59,23 +59,23 @@ const AboutPage = () => {
           <h2 className="text-2xl font-bold mb-4 text-white">Model Credits</h2>
           <p>
             <strong>Book Spirit:</strong> <br />
-            Source: <a className="no-underline hover:underline" href="https://sketchfab.com/3d-models/book-spirit-b77935c3c789430a95513171cf868054">Book Spirit</a> <br />
-            Author: <a className="no-underline hover:underline" href="https://sketchfab.com/jummydoodles">jummydoodles</a> <br />
-            License: <a className="no-underline hover:underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
+            Source: <a className="no-underline hover:underline" target="_blank" href="https://sketchfab.com/3d-models/book-spirit-b77935c3c789430a95513171cf868054">Book Spirit</a> <br />
+            Author: <a className="no-underline hover:underline" target="_blank" href="https://sketchfab.com/jummydoodles">jummydoodles</a> <br />
+            License: <a className="no-underline hover:underline" target="_blank" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
           </p>
             <br />
           <p>
             <strong>Cardboard Box:</strong> <br />
-            Source: <a className="no-underline hover:underline" href="https://sketchfab.com/3d-models/cardboard-box-f43199f19c3142c68cc672db55d9a40d">Cardboard Box</a> <br />
-            Author: <a className="no-underline hover:underline" href="https://sketchfab.com/Andrew.Mischenko">Andrew.Mischenko</a> <br />
-            License: <a className="no-underline hover:underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
+            Source: <a className="no-underline hover:underline" target="_blank" href="https://sketchfab.com/3d-models/cardboard-box-f43199f19c3142c68cc672db55d9a40d">Cardboard Box</a> <br />
+            Author: <a className="no-underline hover:underline" target="_blank"href="https://sketchfab.com/Andrew.Mischenko">Andrew.Mischenko</a> <br />
+            License: <a className="no-underline hover:underline"target="_blank" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
           </p>
             <br />
           <p>
             <strong>Cloud Test:</strong> <br />
-            Source: <a className="no-underline hover:underline" href="https://sketchfab.com/3d-models/cloud-test-6d1fff581b3a424d88ee2125f909f3f3">Cloud Test</a> <br />
-            Author: <a className="no-underline hover:underline" href="https://sketchfab.com/3dartel">Andrey Martyanov</a> <br />
-            License: <a className="no-underline hover:underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
+            Source: <a className="no-underline hover:underline" target="_blank" href="https://sketchfab.com/3d-models/cloud-test-6d1fff581b3a424d88ee2125f909f3f3">Cloud Test</a> <br />
+            Author: <a className="no-underline hover:underline" target="_blank" href="https://sketchfab.com/3dartel">Andrey Martyanov</a> <br />
+            License: <a className="no-underline hover:underline" target="_blank" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (Author must be credited. Commercial use is allowed.)
           </p>
         </section>
 

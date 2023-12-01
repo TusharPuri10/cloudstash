@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import {  useRecoilState } from "recoil";
+import { cardState } from "@/atoms/state";
 
 export default function Breadcrumb() {
   const router = useRouter();
   const [dropDown, setDropDown] = useState(false);
+  const [card,setCard ] = useRecoilState(cardState);
   return (
     <nav className="flex justify-between ml-32" aria-label="Breadcrumb">
       <ol className="inline-flex items-center mb-3 sm:mb-0">
@@ -54,7 +57,10 @@ export default function Breadcrumb() {
                 <li>
                   <button
                     className="px-4 py-2 dark:hover:text-gray-300"
-                    
+                    onClick={() => {
+                      setCard({name: "CreateFolder", shown: true});
+                      setDropDown(false);
+                    }}
                   >
                     Create Folder
                   </button>
@@ -62,6 +68,10 @@ export default function Breadcrumb() {
                 <li>
                   <button
                     className="px-4 py-2 dark:hover:text-gray-300"
+                    onClick={() => {
+                      setCard({name: "UploadFile", shown: true});
+                      setDropDown(false);
+                    }}
                   >
                     Upload File
                   </button>

@@ -11,7 +11,8 @@ const AuthCard = () => {
       </p>
       <button
         type="button"
-        className="w-56 bg-[#4285F4] text-white w-full py-2.5 rounded-lg mt-4 hover:bg-[#4285F4]/70  text-base font-semibold transition duration-200 flex items-center justify-center"
+        style={{width: "20rem"}}
+        className="bg-[#4285F4] text-white w-full py-2.5 rounded-lg mt-4 hover:bg-[#4285F4]/70  text-base font-semibold transition duration-200 flex items-center justify-center"
         onClick={() => signIn("google")}
       >
         <svg
@@ -33,7 +34,8 @@ const AuthCard = () => {
       </button>
       <button
         type="button"
-        className="w-56 bg-gray-600 text-white w-full py-2.5 rounded-lg mt-4 hover:bg-gray-700 text-base font-semibold transition duration-200 flex items-center justify-center"
+        style={{width: "20rem"}}
+        className="bg-gray-600 text-white w-full py-2.5 rounded-lg mt-4 hover:bg-gray-700 text-base font-semibold transition duration-200 flex items-center justify-center"
         onClick={() => signIn("github")}
       >
         <svg

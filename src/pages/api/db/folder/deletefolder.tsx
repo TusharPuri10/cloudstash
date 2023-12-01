@@ -4,12 +4,9 @@ import prisma from "@/lib/prisma";
 async function deleteFolder(folderId: number) {
   try {
     // Delete all files and subfolders inside the folder
-    await prisma.folder.deleteMany({
+    await prisma.folder.delete({
       where: {
-        OR: [
-          { id: folderId },
-          { parentId: folderId },
-        ],
+          id: folderId 
       },
     });
   } catch (error) {
@@ -29,7 +26,7 @@ export default async function handler(
     await prisma.$disconnect();
     res.status(200).json({ message: 'deleted' });
   } catch (error) {
-    console.error("Error in API handler:", error);
+    // console.error("Error in API handler:", error);
     await prisma.$disconnect();
     res.status(500).json({ error: "Internal Server Error" });
   }

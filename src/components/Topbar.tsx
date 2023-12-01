@@ -2,15 +2,18 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useRecoilState } from "recoil";
+import { cardState } from "@/atoms/state";
 
 export default function Topbar() {
   const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [card, setCard] = useRecoilState(cardState);
   const router = useRouter();
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
-      <nav>
+      <nav className={(card.shown && router.asPath==="/root")?"opacity-50 blur-sm":""}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
           <button
@@ -153,8 +156,7 @@ export default function Topbar() {
                         >
                           <li>
                             <button
-                              style={{ backgroundColor: "#5A636A" }}
-                              className="h-8 px-4 m-2 text-sm bg-blue-700 hover:bg-blue-800 text-white font-bold border border-green-900 rounded"
+                              className="h-8 px-4 m-2 text-sm bg-stone-500 hover:bg-neutral-500 text-white font-bold border border-green-900 rounded"
                               onClick={() => {
                                 signOut();
                               }}

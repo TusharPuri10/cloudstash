@@ -1,23 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
-async function getFoldersInsideFolder(parentFolderId: number,userId:string) {
+async function getuserid(email: string) {
   try {
-    const folders = await prisma.folder.findMany({
+    const user = await prisma.user.findUnique({
       where: {
-        parentId: parentFolderId,
-        userId: userId,
+        email: email, 
       },
-      // Select id, name, createdAt, and updatedAt fields
+      // Select id
       select: {
         id: true,
-        name: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
 
-    return folders;
+    return user;
   } catch (error) {
     console.error("Error fetching folders:", error);
     throw error; // Propagate the error for better error handling
@@ -28,12 +24,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { parentFolderId, userId } = req.body;
+  const { email } = req.body;
 
   try {
-    const folders = await getFoldersInsideFolder(parentFolderId,userId);
+    const user = await getuserid(email);
     await prisma.$disconnect();
-    res.status(200).json({ folders });
+    res.status(200).json( user);
   } catch (error) {
     console.error("Error in API handler:", error);
     await prisma.$disconnect();

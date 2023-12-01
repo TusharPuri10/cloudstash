@@ -1,21 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
-async function shareFile(copiedFileURL: string, originalFileURL: string, userEmail: string) {
+async function shareFile(
+  copiedFileURL: string,
+  originalFileURL: string,
+  userEmail: string
+) {
   try {
     // Check if the user with the specified email exists
-    const sharedFolder = await prisma.folder.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
-        name: "shared",
-        id: -1,
-        user: {
-            email: userEmail,
-            },
+        email: userEmail,
       },
-      });
+    });
 
-    if (!sharedFolder) {
-        return { message: 'User not found' };
+    if (!user) {
+      return { message: "User not found" };
     }
 
     // Find the source file information
@@ -29,18 +29,50 @@ async function shareFile(copiedFileURL: string, originalFileURL: string, userEma
       throw new Error("Original file not found");
     }
 
-    // Copy the file into the "shared" folder
-    await prisma.file.create({
-      data: {
-        folderId: sharedFolder.id,
-        owner: sourceFile.owner,
-        name: sourceFile.name,
-        type: sourceFile.type,
-        fileURL: copiedFileURL,
+    // Find the "shared" folder
+    const sharedFolder = await prisma.folder.findFirst({
+      where: {
+        name: "shared",
+        userId: user.id,
       },
     });
 
-    return { message: 'File shared' };
+    if (!sharedFolder) {
+      //create shared folder
+      const sharedFolder = await prisma.folder.create({
+        data: {
+          name: "shared",
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+      // Copy the file into the "shared" folder
+      await prisma.file.create({
+        data: {
+          folderId: sharedFolder.id,
+          owner: sourceFile.owner,
+          name: sourceFile.name,
+          type: sourceFile.type,
+          fileURL: copiedFileURL,
+        },
+      });
+    } else {
+      // Copy the file into the "shared" folder
+      await prisma.file.create({
+        data: {
+          folderId: sharedFolder.id,
+          owner: sourceFile.owner,
+          name: sourceFile.name,
+          type: sourceFile.type,
+          fileURL: copiedFileURL,
+        },
+      });
+    }
+
+    return { message: "File shared" };
   } catch (error) {
     console.error("Error sharing file:", error);
     throw error; // Propagate the error for better error handling
@@ -54,7 +86,11 @@ export default async function handler(
   const { copiedFileURL, originalFileURL, userEmail } = req.body;
 
   if (!copiedFileURL || !originalFileURL || !userEmail) {
-    res.status(400).json({ error: "Missing copiedFileURL, originalFileURL, or userEmail parameter" });
+    res
+      .status(400)
+      .json({
+        error: "Missing copiedFileURL, originalFileURL, or userEmail parameter",
+      });
     return;
   }
 

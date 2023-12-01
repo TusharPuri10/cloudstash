@@ -53,27 +53,27 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  folders  Folder[]
+  folders       Folder[]
 }
 
 model Folder {
   id       Int      @id @default(autoincrement())
-  userEmail   String
-  parent     Folder?  @relation("ChildFolders", fields: [parentId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   parentId Int?
-  name     String
-  files    File[]
-  user     User     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  parent   Folder?  @relation("ChildFolders", fields: [parentId], references: [id], onDelete: Cascade)
   childFolders Folder[] @relation("ChildFolders")
+  name     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  files    File[]
 }
 
 model File {
+  fileURL  String @id @unique
   folderId Int
-  owner String
-  fileURL String @id
   folder   Folder  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  owner    String
   name     String
   type     String
   createdAt DateTime @default(now())

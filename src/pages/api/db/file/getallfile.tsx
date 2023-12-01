@@ -7,7 +7,7 @@ async function getAllFilesInFolder(folderId: number) {
     const files = await prisma.file.findMany({
       where: {
         folderId: folderId,
-      },
+        },
       // Select id, name, type, createdAt, and updatedAt fields
       select: {
         name: true,
@@ -30,11 +30,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { folderId } = req.body;
-
-  if (!folderId) {
-    res.status(400).json({ error: "Missing folderId parameter" });
-    return;
-  }
 
   try {
     const files = await getAllFilesInFolder(folderId);
