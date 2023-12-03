@@ -10,9 +10,6 @@ async function getmainFolder(userId: string, folderName: string) {
       },
       select: {
         id: true,
-        userId: true,
-        childFolders: true,
-        files: true
       },
     });
 
