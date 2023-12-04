@@ -11,15 +11,20 @@ export const cardState = atom({
     },
 });
 
-export const directoryState = atom({
-    key: 'folder',
-    default: ['root']
+type Directory = {
+    id?: number | null | undefined;
+    name?: string | null | undefined;
+}
+// CURRENT DIRECTORY STATE
+export const directoryState = atom<Directory[]>({
+    key: 'directory',
+    default: []
 });
 
 // FOLDER STATE
 
 type Folder = {
-    id?: string | null | undefined;
+    id?: number | null | undefined;
     name?: string | null | undefined;
     createdAt?: string | null | undefined;
     updatedAt?: string | null | undefined;
@@ -27,23 +32,18 @@ type Folder = {
 
 export const folderState = atom<Folder[]>({
     key: "folderList",
-    default: [{
-        id: null,
-        name: null,
-        createdAt: null,
-        updatedAt: null,
-    }],
+    default: [],
 });
 
 export const folderItem = selectorFamily({
     key:"FolderItem",
     get:
-        (id: string) => async ({get}) => {
+        (id: number) => async ({get}) => {
             const folders = get(folderState);
             return folders.find((folder) => folder.id === id);
         },
     set:
-        (id: string) =>
+        (id: number) =>
         ({set, get}, newValue) => {
             const folders = get(folderState);
             const updatedFolders = folders.map((folder)=>
@@ -65,13 +65,7 @@ type File = {
 }
 export const fileState = atom<File[]>({
     key: "fileList",
-    default: [{
-        name: null,
-        url: null,
-        type: null,
-        createdAt: null,
-        updatedAt: null
-    }],
+    default: [],
 })
 
 export const fileItem = selectorFamily({

@@ -13,7 +13,7 @@ export default function Topbar() {
   const router = useRouter();
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
-      <nav className={(card.shown && router.asPath==="/root")?"opacity-50 blur-sm":""}>
+      <nav className={(card.shown && router.asPath==="/root")?"opacity-30":""}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
           <button
@@ -47,10 +47,10 @@ export default function Topbar() {
                   ? " z-50 absolute space-y-2 mt-8 right-36 flex flex-col font-medium px-6 py-3 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                   : router.asPath === "/root"
                   ? "my-3 right-0 flex flex-col hidden font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
-                  : "my-3 mr-24 flex flex-col font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
+                  : "my-3 mr-32 flex flex-col font-medium md:p-0 rounded-lg bg-gray-50 md:flex-row md:space-x-8"
               }
             >
-              <li>
+              <li key="home">
                 <button
                   style={{ color: router.asPath === "/" ? "#FFA33C" : "white" }}
                   onClick={() => {
@@ -62,7 +62,7 @@ export default function Topbar() {
                   Home
                 </button>
               </li>
-              <li>
+              <li key="about">
                 <button
                   style={{ color: router.asPath === "/about" ? "#FFA33C" : "white" }}
                   onClick={() => {
@@ -74,7 +74,7 @@ export default function Topbar() {
                   About
                 </button>
               </li>
-              <li>
+              <li key="contact">
                 <button
                   style={{ color: router.asPath === "/contact" ? "#FFA33C" : "white" }}
                   onClick={() => {

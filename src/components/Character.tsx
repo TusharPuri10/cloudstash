@@ -36,15 +36,15 @@ function Object(props: { target: THREE.Vector3 }) {
     }
 
     // Add a floating animation along the y-axis
-    const t = performance.now() / 1000;
-    const floatingHeight = Math.sin(t) * 0.5; // Adjust the floating intensity and speed here
+    const t = performance.now() / 650;
+    const floatingHeight = Math.sin(t) * 0.3; // Adjust the floating intensity and speed here
     const y = props.target.y + floatingHeight + 1; // 1 is the base height
 
     ref.current.position.set(props.target.x, y, props.target.z);
   });
   
     return (
-      <mesh position={[0, 1, -1]} ref={ref} scale={1}>
+      <mesh position={[0, 0, -1]} ref={ref} scale={1}>
         <primitive object={gltf.scene} />
       </mesh>
     );
@@ -60,7 +60,7 @@ function Object(props: { target: THREE.Vector3 }) {
             <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
                 <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
             </directionalLight>
-            <Object target={new THREE.Vector3(5, 0, 1)} />
+            <Object target={new THREE.Vector3(5.3, -0.3, 1.2)} />
         </Canvas>
     )
   }

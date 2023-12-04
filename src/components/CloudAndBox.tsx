@@ -7,7 +7,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useRouter } from "next/router";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
-import { useSession, signIn} from "next-auth/react";
+import { useSession} from "next-auth/react";
 
 function Cloud(
     props:{ target: THREE.Vector3 }
@@ -18,12 +18,12 @@ function Cloud(
     
     useFrame(({ clock }) => {
       const t = clock.getElapsedTime();
-      const radius = 3.8;
+      const radius = 4;
       const angle = t * 0.7; // Adjust the rotation speed here
   
       const x = props.target.x + radius * Math.cos(angle);
       const z = props.target.z + radius * Math.sin(angle);
-      ref.current.position.set(x, 0, z);
+      ref.current.position.set(x, -1, z);
       const rotationAngle =
         Math.atan2(z - props.target.z, x - props.target.x) + Math.PI / 2;
       ref.current.rotation.y = -rotationAngle;
@@ -45,23 +45,19 @@ function Cloud(
     // Rotate mesh every frame, this is outside of React without overhead
     useFrame((state, delta) => (ref.current.rotation.y += 0.01));
     const gltf = useLoader(GLTFLoader, "/cardboard_box/scene.gltf");
-    const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, 0, 0], rotation: [0, 0, 0], config: { friction: 10 } }))
+    const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, -1, 0], rotation: [0, 0, 0], config: { friction: 10 } }))
     const bind = useGesture({
       onHover: ({ hovering }) => {
         const targetScale = hovering ? [1.5, 1.5, 1.5] : [1, 1, 1];
         const targetRotation = hovering ? [0, 2, 0] : [0, 0, 0];
-        set({ scale: targetScale, rotation: targetRotation });
+        set.start({ scale: targetScale, rotation: targetRotation });
       },
       onClick: () => {
         router.push("/root");
       }
     })
     return (
-      <a.mesh
-        ref={ref}
-        {...spring}
-        {...bind()}
-      >
+      <a.mesh ref={ref} {...spring} {...bind()} >
         <primitive object={gltf.scene} />
       </a.mesh>
     );
@@ -71,7 +67,7 @@ function Cloud(
     return (
         <Canvas
         style={{ height: "100vh", backgroundColor: "#0D1F23" }}
-        camera={{ position: [0, 3, 7] }}
+        camera={{ position: [0, 2, 7] }}
       >
           <ambientLight intensity={1.5} />
           <directionalLight castShadow position={[0.2, 2, 1]} shadow-mapSize={[1024, 1024]}>

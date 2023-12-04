@@ -1,10 +1,14 @@
 import React from 'react';
 import NextNProgress from 'nextjs-progressbar';
+import Topbar from '@/components/Topbar';
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen justify-center" style={{backgroundColor: "#0D1F23" }}>
+    <div style={{backgroundColor: "#0D1F23" }}>
       <NextNProgress color='#FFB000'/>
+      <div className='pl-5'>
+        <Topbar/> 
+      </div>
       <div className="pt-10 text-center">
         <div className="flex justify-center">
           <img
