@@ -1,6 +1,6 @@
 import React from 'react';
 import NextNProgress from 'nextjs-progressbar';
-import Topbar from '@/components/Topbar';
+import Topbar from '@/components/UI/Topbar';
 
 const AboutPage = () => {
   return (

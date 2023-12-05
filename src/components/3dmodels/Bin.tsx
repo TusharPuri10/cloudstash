@@ -12,16 +12,15 @@ function Object() {
   const ref = useRef<THREE.Mesh>(null!);
   const gltf = useLoader(GLTFLoader, "/bin.gltf");
   const [spring, set] = useSpring(() => ({
-    scale: [8, 8, 8],
-    position: [0, 0, 0],
+    scale: [7.5, 7.5, 7.5],
+    position: [0, 1, 0],
     rotation: [0, 0, 0],
     config: { friction: 10 },
   }));
   const bind = useGesture({
     onHover: ({ hovering }) => {
-      const targetScale = hovering ? [9, 9, 9] : [8, 8, 8];
-      const targetRotation = hovering ? [0.7, 0, 0] : [0, 0, 0];
-      set({ scale: targetScale, rotation: targetRotation });
+      const targetRotation = hovering ? [0.5, 0, 0] : [0, 0, 0];
+      set({ rotation: targetRotation });
     },
   });
   return (
@@ -34,11 +33,11 @@ function Object() {
 export default function Bin(){
     return (
         
-        <div className="absolute top-20 right-0 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
+        <div className="absolute top-20 right-10 z-0 w-full h-screen border-b-2 border-teal-900" style={{width: "120px", height: "120px"}}>
             <Canvas
             camera={{ position: [1.5, 3, 7.5] }}
             >
-                <ambientLight intensity={3} />
+                <ambientLight intensity={4} />
                 <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
                     <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                 </directionalLight>

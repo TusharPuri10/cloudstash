@@ -1,7 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/components/UI/Breadcrumb";
 import { useRecoilState } from "recoil";
 import { cardState } from "@/atoms/state";
 

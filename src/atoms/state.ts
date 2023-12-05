@@ -12,8 +12,8 @@ export const cardState = atom({
 });
 
 type Directory = {
-    id?: number | null | undefined;
-    name?: string | null | undefined;
+    id: number | null | undefined;
+    name: string | null | undefined;
 }
 // CURRENT DIRECTORY STATE
 export const directoryState = atom<Directory[]>({
@@ -24,10 +24,10 @@ export const directoryState = atom<Directory[]>({
 // FOLDER STATE
 
 type Folder = {
-    id?: number | null | undefined;
-    name?: string | null | undefined;
-    createdAt?: string | null | undefined;
-    updatedAt?: string | null | undefined;
+    id: number | null | undefined;
+    name: string | null | undefined;
+    createdAt: string | null | undefined;
+    updatedAt: string | null | undefined;
 }
 
 export const folderState = atom<Folder[]>({
@@ -56,12 +56,12 @@ export const folderItem = selectorFamily({
 // FILE STATE
 
 type File = {
-    name?: string | null | undefined;
-    url?: string | null | undefined;
+    name: string | null | undefined;
+    url: string | null | undefined;
     // size?: number | null | undefined; //TODO: not added in model yet
-    type?: string | null | undefined;
-    createdAt?: String | null | undefined;
-    updatedAt?: string | null | undefined;
+    type: string | null | undefined;
+    createdAt: string | null | undefined;
+    updatedAt: string | null | undefined;
 }
 export const fileState = atom<File[]>({
     key: "fileList",
@@ -89,9 +89,9 @@ export const fileItem = selectorFamily({
 //  USER STATE
 
 type User = {
-    name?: string | null | undefined;
-    email?: string | null | undefined;
-    id?: string | null | undefined;
+    name: string | null | undefined;
+    email: string | null | undefined;
+    id: string | null | undefined;
 };
 
 export const userState = atom<User>({

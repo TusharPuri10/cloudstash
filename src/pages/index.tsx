@@ -1,7 +1,7 @@
 import Head from "next/head";
-import CloudAndBox from "@/components/CloudAndBox";
+import CloudAndBox from "@/components/3dmodels/CloudAndBox";
 import NextNProgress from 'nextjs-progressbar';
-import Topbar from '@/components/Topbar';
+import Topbar from '@/components/UI/Topbar';
 
 export default function App() {
 

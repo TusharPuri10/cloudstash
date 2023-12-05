@@ -18,7 +18,7 @@ function Cloud(
     
     useFrame(({ clock }) => {
       const t = clock.getElapsedTime();
-      const radius = 4;
+      const radius = 3.5;
       const angle = t * 0.7; // Adjust the rotation speed here
   
       const x = props.target.x + radius * Math.cos(angle);

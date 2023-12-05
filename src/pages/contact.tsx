@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Character from "@/components/Character";
+import Character from "@/components/3dmodels/Character";
 import NextNProgress from 'nextjs-progressbar';
-import Topbar from "@/components/Topbar";
+import Topbar from "@/components/UI/Topbar";
 
 export default function App() {
 
