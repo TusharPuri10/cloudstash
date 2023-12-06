@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import Breadcrumb from "@/components/UI/Breadcrumb";
 import { useRecoilState } from "recoil";
 import { cardState } from "@/atoms/state";
+import Bin from "@/components/3dmodels/Bin";
+import Mailbox from "@/components/3dmodels/Mailbox";
 
 export default function Topbar() {
   const { data: session, status } = useSession();
@@ -14,6 +16,8 @@ export default function Topbar() {
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
       <nav className={(card.shown && router.asPath==="/root")?"opacity-30":""}>
+        {(!(card.name === "signin")) && (router.asPath==="/root") && <Bin/>}
+        {(!(card.name === "signin")) && (router.asPath==="/root") && <Mailbox/>}
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
           <button

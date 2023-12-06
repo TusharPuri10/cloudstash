@@ -20,7 +20,7 @@ function Object() {
   const bind = useGesture({
     onHover: ({ hovering }) => {
       const targetRotation = hovering ? [0.5, 0, 0] : [0, 0, 0];
-      set({ rotation: targetRotation });
+      set.start({ rotation: targetRotation });
     },
   });
   return (
@@ -33,7 +33,7 @@ function Object() {
 export default function Bin(){
     return (
         
-        <div className="absolute top-20 right-10 z-0 w-full h-screen border-b-2 border-teal-900" style={{width: "120px", height: "120px"}}>
+        <div className="absolute top-28 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
             <Canvas
             camera={{ position: [1.5, 3, 7.5] }}
             >

@@ -1,7 +1,7 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
 import React, { useState, useRef } from 'react';
 import { directoryState } from "@/atoms/state";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 interface Props {
   folder: {
@@ -17,12 +17,7 @@ export default function Folder({ folder, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const folderRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: (index % 7) * 150, y: Math.floor(index / 5) * 150 });
-  const setDirectory = useSetRecoilState(directoryState);
-
-  const handleInfoClick = () => {
-    // Toggle visibility of folder details
-    setShowDetails(!showDetails);
-  };
+  const [directory, setDirectory] = useRecoilState(directoryState);
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
@@ -57,7 +52,8 @@ export default function Folder({ folder, index }: Props) {
       <div
         className="w-20 h-20 handle z-0 mx-12 mt-10"
         ref={folderRef}
-        onDoubleClick={() => setDirectory([{id: folder.id, name: folder.name}])}
+        onDoubleClick={() =>{ 
+          setDirectory(prevDirectory => [...prevDirectory, { id: folder.id, name: folder.name }]);}}
         style={{
           position: 'absolute',
           cursor: 'move',
@@ -66,7 +62,7 @@ export default function Folder({ folder, index }: Props) {
         }}
       >
         <img src="/folder.png" alt="Folder Icon" draggable="false"/>
-        <button
+        <button key={folder.id}
           className="bold text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
           onMouseEnter={() => setShowDetails(true)}
           onMouseLeave={() => setShowDetails(false)}

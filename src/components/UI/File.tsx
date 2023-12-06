@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 
 interface Props {
     file: {
-        url: string | null | undefined;
+        fileURL: string | null | undefined;
         name: string | null | undefined;
         createdAt: string | null | undefined;
         updatedAt: string | null | undefined;
@@ -11,21 +11,16 @@ interface Props {
     index: number
 }
 
-export default function Folder({ file, index }: Props) {
+export default function File({ file, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
-  const folderRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: (index % 7) * 150, y: Math.floor(index / 5) * 150 });
-
-  const handleInfoClick = () => {
-    // Toggle visibility of folder details
-    setShowDetails(!showDetails);
-  };
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
     setPosition((prevPosition) => ({ x: prevPosition.x + data.deltaX, y: prevPosition.y + data.deltaY }));
-    if (folderRef.current) {
-        folderRef.current.style.zIndex = '10';
+    if (fileRef.current) {
+        fileRef.current.style.zIndex = '10';
       }
   };
 
@@ -33,8 +28,8 @@ export default function Folder({ file, index }: Props) {
     // Reset position after dragging stops
     setTimeout(() => {
         setPosition({ x: (index % 5) * 150, y: Math.floor(index / 5) * 150 });
-        if (folderRef.current) {
-          folderRef.current.style.zIndex = '0';
+        if (fileRef.current) {
+          fileRef.current.style.zIndex = '0';
         }
       }, 180); 
   };
@@ -53,7 +48,7 @@ export default function Folder({ file, index }: Props) {
     >
       <div
         className="w-20 h-20 handle z-0 mx-12 mt-10"
-        ref={folderRef}
+        ref={fileRef}
         style={{
           position: 'absolute',
           cursor: 'move',

@@ -57,7 +57,7 @@ export const folderItem = selectorFamily({
 
 type File = {
     name: string | null | undefined;
-    url: string | null | undefined;
+    fileURL: string | null | undefined;
     // size?: number | null | undefined; //TODO: not added in model yet
     type: string | null | undefined;
     createdAt: string | null | undefined;
@@ -73,14 +73,14 @@ export const fileItem = selectorFamily({
     get:
         (url: string) => async ({get}) => {
             const files = get(fileState);
-            return files.find((file) => file.url === url);
+            return files.find((file) => file.fileURL === url);
         },
     set:
         (url: string) =>
         ({set, get}, newValue) => {
             const files = get(fileState);
             const updatedFiles = files.map((file)=>
-            file.url === url ? {...file, ...newValue } : file );
+            file.fileURL === url ? {...file, ...newValue } : file );
             console.log("updated files: ", updatedFiles);
             set(fileState, updatedFiles);
         }
@@ -101,4 +101,9 @@ export const userState = atom<User>({
         email: null,
         id: null,
     },
+});
+
+export const mainFolderState = atom({
+    key: "mainFolder",
+    default: "root"
 });

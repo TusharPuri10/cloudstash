@@ -1,9 +1,7 @@
-import Bin from "@/components/3dmodels/Bin";
-import Mailbox from "@/components/3dmodels/Mailbox";
 import React, { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
 import { useRecoilState } from "recoil";
-import { cardState, fileState, folderState, userState, directoryState } from "@/atoms/state";
+import { cardState, fileState, folderState, userState, directoryState,mainFolderState } from "@/atoms/state";
 import { useSession } from "next-auth/react";
 import Signin from "@/components/Cards/Signin";
 import CreateFolder from "@/components/Cards/CreateFolder";
@@ -17,7 +15,7 @@ import Topbar from "@/components/UI/Topbar";
 import { FiArrowLeft } from 'react-icons/fi';
 
 interface FolderInterface {id: number | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined};
-interface FileInterface {url: string | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined, type: string | null | undefined};
+interface FileInterface {fileURL: string | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined, type: string | null | undefined};
 
 export default function App() {
   const { data: session, status } = useSession();
@@ -26,7 +24,9 @@ export default function App() {
   const [files, setFiles] = useRecoilState(fileState);
   const [folders, setFolders] = useRecoilState(folderState);
   const [directory, setDirectory] = useRecoilState(directoryState);
+  const [mainFolder, setMainFolder] = useRecoilState(mainFolderState);
   const [loading, setLoading] = useState(false);
+  const [rootid, setRootid] = useState(0);
 
   // GET ALL FOLDERS IN CURRENT FOLDER
   async function getFolders() {
@@ -74,6 +74,7 @@ export default function App() {
       .then((res) => {
         console.log("created root folder: ",res.data);
         setDirectory([{id: res.data.id, name: "root"}]);
+        setRootid(res.data.id);
       });
     }catch (error) {
       console.error("Error creating root folders:", error);
@@ -90,8 +91,9 @@ export default function App() {
         })
         .then((res) => {
           if (res) {
-            console.log("root folder exists: ",res.data);
-            setDirectory([{id: res.data.id, name: "root"}]);
+            console.log(mainFolder," folder exists: ",res.data.id);
+            setDirectory([{id: res.data.id, name: mainFolder}]);
+            setRootid(res.data.id);
           } else if(folderName==="root"){
             createRootFolder();
           }
@@ -130,11 +132,12 @@ export default function App() {
       getUserId();
     }
 
-    if(user.id && directory.length===0) getMainFolder( "root");
+    if(user.id && mainFolder==="root" && directory.length===0) getMainFolder( mainFolder);
+    if(mainFolder==="shared" && directory.length===0) getMainFolder( mainFolder );
     if(directory.length>0){
       getFolders().then(()=>{getFiles()});
     }
-  }, [session,user,directory]);
+  }, [session,user,directory,mainFolder]);
 
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
@@ -149,22 +152,24 @@ export default function App() {
         ):(
         <div className={ card.shown ? "h-screen opacity-30" : "h-screen"}>
           <button
-            className="absolute border-white rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-500"
+            className="absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-500"
             onClick={() => {
-              if(directory.length>0){
-                setDirectory(directory.slice(0,directory.length-1));
+              if (directory.length > 1) {
+                setDirectory(prevDirectory => prevDirectory.slice(0, -1));
+              }
+              if(directory.length===1 && mainFolder==="shared"){
+                setDirectory([]);
+                setMainFolder("root");
               }
             }}
           >
             <FiArrowLeft size={25} />
           </button>
-          {(!(card.name === "signin")) && <Bin/>}
-          {(!(card.name === "signin")) && <Mailbox/>}
           {folders.map((folder: FolderInterface, index: number) => (
             <Folder key={folder.id} folder={folder} index={index} />
           ))}
           {files.map((file: FileInterface, index: number) => (
-            <File key={file.url} file={file} index={index+folders.length}/>
+            <File key={file.fileURL} file={file} index={index+folders.length}/>
           ))}
         </div>
         )}

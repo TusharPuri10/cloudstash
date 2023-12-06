@@ -7,8 +7,12 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
+import { mainFolderState, directoryState } from "@/atoms/state";
+import { useSetRecoilState } from "recoil";
 
 function Object() {
+  const setMainFolder = useSetRecoilState(mainFolderState);
+  const setDirectory = useSetRecoilState(directoryState);
   const ref = useRef<THREE.Mesh>(null!);
   const gltf = useLoader(GLTFLoader, "/mailbox/scene.gltf");
   const [spring, set] = useSpring(() => ({
@@ -20,11 +24,14 @@ function Object() {
   const bind = useGesture({
     onHover: ({ hovering }) => {
       const targetRotation = hovering ? [0.5, 0, 0] : [0, 0, 0];
-      set({ rotation: targetRotation });
+      set.start({ rotation: targetRotation });
     },
   });
   return (
-    <a.mesh ref={ref} {...spring} {...bind()} >
+    <a.mesh ref={ref} {...spring} {...bind()} onClick={()=>{
+      setDirectory([]);
+      setMainFolder("shared");
+      }}>
       <primitive object={gltf.scene}/>
     </a.mesh>
   );
@@ -33,7 +40,7 @@ function Object() {
 export default function Mailbox(){
     return (
         
-        <div className="absolute top-60 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
+        <div className="absolute top-64 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
             <Canvas
             camera={{ position: [1 ,2, 2] }}
             >
