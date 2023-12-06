@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
 import { useRecoilState } from "recoil";
-import { cardState, fileState, folderState, userState, directoryState,mainFolderState } from "@/atoms/state";
+import { cardState, fileState, folderState, userState, directoryState,mainFolderState,folderCreationState } from "@/atoms/state";
 import { useSession } from "next-auth/react";
 import Signin from "@/components/Cards/Signin";
 import CreateFolder from "@/components/Cards/CreateFolder";
@@ -26,6 +26,7 @@ export default function App() {
   const [directory, setDirectory] = useRecoilState(directoryState);
   const [mainFolder, setMainFolder] = useRecoilState(mainFolderState);
   const [loading, setLoading] = useState(false);
+  const [folderCreation, setFolderCreation] = useRecoilState(folderCreationState);
   const [rootid, setRootid] = useState(0);
 
   // GET ALL FOLDERS IN CURRENT FOLDER
@@ -136,8 +137,9 @@ export default function App() {
     if(mainFolder==="shared" && directory.length===0) getMainFolder( mainFolder );
     if(directory.length>0){
       getFolders().then(()=>{getFiles()});
+      setFolderCreation(false);
     }
-  }, [session,user,directory,mainFolder]);
+  }, [session,user,directory,mainFolder,folderCreation]);
 
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>

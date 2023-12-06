@@ -16,7 +16,7 @@ interface Props {
 export default function Folder({ folder, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const folderRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: (index % 7) * 150, y: Math.floor(index / 5) * 150 });
+  const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
   const [directory, setDirectory] = useRecoilState(directoryState);
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
@@ -30,7 +30,7 @@ export default function Folder({ folder, index }: Props) {
   const handleDragStop = () => {
     // Reset position after dragging stops
     setTimeout(() => {
-        setPosition({ x: (index % 5) * 150, y: Math.floor(index / 5) * 150 });
+        setPosition({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
         if (folderRef.current) {
           folderRef.current.style.zIndex = '0';
         }

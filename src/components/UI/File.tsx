@@ -14,7 +14,7 @@ interface Props {
 export default function File({ file, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const fileRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: (index % 7) * 150, y: Math.floor(index / 5) * 150 });
+  const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
@@ -27,7 +27,7 @@ export default function File({ file, index }: Props) {
   const handleDragStop = () => {
     // Reset position after dragging stops
     setTimeout(() => {
-        setPosition({ x: (index % 5) * 150, y: Math.floor(index / 5) * 150 });
+        setPosition({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
         if (fileRef.current) {
           fileRef.current.style.zIndex = '0';
         }

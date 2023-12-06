@@ -103,7 +103,14 @@ export const userState = atom<User>({
     },
 });
 
+// MAIN FOLDER STATE
 export const mainFolderState = atom({
     key: "mainFolder",
     default: "root"
+});
+
+// FOLDER CREATION STATE
+export const folderCreationState = atom({
+    key: "folderCreation",
+    default: false
 });
