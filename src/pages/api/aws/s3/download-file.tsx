@@ -33,6 +33,7 @@ export default async function awsUploader(
           Bucket: process.env.BUCKET_NAME,
           Key: req.body.file_key,
           Expires: 60 * 60 * 24,
+          ResponseContentDisposition: 'attachment; filename=' + req.body.file_name + '',
         };
 
         const url = await client_s3.getSignedUrlPromise(

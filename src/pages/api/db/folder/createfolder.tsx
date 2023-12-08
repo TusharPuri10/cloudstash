@@ -6,7 +6,7 @@ async function createFolder(folderName: string, userId: string, parentFolderId?:
 
     if(parentFolderId)// normal folder creating case
     {
-      const folderid = await prisma.folder.create({
+      const folderId = await prisma.folder.create({
         data: {
           name: folderName,
           user:{
@@ -25,11 +25,11 @@ async function createFolder(folderName: string, userId: string, parentFolderId?:
         },
       });
 
-      return  folderid.id;
+      return  folderId.id;
     }
     else
     {
-      const folderid = await prisma.folder.create({
+      const folderId = await prisma.folder.create({
         data: {
           name: folderName,
           user:{
@@ -43,7 +43,7 @@ async function createFolder(folderName: string, userId: string, parentFolderId?:
         },
       });
 
-      return  folderid.id;
+      return  folderId.id;
     }
   } catch (error) {
     console.error("Error creating folder:", error);
@@ -58,9 +58,9 @@ export default async function handler(
   const { folderName, parentFolderId, userId } = req.body;
 
   try {
-    const folderid = await createFolder( folderName,userId, parentFolderId);
+    const folderId = await createFolder( folderName,userId, parentFolderId);
     await prisma.$disconnect();
-    res.status(200).json({ message: 'created', folderid });
+    res.status(200).json({ message: 'created', folderId });
   } catch (error) {
     console.error("Error in API handler:", error);
     await prisma.$disconnect();

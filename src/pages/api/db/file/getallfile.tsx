@@ -14,7 +14,7 @@ async function getAllFilesInFolder(folderId: number) {
         type: true,
         createdAt: true,
         updatedAt: true,
-        fileURL: true
+        filekey: true,
       },
     });
 

@@ -8,7 +8,7 @@ import { useRef, useEffect } from "react";
 
 function Object(props: { target: THREE.Vector3 }) {
     const ref = useRef<THREE.Mesh>(null!);
-    const gltf = useLoader(GLTFLoader, "/book_spirit/scene.gltf");
+    const gltf = useLoader(GLTFLoader, "/models/book_spirit/scene.gltf");
 
     const rotationFlag = useRef(true);
   const rotationTarget = useRef(0);

@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
-async function renameFile(fileURL: string, newName: string) {
+async function renameFile(fileKey: string, newName: string) {
   try {
     await prisma.file.update({
       where: {
-        fileURL: fileURL,
+        filekey: fileKey,
       },
       data: {
         name: newName,
@@ -22,10 +22,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { fileURL, newName } = req.body;
+  const { fileKey, newName } = req.body;
 
   try {
-    await renameFile(fileURL, newName);
+    await renameFile(fileKey, newName);
     await prisma.$disconnect();
     res.status(200).json({ message: 'renamed'});
   } catch (error) {

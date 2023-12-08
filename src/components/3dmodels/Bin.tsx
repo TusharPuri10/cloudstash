@@ -10,7 +10,7 @@ import { useGesture } from "react-use-gesture";
 
 function Object() {
   const ref = useRef<THREE.Mesh>(null!);
-  const gltf = useLoader(GLTFLoader, "/bin.gltf");
+  const gltf = useLoader(GLTFLoader, "/models/bin.gltf");
   const [spring, set] = useSpring(() => ({
     scale: [7.5, 7.5, 7.5],
     position: [0, 1, 0],

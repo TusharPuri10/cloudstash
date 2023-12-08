@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
 async function shareFile(
-  copiedFileURL: string,
-  originalFileURL: string,
+  copiedFileKey: string,
+  originalFileKey: string,
   userEmail: string
 ) {
   try {
@@ -21,7 +21,7 @@ async function shareFile(
     // Find the source file information
     const sourceFile = await prisma.file.findUnique({
       where: {
-        fileURL: originalFileURL,
+        filekey: originalFileKey,
       },
     });
 
@@ -56,7 +56,7 @@ async function shareFile(
           owner: sourceFile.owner,
           name: sourceFile.name,
           type: sourceFile.type,
-          fileURL: copiedFileURL,
+          filekey: copiedFileKey,
         },
       });
     } else {
@@ -67,7 +67,7 @@ async function shareFile(
           owner: sourceFile.owner,
           name: sourceFile.name,
           type: sourceFile.type,
-          fileURL: copiedFileURL,
+          filekey: copiedFileKey,
         },
       });
     }

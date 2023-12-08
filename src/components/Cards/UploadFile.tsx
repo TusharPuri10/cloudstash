@@ -1,89 +1,144 @@
-import { useRecoilState } from "recoil";
-import { cardState } from "@/atoms/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  cardState,
+  directoryState,
+  userState,
+  creationState,
+} from "@/atoms/state";
 import { useDropzone } from "React-dropzone";
 import { useState } from "react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
-interface Accept {
-  [key: string]: string[];
-}
-
-function Dropzone() {
-
+const UploadFileCard = () => {
   // Props for Drop Zone
   const maxSize = 1024 * 1024 * 10; //10mb
   const minSize = 0;
-  const accept: Accept = {
-    '*/*': ['*'],
-  };
-  const { getRootProps, getInputProps, isDragReject, acceptedFiles, fileRejections } = useDropzone({
+  const {
+    getRootProps,
+    getInputProps,
+    isDragReject,
+    acceptedFiles,
+    fileRejections,
+  } = useDropzone({
     minSize,
     maxSize,
     multiple: false,
-    accept
+    accept: {
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".docx", ".doc"], // docx
+      "image/jpg": [".jpg", ".jpeg"], // jpg
+      "application/pdf": [".pdf"], // pdf
+      "image/png": [".png"], // png
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        [".pptx", ".ppt"], // pptx
+      "text/plain": [".txt"], // txt
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+        ".xlsx",
+        ".xls",
+      ], // xlsx
+      "application/zip": [".zip"], // zip
+    },
   });
-  const isFileTooLarge = fileRejections.length > 0 && fileRejections[0].file.size > maxSize;
+  const isFileTooLarge =
+    fileRejections.length > 0 && fileRejections[0].file.size > maxSize;
 
-  // Previes the file name in drop zone
+  // List of Files
   const files = acceptedFiles.map((file) => (
-    <li className="text text-amber-500">
+    <li className="text text-amber-500" key={file.size}>
       {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name}
     </li>
   ));
 
-  //// Do all the s3 upload and everything
-  const [file, setFile] = useState<File | null>(null);
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setFile(file);
+  // Generate File Key
+  const generateFileKey = (bytes = 32) => {
+    const array = new Uint8Array(bytes);
+    crypto.getRandomValues(array);
+    return [...array].map((b) => b.toString(16).padStart(2, "0")).join("");
   };
-  
+
+  // States
+  const [directory, setDirectory] = useRecoilState(directoryState);
+  const user = useRecoilValue(userState);
+  const [creation, setCreation] = useRecoilState(creationState);
+  const [card, setCard] = useRecoilState(cardState);
+  const { data: session, status } = useSession();
+
+  async function uploadFile() {
+    if (acceptedFiles[0] && session && session.user) {
+      try {
+        const fileKey = generateFileKey();
+        let { data } = await axios.post("/api/aws/s3/upload-file", {
+          file_key: fileKey,
+          type: acceptedFiles[0].type,
+        });
+        console.log("data: ", data);
+        await axios.put(data.url, acceptedFiles[0], {
+          headers: {
+            "Content-type": acceptedFiles[0].type,
+            "Access-Control-Allow-Origin": "*",
+          },
+        }).then((res) => {
+          console.log(res);
+          setCard({ name: "", shown: false });
+        });
+        await axios
+          .post("/api/db/file/createfile", {
+            folderId: directory[directory.length - 1].id,
+            fileName: acceptedFiles[0].name,
+            fileType: acceptedFiles[0].type,
+            fileKey: fileKey,
+            owner: user.name,
+          })
+          .then((res) => {
+            console.log("files: ", res.data.files);
+            (creation) ? setCreation(false) : setCreation(true);
+          });
+      } catch (error) {
+        console.error("Error fetching folders:", error);
+      }
+    }
+  }
 
   return (
-    <div className="container">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} onChange={handleFileChange}/>
-        {!isDragReject && <p>Drag 'n' drop some files here</p>}
+    <div
+      className="container absolute inset-0 z-50 mx-auto w-1/4 h-1/2 mt-32 rounded-xl flex flex-col items-center"
+      style={{ backgroundColor: "#2D4A53" }}
+    >
+      <div
+        {...getRootProps({ className: "dropzone" })}
+        className="h-60 py-24 px-12 block mt-6 mx-auto w-80 bg-transparent border-4 border-amber-500 border-dotted rounded-lg text-xl font-medium text-gray-900 dark:text-white"
+      >
+        <input {...getInputProps()} />
+        {!isDragReject && <p>Drag 'n' drop your file here</p>}
         {isFileTooLarge && (
-          <div className="text-danger mt-2">
-            File is too large.
-          </div>
+          <div className="text-danger mt-2">File is too large.</div>
         )}
       </div>
-      <aside>
+      <aside className="flex justify-center ">
         <ul>{files}</ul>
       </aside>
-    </div>
-  );
-}
-
-const CreateFolderCard = () => {
-  const [card, setCard] = useRecoilState(cardState);
-  return (
-    <div className="absolute inset-0 z-50 mx-auto w-1/4 h-1/2 mt-24 rounded-xl flex flex-col items-center" style={{backgroundColor: "#2D4A53"}}>
-      <div className="block mt-6 mx-auto w-80 py-20 px-8 bg-transparent border-4 border-amber-500 border-dotted rounded-lg text-xl font-medium text-gray-900 dark:text-white">
-        <Dropzone />
-      </div>
       <div className="ml-24">
-      <button
-        className="inline text-white bg-stone-500 hover:bg-neutral-500 border border-green-900 rounded-2xl py-1 px-3 my-4 mx-2"
-        onClick={() => {
-          // TODO: add logic to create folder here
-          setCard({ name: "", shown: false });
-        }}
-      >
-        upload
-      </button>
-      <button
-        className="inline text-white bg-stone-500 hover:bg-neutral-500 border border-green-900 rounded-2xl py-1 px-3 my-4 mx-2"
-        onClick={() => {
-          setCard({ name: "", shown: false });
-        }}
-      >
-        cancel
-      </button>
+        <button
+          className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+          onClick={() => {
+            uploadFile();
+            setCard({ name: "", shown: false });
+          }}
+        >
+          upload
+        </button>
+        <button
+          className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+          onClick={() => {
+            setCard({ name: "", shown: false });
+          }}
+        >
+          cancel
+        </button>
       </div>
     </div>
   );
 };
 
-export default CreateFolderCard;
+export default UploadFileCard;

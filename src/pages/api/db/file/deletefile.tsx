@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
-async function deleteFile(fileURL: string) {
+async function deleteFile(fileKey: string) {
   try {
     await prisma.file.delete({
       where: {
-        fileURL: fileURL,
+        filekey: fileKey
       },
     });
   } catch (error) {
@@ -18,10 +18,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { fileURL } = req.body;
+  const { fileKey } = req.body;
 
   try {
-    await deleteFile(fileURL);
+    await deleteFile(fileKey);
     await prisma.$disconnect();
     res.status(200).json({ message: 'deleted' });
   } catch (error) {

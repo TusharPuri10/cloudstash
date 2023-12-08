@@ -7,14 +7,13 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
-import { mainFolderState, directoryState } from "@/atoms/state";
+import { mainFolderState } from "@/atoms/state";
 import { useSetRecoilState } from "recoil";
 
 function Object() {
   const setMainFolder = useSetRecoilState(mainFolderState);
-  const setDirectory = useSetRecoilState(directoryState);
   const ref = useRef<THREE.Mesh>(null!);
-  const gltf = useLoader(GLTFLoader, "/mailbox/scene.gltf");
+  const gltf = useLoader(GLTFLoader, "/models/mailbox/scene.gltf");
   const [spring, set] = useSpring(() => ({
     scale: [1.25, 1.1, 1.25],
     position: [0, 0, 0],
@@ -29,7 +28,6 @@ function Object() {
   });
   return (
     <a.mesh ref={ref} {...spring} {...bind()} onClick={()=>{
-      setDirectory([]);
       setMainFolder("shared");
       }}>
       <primitive object={gltf.scene}/>

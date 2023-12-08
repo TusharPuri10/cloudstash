@@ -13,7 +13,7 @@ function Cloud(
     props:{ target: THREE.Vector3 }
   ) {
     const ref = useRef<THREE.Mesh>(null!);
-    const gltf = useLoader(GLTFLoader, "/cloud_test/scene.gltf");
+    const gltf = useLoader(GLTFLoader, "/models/cloud_test/scene.gltf");
     
     
     useFrame(({ clock }) => {
@@ -44,7 +44,7 @@ function Cloud(
     // Hold state for hovered and clicked events
     // Rotate mesh every frame, this is outside of React without overhead
     useFrame((state, delta) => (ref.current.rotation.y += 0.01));
-    const gltf = useLoader(GLTFLoader, "/cardboard_box/scene.gltf");
+    const gltf = useLoader(GLTFLoader, "/models/cardboard_box/scene.gltf");
     const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, -1, 0], rotation: [0, 0, 0], config: { friction: 10 } }))
     const bind = useGesture({
       onHover: ({ hovering }) => {

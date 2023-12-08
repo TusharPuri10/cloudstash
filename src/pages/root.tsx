@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
-import { useRecoilState } from "recoil";
-import { cardState, fileState, folderState, userState, directoryState,mainFolderState,folderCreationState } from "@/atoms/state";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { cardState, fileState, folderState, userState, directoryState,mainFolderState,creationState,messageState } from "@/atoms/state";
 import { useSession } from "next-auth/react";
 import Signin from "@/components/Cards/Signin";
 import CreateFolder from "@/components/Cards/CreateFolder";
@@ -15,7 +15,7 @@ import Topbar from "@/components/UI/Topbar";
 import { FiArrowLeft } from 'react-icons/fi';
 
 interface FolderInterface {id: number | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined};
-interface FileInterface {fileURL: string | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined, type: string | null | undefined};
+interface FileInterface {filekey: string | null | undefined, name: string | null | undefined, createdAt: string | null | undefined, updatedAt: string | null | undefined, type: string | null | undefined};
 
 export default function App() {
   const { data: session, status } = useSession();
@@ -26,12 +26,15 @@ export default function App() {
   const [directory, setDirectory] = useRecoilState(directoryState);
   const [mainFolder, setMainFolder] = useRecoilState(mainFolderState);
   const [loading, setLoading] = useState(false);
-  const [folderCreation, setFolderCreation] = useRecoilState(folderCreationState);
+  const [creation, setCreation] = useRecoilState(creationState);
   const [rootid, setRootid] = useState(0);
+  const setMessage = useSetRecoilState(messageState);
 
   // GET ALL FOLDERS IN CURRENT FOLDER
   async function getFolders() {
+    console.log("inside get folders");
     try {
+      console.log("parent folder id: ",directory[directory.length-1].id);
       await axios
         .post("/api/db/folder/getallfolder", {
           parentFolderId: directory[directory.length-1].id,
@@ -42,12 +45,13 @@ export default function App() {
           setFolders(res.data.folders);
         });
     } catch (error) {
-      console.error("Error fetching folders:", error);
+      console.error("Error fetching all folders:", error);
     }
   }
 
   // GET ALL FILES IN CURRENT FOLDER
   async function getFiles() {
+    console.log("inside get files");
     try {
       await axios
         .post("/api/db/file/getallfile", {
@@ -60,12 +64,13 @@ export default function App() {
           setLoading(false);
         });
     } catch (error) {
-      console.error("Error fetching folders:", error);
+      console.error("Error fetching all files:", error);
     }
   }
 
   // CREATE ROOT FOLDER FUNCTION
   async function createRootFolder() {
+    console.log("inside create root folder");
     try{
       await axios
       .post("/api/db/folder/createfolder", {
@@ -74,7 +79,7 @@ export default function App() {
       })
       .then((res) => {
         console.log("created root folder: ",res.data);
-        setDirectory([{id: res.data.id, name: "root"}]);
+        setDirectory([{id: res.data.folderId, name: "root"}]);
         setRootid(res.data.id);
       });
     }catch (error) {
@@ -84,6 +89,7 @@ export default function App() {
 
   //  GET MAIN FOLDER (ROOT, SHARED) ID
   async function getMainFolder(folderName: string) {
+    console.log("inside get main folder");
     try {
       await axios
         .post("/api/db/folder/getmainfolder", {
@@ -91,21 +97,34 @@ export default function App() {
           folderName: folderName,
         })
         .then((res) => {
-          if (res) {
+          if (res.data) {
             console.log(mainFolder," folder exists: ",res.data.id);
             setDirectory([{id: res.data.id, name: mainFolder}]);
             setRootid(res.data.id);
-          } else if(folderName==="root"){
+          }
+          else if(mainFolder==="root")
+          {
+            console.log(mainFolder, " folder does not exist. Creating root folder...");
             createRootFolder();
+          }
+          else if(mainFolder==="shared")
+          {
+            setMessage({text: "Nothing shared with you yet!", open: true});
+            setTimeout(() => {
+              setMessage({text: "", open: false});
+            }, 1500);
+            setMainFolder("root");
+            setLoading(false);
           }
         });
     } catch (error) {
-      console.error("Error fetching folders:", error);
+      console.error("Error fetching main folder:", error);
     }
   }
 
   // GET USER ID FUNCTION
   async function getUserId() {
+    console.log("inside get user id");
     try {
       await axios
         .post("/api/db/user/getuserid", {
@@ -123,23 +142,30 @@ export default function App() {
       console.error("Error fetching user id", error);
     }
   }
+  useEffect(() => {
+      //Signin Card
+      if (status === "unauthenticated") {
+        setCard({ name: "signin", shown: true });
+      } else if(!user.id && session?.user?.email){
+        setLoading(true);
+        getUserId();
+      }
+  },[session]);
 
   useEffect(() => {
-    //Signin Card
-    setLoading(true);
-    if (status === "unauthenticated") {
-      setCard({ name: "signin", shown: true });
-    } else if(!user.id && session?.user?.email){
-      getUserId();
-    }
 
-    if(user.id && mainFolder==="root" && directory.length===0) getMainFolder( mainFolder);
-    if(mainFolder==="shared" && directory.length===0) getMainFolder( mainFolder );
+    console.log(directory);
+    console.log(mainFolder);
+    if(user.id && mainFolder==="root" && directory.length===0)   getMainFolder( mainFolder);
+    if(user.id && mainFolder==="shared") getMainFolder( mainFolder );
+  }, [user,mainFolder]);
+
+  useEffect(() => {
+    setLoading(true);
     if(directory.length>0){
       getFolders().then(()=>{getFiles()});
-      setFolderCreation(false);
-    }
-  }, [session,user,directory,mainFolder,folderCreation]);
+    }},[creation,directory]);
+
 
   return (
     <div style={{ backgroundColor: "#0D1F23" }}>
@@ -159,7 +185,7 @@ export default function App() {
               if (directory.length > 1) {
                 setDirectory(prevDirectory => prevDirectory.slice(0, -1));
               }
-              if(directory.length===1 && mainFolder==="shared"){
+              if(mainFolder==="shared"){
                 setDirectory([]);
                 setMainFolder("root");
               }
@@ -171,7 +197,7 @@ export default function App() {
             <Folder key={folder.id} folder={folder} index={index} />
           ))}
           {files.map((file: FileInterface, index: number) => (
-            <File key={file.fileURL} file={file} index={index+folders.length}/>
+            <File key={file.filekey} file={file} index={index+folders.length}/>
           ))}
         </div>
         )}

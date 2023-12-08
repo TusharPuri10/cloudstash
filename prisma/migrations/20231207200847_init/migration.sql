@@ -58,7 +58,7 @@ CREATE TABLE "Folder" (
 
 -- CreateTable
 CREATE TABLE "File" (
-    "fileURL" TEXT NOT NULL,
+    "filekey" TEXT NOT NULL,
     "folderId" INTEGER NOT NULL,
     "owner" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE "File" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "File_pkey" PRIMARY KEY ("fileURL")
+    CONSTRAINT "File_pkey" PRIMARY KEY ("filekey")
 );
 
 -- CreateIndex
@@ -85,7 +85,7 @@ CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationTok
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "File_fileURL_key" ON "File"("fileURL");
+CREATE UNIQUE INDEX "File_filekey_key" ON "File"("filekey");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
