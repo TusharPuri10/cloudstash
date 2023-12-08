@@ -1,7 +1,8 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
 import React, { useState, useRef } from 'react';
-import { directoryState } from "@/atoms/state";
+import { directoryState, cardState } from "@/atoms/state";
 import { useRecoilState } from "recoil";
+import { FaTrash , FaMarker } from 'react-icons/fa';
 
 interface Props {
   folder: {
@@ -18,6 +19,7 @@ export default function Folder({ folder, index }: Props) {
   const folderRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
   const [directory, setDirectory] = useRecoilState(directoryState);
+  const [card, setCard] = useRecoilState(cardState);
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
@@ -51,6 +53,12 @@ export default function Folder({ folder, index }: Props) {
     >
       <div
         className="w-20 h-20 handle z-0 mx-12 mt-10"
+        onMouseLeave={() =>{
+          setShowDetails(false)
+          if (folderRef.current) {
+            folderRef.current.style.zIndex = '0';
+          }
+        }}
         ref={folderRef}
         onDoubleClick={() =>{ 
           setDirectory(prevDirectory => [...prevDirectory, { id: folder.id, name: folder.name }]);}}
@@ -64,8 +72,12 @@ export default function Folder({ folder, index }: Props) {
         <img src="/folder.png" alt="Folder Icon" draggable="false"/>
         <button key={folder.id}
           className="bold text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
-          onMouseEnter={() => setShowDetails(true)}
-          onMouseLeave={() => setShowDetails(false)}
+          onMouseEnter={() => {
+            setShowDetails(true)
+            if (folderRef.current) {
+              folderRef.current.style.zIndex = '10';
+            }
+          }}
           type="button"
         >
             i
@@ -74,11 +86,32 @@ export default function Folder({ folder, index }: Props) {
           <span className="font-semibold text-sm text-gray-900 dark:text-white">{folder.name}</span>
         </div>
         {showDetails && (
-          <div className="absolute top-10 left-0 mt-2 p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white w-40 h-auto">
-            <p>Created: {new Date(folder.createdAt!).toLocaleString()}</p>
-            <p>Updated: {new Date(folder.updatedAt!).toLocaleString()}</p>
+        <div className="absolute top-0 w-44">
+          <div className='h-12'></div>
+          <div className='h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white'>
+            <p className='text-amber-500'>Name:</p>
+            <p>{folder.name}</p>
+            <p className='text-amber-500'>Created:</p>
+            <p> {new Date(folder.createdAt!).toLocaleString()}</p>
+            <p className='text-amber-500'>Updated:</p>
+            <p>{new Date(folder.updatedAt!).toLocaleString()}</p>
+            <div className="flex space-x-2 mt-2">
+              <button
+                className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, fileKey: null })}
+              >
+                <FaTrash/>
+              </button>
+              <button
+                className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                // onClick={() => handleDelete(file.id)}
+              >
+                <FaMarker/>
+              </button>
+            </div>
           </div>
-        )}
+        </div>
+      )}
       </div>
     </Draggable>
   );

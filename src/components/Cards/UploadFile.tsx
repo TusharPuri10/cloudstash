@@ -3,7 +3,7 @@ import {
   cardState,
   directoryState,
   userState,
-  creationState,
+  updationState,
 } from "@/atoms/state";
 import { useDropzone } from "React-dropzone";
 import { useState } from "react";
@@ -60,7 +60,7 @@ const UploadFileCard = () => {
   // States
   const [directory, setDirectory] = useRecoilState(directoryState);
   const user = useRecoilValue(userState);
-  const [creation, setCreation] = useRecoilState(creationState);
+  const [updation, setUpdation] = useRecoilState(updationState);
   const [card, setCard] = useRecoilState(cardState);
   const { data: session, status } = useSession();
 
@@ -80,7 +80,7 @@ const UploadFileCard = () => {
           },
         }).then((res) => {
           console.log(res);
-          setCard({ name: "", shown: false });
+          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
         });
         await axios
           .post("/api/db/file/createfile", {
@@ -92,7 +92,7 @@ const UploadFileCard = () => {
           })
           .then((res) => {
             console.log("files: ", res.data.files);
-            (creation) ? setCreation(false) : setCreation(true);
+            (updation) ? setUpdation(false) : setUpdation(true);
           });
       } catch (error) {
         console.error("Error fetching folders:", error);
@@ -123,7 +123,7 @@ const UploadFileCard = () => {
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
             uploadFile();
-            setCard({ name: "", shown: false });
+            setCard({ name: "", shown: false, folderId: null, fileKey: null});
           }}
         >
           upload
@@ -131,7 +131,7 @@ const UploadFileCard = () => {
         <button
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
-            setCard({ name: "", shown: false });
+            setCard({ name: "", shown: false, folderId: null, fileKey: null });
           }}
         >
           cancel

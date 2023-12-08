@@ -13,14 +13,6 @@ export default async function awsUploader(
     signatureVersion: "v4",
   });
 
-  const config = {
-    api: {
-      bodyParser: {
-        sizeLimit: "10mb",
-      },
-    },
-  };
-
   switch (method) {
     case "GET":
       res.status(405).json({ success: false });
@@ -32,7 +24,7 @@ export default async function awsUploader(
         const fileParams = {
           Bucket: process.env.BUCKET_NAME,
           Key: req.body.file_key,
-          Expires: 60 * 60 * 24,
+          Expires: 60 * 60,
         };
 
         const url = await client_s3.getSignedUrlPromise(

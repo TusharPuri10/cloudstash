@@ -3,11 +3,20 @@ import exp from 'constants';
 import { type } from 'os';
 import {atom, selectorFamily} from 'recoil';
 
-export const cardState = atom({
+type card = {
+    name: string ;
+    shown: boolean;
+    fileKey: string | null | undefined;
+    folderId: number | null | undefined;
+}
+
+export const cardState = atom<card>({
     key: 'cardkey',
     default: {
         name: '',
-        shown: false
+        shown: false,
+        fileKey: '',
+        folderId: null,
     },
 });
 
@@ -109,8 +118,8 @@ export const mainFolderState = atom({
 });
 
 // FOLDER CREATION STATE
-export const creationState = atom({
-    key: "folderCreation",
+export const updationState = atom({
+    key: "rootUpdation",
     default: false
 });
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { cardState, fileState, folderState, userState, directoryState,mainFolderState,creationState,messageState } from "@/atoms/state";
+import { cardState, fileState, folderState, userState, directoryState,mainFolderState,updationState,messageState } from "@/atoms/state";
 import { useSession } from "next-auth/react";
 import Signin from "@/components/Cards/Signin";
 import CreateFolder from "@/components/Cards/CreateFolder";
@@ -26,7 +26,7 @@ export default function App() {
   const [directory, setDirectory] = useRecoilState(directoryState);
   const [mainFolder, setMainFolder] = useRecoilState(mainFolderState);
   const [loading, setLoading] = useState(false);
-  const [creation, setCreation] = useRecoilState(creationState);
+  const [updation, setUpdation] = useRecoilState(updationState);
   const [rootid, setRootid] = useState(0);
   const setMessage = useSetRecoilState(messageState);
 
@@ -145,7 +145,7 @@ export default function App() {
   useEffect(() => {
       //Signin Card
       if (status === "unauthenticated") {
-        setCard({ name: "signin", shown: true });
+        setCard({ name: "signin", shown: true, folderId: null, fileKey: null });
       } else if(!user.id && session?.user?.email){
         setLoading(true);
         getUserId();
@@ -164,7 +164,7 @@ export default function App() {
     setLoading(true);
     if(directory.length>0){
       getFolders().then(()=>{getFiles()});
-    }},[creation,directory]);
+    }},[updation,directory]);
 
 
   return (
@@ -180,7 +180,7 @@ export default function App() {
         ):(
         <div className={ card.shown ? "h-screen opacity-30" : "h-screen"}>
           <button
-            className="absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-500"
+            className={ (directory.length > 1) ? "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 dark:text-amber-500 dark:hover:text-amber-400" : "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 dark:text-gray-400"}
             onClick={() => {
               if (directory.length > 1) {
                 setDirectory(prevDirectory => prevDirectory.slice(0, -1));

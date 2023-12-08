@@ -89,7 +89,7 @@ export default function Breadcrumb() {
                         <button
                           className="px-4 py-2 dark:hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "CreateFolder", shown: true });
+                            setCard({ name: "CreateFolder", shown: true, folderId: null, fileKey: "" });
                             setDropDown(false);
                           }}
                         >
@@ -100,7 +100,7 @@ export default function Breadcrumb() {
                         <button
                           className="px-4 py-2 dark:hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "UploadFile", shown: true });
+                            setCard({ name: "UploadFile", shown: true, folderId: null, fileKey: "" });
                             setDropDown(false);
                           }}
                         >

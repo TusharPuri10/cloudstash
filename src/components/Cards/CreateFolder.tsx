@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { cardState,directoryState,userState,creationState } from "@/atoms/state";
+import { cardState,directoryState,userState,updationState } from "@/atoms/state";
 import axios from "axios";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ const CreateFolderCard = () => {
   const [directory, setDirectory] = useRecoilState(directoryState);
   const [folderName, setFolderName] = useState("untitled_folder");
   const [user, setUser] = useRecoilState(userState);
-  const [creation, setCreation] = useRecoilState(creationState);
+  const [updation, setUpdation] = useRecoilState(updationState);
 
   // CREATE FOLDER
   async function createFolder() {
@@ -20,7 +20,7 @@ const CreateFolderCard = () => {
           parentFolderId: directory[directory.length-1].id,
         })
         .then((res) => {
-          (creation) ? setCreation(false) : setCreation(true);
+          (updation) ? setUpdation(false) : setUpdation(true);
         });
     } catch (error) {
       console.error("Error fetching folders:", error);
@@ -39,7 +39,7 @@ const CreateFolderCard = () => {
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
           createFolder();
-          setCard({ name: "", shown: false });
+          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
         }}
       >
         create
@@ -47,7 +47,7 @@ const CreateFolderCard = () => {
       <button
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
-          setCard({ name: "", shown: false });
+          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
         }}
       >
         cancel

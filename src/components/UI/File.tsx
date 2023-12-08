@@ -1,7 +1,9 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
 import React, { useState, useRef, useEffect } from 'react';
-import { creationState } from "@/atoms/state";
+import { cardState } from "@/atoms/state";
+import { useRecoilState } from 'recoil';
 import axios from "axios";
+import { FaDownload, FaShare, FaTrash , FaMarker } from 'react-icons/fa';
 
 interface Props {
     file: {
@@ -18,9 +20,9 @@ export default function File({ file, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const fileRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
-  const [s3GetPromiseUrl, setS3GetPromiseUrl] = useState<string|null>(null);
-  const [s3GetDownloadUrl, setS3GetDownloadUrl] = useState<string|null>(null);
-  const [creation, setCreation] = useState(creationState);
+  const [s3GetPromiseUrl, setS3GetPromiseUrl] = useState<string|undefined>(undefined);
+  const [s3GetDownloadUrl, setS3GetDownloadUrl] = useState<string|undefined>(undefined);
+  const [card, setCard] = useRecoilState(cardState);
   
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
@@ -41,36 +43,52 @@ export default function File({ file, index }: Props) {
       }, 180); 
   };
 
+  const handleDelete = (filekey: string | null | undefined) => {
+    try{
+      axios
+      .post("/api/aws/s3/delete-file", {
+        file_key: filekey,
+        type: file.type,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error.message));
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     try{
-      
-      // if(!s3GetPromiseUrl)
-      // {
-      //   axios
-      //   .post("/api/aws/s3/get-file", {
-      //     file_key: file.filekey,
-      //     type: file.type,
-      //   })
-      //   .then((response) => setS3GetPromiseUrl(response.data.url))
-      //   .catch((error) => console.log(error.message));
-      // }
-      // if(!s3GetDownloadUrl)
-      // {
-      //   axios
-      //   .post("/api/aws/s3/download-file", {
-      //     file_key: file.filekey,
-      //     type: file.type,
-      //     file_name: file.name,
-      //   })
-      //   .then((response) => setS3GetDownloadUrl(response.data.url))
-      //   .catch((error) => console.log(error.message));
-      // }
+      if(!s3GetPromiseUrl)
+      {
+        axios
+        .post("/api/aws/s3/get-file", {
+          file_key: file.filekey,
+          type: file.type,
+        })
+        .then((response) => setS3GetPromiseUrl(response.data.url))
+        .catch((error) => console.log(error.message));
+      }
+      if(!s3GetDownloadUrl)
+      {
+        axios
+        .post("/api/aws/s3/download-file", {
+          file_key: file.filekey,
+          type: file.type,
+          file_name: file.name,
+        })
+        .then((response) => setS3GetDownloadUrl(response.data.url))
+        .catch((error) => console.log(error.message));
+      }
     }
     catch(error){
       console.log(error);
     }
   }, []);
-  
+
   return (
     <Draggable
       axis="both"
@@ -85,6 +103,7 @@ export default function File({ file, index }: Props) {
     >
       <div
         className="w-20 h-20 handle z-0 mx-12 mt-10"
+        onMouseLeave={() => setShowDetails(false)}
         ref={fileRef}
         style={{
           position: 'absolute',
@@ -97,27 +116,52 @@ export default function File({ file, index }: Props) {
         <button
           className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
           onMouseEnter={() => setShowDetails(true)}
-          onMouseLeave={() => setShowDetails(false)}
           type="button"
         >
             i
         </button>
-        <a
-          className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
-          href={s3GetDownloadUrl}
-          download={`${file.name}.${file.type!.split('/')[1]}`}
-        >
-          Download
-        </a>
         <div className="flex items-center place-content-center">
           <span className="font-semibold text-sm text-gray-900 dark:text-white">{file.name}</span>
         </div>
         {showDetails && (
-          <div className="absolute top-10 left-0 mt-2 p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white w-40 h-auto">
-            <p>Created: {new Date(file.createdAt!).toLocaleString()}</p>
-            <p>Updated: {new Date(file.updatedAt!).toLocaleString()}</p>
+        <div className="absolute top-0 left-0 w-44">
+          <div className='h-12'></div>
+          <div className='h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white'>
+            <p className='text-amber-500'>Name:</p>
+            <p>{file.name}</p>
+            <p className='text-amber-500'>Created:</p>
+            <p> {new Date(file.createdAt!).toLocaleString()}</p>
+            <p className='text-amber-500'>Updated:</p>
+            <p>{new Date(file.updatedAt!).toLocaleString()}</p>
+            <div className="flex space-x-2 mt-2">
+              <a href={s3GetDownloadUrl} download={`${file.name}.${file.type!.split('/')[1]}`}>
+                <button
+                className="bg-green-500 text-white px-2 py-1 text-xs rounded flex items-center">
+                  <FaDownload/>
+                </button>
+              </a>
+              <button
+                className="bg-purple-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                // onClick={() => handleShare(file.id)}
+              >
+                <FaShare/>
+              </button>
+              <button
+                className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, fileKey: file.filekey })}
+              >
+                <FaTrash/>
+              </button>
+              <button
+                className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                // onClick={() => handleDelete(file.id)}
+              >
+                <FaMarker/>
+              </button>
+            </div>
           </div>
-        )}
+        </div>
+      )}
       </div>
     </Draggable>
   );
