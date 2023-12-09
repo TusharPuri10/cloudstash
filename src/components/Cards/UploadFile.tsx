@@ -6,7 +6,6 @@ import {
   updationState,
 } from "@/atoms/state";
 import { useDropzone } from "React-dropzone";
-import { useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
@@ -67,9 +66,9 @@ const UploadFileCard = () => {
   async function uploadFile() {
     if (acceptedFiles[0] && session && session.user) {
       try {
-        const fileKey = generateFileKey();
+        const filekey = generateFileKey();
         let { data } = await axios.post("/api/aws/s3/upload-file", {
-          file_key: fileKey,
+          file_key: filekey,
           type: acceptedFiles[0].type,
         });
         console.log("data: ", data);
@@ -80,14 +79,13 @@ const UploadFileCard = () => {
           },
         }).then((res) => {
           console.log(res);
-          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
         });
         await axios
           .post("/api/db/file/createfile", {
             folderId: directory[directory.length - 1].id,
             fileName: acceptedFiles[0].name,
             fileType: acceptedFiles[0].type,
-            fileKey: fileKey,
+            filekey: filekey,
             owner: user.name,
           })
           .then((res) => {
@@ -123,7 +121,7 @@ const UploadFileCard = () => {
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
             uploadFile();
-            setCard({ name: "", shown: false, folderId: null, fileKey: null});
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null});
           }}
         >
           upload
@@ -131,7 +129,7 @@ const UploadFileCard = () => {
         <button
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
-            setCard({ name: "", shown: false, folderId: null, fileKey: null });
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
           }}
         >
           cancel

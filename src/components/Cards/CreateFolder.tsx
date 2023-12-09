@@ -39,7 +39,7 @@ const CreateFolderCard = () => {
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
           createFolder();
-          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
+          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null });
         }}
       >
         create
@@ -47,7 +47,7 @@ const CreateFolderCard = () => {
       <button
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
-          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
+          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null });
         }}
       >
         cancel

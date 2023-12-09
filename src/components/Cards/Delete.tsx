@@ -1,29 +1,26 @@
 import { useRecoilState } from "recoil";
-import { cardState,directoryState,userState, updationState } from "@/atoms/state";
+import { cardState,updationState } from "@/atoms/state";
 import axios from "axios";
 import { useState } from "react";
 
 const DeleteCard = () => {
   const [card, setCard] = useRecoilState(cardState);
-  const [directory, setDirectory] = useRecoilState(directoryState);
-  const [folderName, setFolderName] = useState("untitled_folder");
-  const [user, setUser] = useRecoilState(userState);
   const [updation, setUpdation] = useRecoilState(updationState);
 
-  // CREATE FOLDER
+  // DELETE
   async function Delete() {
     try{
 
-        if(card.fileKey)
+        if(card.filekey)
         {
             axios
             .post("/api/aws/s3/delete-file", {
-            file_key: card.fileKey,
+            file_key: card.filekey,
             })
             .then((response) => {
 
                 axios.post("/api/db/file/deletefile", {
-                    fileKey: card.fileKey,
+                    filekey: card.filekey,
                 }).then((response) => {
                     console.log(response.data);
                     (updation) ? setUpdation(false) : setUpdation(true);
@@ -56,7 +53,7 @@ const DeleteCard = () => {
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
           Delete();
-          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
         }}
       >
         delete
@@ -64,7 +61,7 @@ const DeleteCard = () => {
       <button
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
-          setCard({ name: "", shown: false, folderId: null, fileKey: "" });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
         }}
       >
         cancel

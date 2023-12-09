@@ -83,7 +83,7 @@ export default function Folder({ folder, index }: Props) {
             i
         </button>
         <div className="flex items-center place-content-center">
-          <span className="font-semibold text-sm text-gray-900 dark:text-white">{folder.name}</span>
+          <span className="font-semibold text-sm text-gray-900 dark:text-white">{folder.name!.length > 12 ? `${folder.name!.substring(0, 12)}...` : folder.name}</span>
         </div>
         {showDetails && (
         <div className="absolute top-0 w-44">
@@ -98,13 +98,13 @@ export default function Folder({ folder, index }: Props) {
             <div className="flex space-x-2 mt-2">
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, fileKey: null })}
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, filekey: null, newName: null })}
               >
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                // onClick={() => handleDelete(file.id)}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: folder.id, filekey: null, newName: folder.name })}
               >
                 <FaMarker/>
               </button>

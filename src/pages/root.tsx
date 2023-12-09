@@ -145,7 +145,7 @@ export default function App() {
   useEffect(() => {
       //Signin Card
       if (status === "unauthenticated") {
-        setCard({ name: "signin", shown: true, folderId: null, fileKey: null });
+        setCard({ name: "signin", shown: true, folderId: null, filekey: null, newName: null });
       } else if(!user.id && session?.user?.email){
         setLoading(true);
         getUserId();
@@ -204,8 +204,8 @@ export default function App() {
         {card.name === "signin" && <Signin />}
         {card.name === "CreateFolder" && <CreateFolder />}
         {card.name === "UploadFile" && <UploadFile />}
-        {card.name === "Delete" && <Delete />}
         {card.name === "Rename" && <Rename />}
+        {card.name === "Delete" && <Delete />}
       </div>
     </div>
   );

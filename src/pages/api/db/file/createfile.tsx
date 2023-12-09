@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
-async function createFile(folderId: number, fileName: string, fileType: string, fileKey: string, owner: string) {
+async function createFile(folderId: number, fileName: string, fileType: string, filekey: string, owner: string) {
   try {
     await prisma.file.create({
       data: {
         folderId: folderId,
         name: fileName,
         type: fileType,
-        filekey: fileKey,
+        filekey: filekey,
         owner: owner,
       }
     });
@@ -22,10 +22,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { folderId, fileName, fileType, fileKey, owner } = req.body;
+  const { folderId, fileName, fileType, filekey, owner } = req.body;
 
   try {
-    await createFile(folderId, fileName, fileType, fileKey, owner);
+    await createFile(folderId, fileName, fileType, filekey, owner);
     await prisma.$disconnect();
     res.status(200).json({ message: 'created' });
   } catch (error) {

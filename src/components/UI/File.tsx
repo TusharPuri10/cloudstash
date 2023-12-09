@@ -121,7 +121,7 @@ export default function File({ file, index }: Props) {
             i
         </button>
         <div className="flex items-center place-content-center">
-          <span className="font-semibold text-sm text-gray-900 dark:text-white">{file.name}</span>
+          <span className="font-semibold text-sm text-gray-900 dark:text-white">{file.name!.length > 12 ? `${file.name!.substring(0, 12)}...` : file.name}</span>
         </div>
         {showDetails && (
         <div className="absolute top-0 left-0 w-44">
@@ -148,13 +148,13 @@ export default function File({ file, index }: Props) {
               </button>
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, fileKey: file.filekey })}
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null })}
               >
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                // onClick={() => handleDelete(file.id)}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: null, filekey: file.filekey, newName: file.name })}
               >
                 <FaMarker/>
               </button>
