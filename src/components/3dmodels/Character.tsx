@@ -4,7 +4,7 @@ import exp from "constants";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import * as React from "react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 function Object(props: { target: THREE.Vector3 }) {
     const ref = useRef<THREE.Mesh>(null!);
@@ -44,23 +44,42 @@ function Object(props: { target: THREE.Vector3 }) {
   });
   
     return (
-      <mesh position={[0, 0, -1]} ref={ref} scale={1}>
+      <mesh position={[0, 0, -1]} ref={ref} scale={1.4}>
         <primitive object={gltf.scene} />
       </mesh>
     );
   }
 
   export default function Character(){
+    const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Update isMobile based on window width
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    // Initial check
+    handleResize();
+
+    // Listen for window resize events
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
     return (
         <Canvas
           style={{ height: "100vh", backgroundColor: "#0D1F23" }}
-          camera={{ position: [-4, 2, 6.5] }}
+          camera={{ position: isMobile? [-4, 2, 6.5] : [-6, 2, 4.5] }}
         >
             <ambientLight intensity={1.3} />
             <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
                 <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
             </directionalLight>
-            <Object target={new THREE.Vector3(5.3, -0.3, 1.2)} />
+            <Object target={ isMobile ? new THREE.Vector3(2.3, -0.3, 0) : new THREE.Vector3(4, -0.5, 1.2)} />
         </Canvas>
     )
   }

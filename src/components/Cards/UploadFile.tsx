@@ -4,6 +4,8 @@ import {
   directoryState,
   userState,
   updationState,
+  messageState,
+  fileState,
 } from "@/atoms/state";
 import { useDropzone } from "React-dropzone";
 import axios from "axios";
@@ -37,13 +39,14 @@ const UploadFileCard = () => {
         ".xls",
       ], // xlsx
       "application/zip": [".zip"], // zip
+      "application/vnd.ms-excel": [".csv"],//csv
     },
   });
   const isFileTooLarge =
     fileRejections.length > 0 && fileRejections[0].file.size > maxSize;
 
   // List of Files
-  const files = acceptedFiles.map((file) => (
+  const file = acceptedFiles.map((file) => (
     <li className="text text-amber-500" key={file.size}>
       {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name}
     </li>
@@ -62,10 +65,22 @@ const UploadFileCard = () => {
   const [updation, setUpdation] = useRecoilState(updationState);
   const [card, setCard] = useRecoilState(cardState);
   const { data: session, status } = useSession();
+  const [message, setMessage] = useRecoilState(messageState);
+  const [files, setFiles] = useRecoilState(fileState);
 
   async function uploadFile() {
+    
     if (acceptedFiles[0] && session && session.user) {
       try {
+        console.log(user.fileLimit, files.length);
+        if(user.fileLimit && files.length + 1 > user.fileLimit)
+        {
+          setMessage({text: "You have reached the limit", open: true});
+          setTimeout(() => {
+            setMessage({text: "", open: false});
+          }, 1500);
+          return;
+        }
         const filekey = generateFileKey();
         let { data } = await axios.post("/api/aws/s3/upload-file", {
           file_key: filekey,
@@ -114,14 +129,14 @@ const UploadFileCard = () => {
         )}
       </div>
       <aside className="flex justify-center ">
-        <ul>{files}</ul>
+        <ul>{file}</ul>
       </aside>
       <div className="ml-24">
         <button
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
             uploadFile();
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null});
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null});
           }}
         >
           upload
@@ -129,7 +144,7 @@ const UploadFileCard = () => {
         <button
           className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
           onClick={() => {
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
           }}
         >
           cancel

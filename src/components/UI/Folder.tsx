@@ -1,8 +1,9 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
-import React, { useState, useRef } from 'react';
-import { directoryState, cardState } from "@/atoms/state";
+import React, { useState, useRef, useEffect } from 'react';
+import { directoryState, cardState, dragState } from "@/atoms/state";
 import { useRecoilState } from "recoil";
 import { FaTrash , FaMarker } from 'react-icons/fa';
+import { calculatePosition } from '@/lib/grid';
 
 interface Props {
   folder: {
@@ -17,13 +18,15 @@ interface Props {
 export default function Folder({ folder, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const folderRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
+  const [position, setPosition] = useState(calculatePosition(index));
   const [directory, setDirectory] = useRecoilState(directoryState);
   const [card, setCard] = useRecoilState(cardState);
+  const [drag, setDrag] = useRecoilState(dragState);
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
     setPosition((prevPosition) => ({ x: prevPosition.x + data.deltaX, y: prevPosition.y + data.deltaY }));
+    setDrag({entity: "folder", filekey: null, id: folder.id});
     if (folderRef.current) {
         folderRef.current.style.zIndex = '10';
       }
@@ -32,12 +35,23 @@ export default function Folder({ folder, index }: Props) {
   const handleDragStop = () => {
     // Reset position after dragging stops
     setTimeout(() => {
-        setPosition({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
+        setPosition(calculatePosition(index));
         if (folderRef.current) {
           folderRef.current.style.zIndex = '0';
         }
       }, 180); 
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPosition(calculatePosition(index));
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [index]);
 
   return (
     <Draggable
@@ -73,7 +87,7 @@ export default function Folder({ folder, index }: Props) {
         <button key={folder.id}
           className="bold text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
           onMouseEnter={() => {
-            setShowDetails(true)
+            setShowDetails(true);
             if (folderRef.current) {
               folderRef.current.style.zIndex = '10';
             }
@@ -98,13 +112,13 @@ export default function Folder({ folder, index }: Props) {
             <div className="flex space-x-2 mt-2">
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, filekey: null, newName: null })}
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, filekey: null, newName: null, url: null })}
               >
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Rename", shown: true,  folderId: folder.id, filekey: null, newName: folder.name })}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: folder.id, filekey: null, newName: folder.name, url: null })}
               >
                 <FaMarker/>
               </button>

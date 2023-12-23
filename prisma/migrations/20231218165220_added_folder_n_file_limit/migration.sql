@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "fileLimit" INTEGER NOT NULL DEFAULT 5,
+ADD COLUMN     "folderLimit" INTEGER NOT NULL DEFAULT 5;

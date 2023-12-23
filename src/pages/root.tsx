@@ -8,6 +8,7 @@ import CreateFolder from "@/components/Cards/CreateFolder";
 import UploadFile from "@/components/Cards/UploadFile";
 import Delete from "@/components/Cards/Delete";
 import Rename from "@/components/Cards/Rename";
+import Share from "@/components/Cards/Share";
 import File from "@/components/UI/File";
 import Folder from "@/components/UI/Folder";
 import axios from "axios";
@@ -28,7 +29,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [updation, setUpdation] = useRecoilState(updationState);
   const [rootid, setRootid] = useState(0);
-  const setMessage = useSetRecoilState(messageState);
+  const [ message, setMessage ] = useRecoilState(messageState);
 
   // GET ALL FOLDERS IN CURRENT FOLDER
   async function getFolders() {
@@ -135,8 +136,9 @@ export default function App() {
             id: res.data.id,
             name: session?.user?.name,
             email: session?.user?.email,
+            fileLimit: res.data.fileLimit,
           });
-          console.log("user id: ",res.data.id);
+          console.log("user id: ",res.data);
         });
     } catch (error) {
       console.error("Error fetching user id", error);
@@ -145,7 +147,7 @@ export default function App() {
   useEffect(() => {
       //Signin Card
       if (status === "unauthenticated") {
-        setCard({ name: "signin", shown: true, folderId: null, filekey: null, newName: null });
+        setCard({ name: "signin", shown: true, folderId: null, filekey: null, newName: null, url: null });
       } else if(!user.id && session?.user?.email){
         setLoading(true);
         getUserId();
@@ -178,7 +180,8 @@ export default function App() {
                 <div className="w-28 h-28 border-t-4 border-amber-500 rounded-full animate-spin"></div>
               </div>
         ):(
-        <div className={ card.shown ? "h-screen opacity-30" : "h-screen"}>
+        <div className={ card.shown ? "h-screen opacity-30" : "h-screen "}
+        onClick={()=>card.shown && setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null })}>
           <button
             className={ (directory.length > 1) ? "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 dark:text-amber-500 dark:hover:text-amber-400" : "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 dark:text-gray-400"}
             onClick={() => {
@@ -206,6 +209,20 @@ export default function App() {
         {card.name === "UploadFile" && <UploadFile />}
         {card.name === "Rename" && <Rename />}
         {card.name === "Delete" && <Delete />}
+        {card.name === "Share" && <Share />}
+        {message.open && message.text==="You have reached the limit" && <div id="toast-simple" className="absolute flex bottom-24 my-auto w-auto max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" className="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+            </svg>
+            <div className="ps-4 text-sm font-normal">{message.text}</div>
+            <button type="button" className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-undo" aria-label="Close"
+                onClick={()=>setMessage({open: false, text: ""})}>
+                <span className="sr-only">Close</span>
+                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+        </div>}
       </div>
     </div>
   );

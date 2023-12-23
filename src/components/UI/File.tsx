@@ -1,9 +1,10 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
 import React, { useState, useRef, useEffect } from 'react';
-import { cardState } from "@/atoms/state";
+import { cardState, dragState } from "@/atoms/state";
 import { useRecoilState } from 'recoil';
 import axios from "axios";
 import { FaDownload, FaShare, FaTrash , FaMarker } from 'react-icons/fa';
+import { calculatePosition } from '@/lib/grid';
 
 interface Props {
     file: {
@@ -19,15 +20,17 @@ interface Props {
 export default function File({ file, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const fileRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
+  const [position, setPosition] = useState(calculatePosition(index));
   const [s3GetPromiseUrl, setS3GetPromiseUrl] = useState<string|undefined>(undefined);
   const [s3GetDownloadUrl, setS3GetDownloadUrl] = useState<string|undefined>(undefined);
   const [card, setCard] = useRecoilState(cardState);
+  const [drag, setDrag] = useRecoilState(dragState);
   
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
     // Update the position during drag
     setPosition((prevPosition) => ({ x: prevPosition.x + data.deltaX, y: prevPosition.y + data.deltaY }));
+    setDrag({entity: "file", filekey: file.filekey, id: null});
     if (fileRef.current) {
         fileRef.current.style.zIndex = '10';
       }
@@ -36,7 +39,7 @@ export default function File({ file, index }: Props) {
   const handleDragStop = () => {
     // Reset position after dragging stops
     setTimeout(() => {
-        setPosition({ x: (index % 8) * 150, y: Math.floor(index / 8) * 150 });
+        setPosition(calculatePosition(index));
         if (fileRef.current) {
           fileRef.current.style.zIndex = '0';
         }
@@ -89,6 +92,17 @@ export default function File({ file, index }: Props) {
     }
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setPosition(calculatePosition(index));
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [index]);
+
   return (
     <Draggable
       axis="both"
@@ -103,7 +117,12 @@ export default function File({ file, index }: Props) {
     >
       <div
         className="w-20 h-20 handle z-0 mx-12 mt-10"
-        onMouseLeave={() => setShowDetails(false)}
+        onMouseLeave={() => {
+          setShowDetails(false);
+          if (fileRef.current) {
+            fileRef.current.style.zIndex = '0';
+          }
+        }}
         ref={fileRef}
         style={{
           position: 'absolute',
@@ -112,10 +131,25 @@ export default function File({ file, index }: Props) {
           transform: `translate(${position.x}px, ${position.y}px)`,
         }}
       >
-        <img src="/file.png" alt="Folder Icon" draggable="false" onDoubleClick={()=>window.open(s3GetPromiseUrl, "_blank")}/>
+        <img src={
+          file.type === "application/pdf" ? "filetypes/pdf.png" :
+          file.type === "image/jpeg" ? "filetypes/jpg.png" :
+          file.type === "image/png" ? "filetypes/png.png" :
+          file.type === "text/plain" ? "filetypes/txt.png" :
+          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? "filetypes/docx.png" :
+          file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ? "filetypes/xlsx.png" :
+          file.type === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ? "filetypes/pptx.png" :
+          file.type === "application/zip" ? "filetypes/zip.png" :
+          "/file.png"
+        } alt="Folder Icon" draggable="false" onDoubleClick={()=>window.open(s3GetPromiseUrl, "_blank")}/>
         <button
           className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
-          onMouseEnter={() => setShowDetails(true)}
+          onMouseEnter={() => {
+            setShowDetails(true);
+            if (fileRef.current) {
+              fileRef.current.style.zIndex = '10';
+            }
+          }}
           type="button"
         >
             i
@@ -142,19 +176,19 @@ export default function File({ file, index }: Props) {
               </a>
               <button
                 className="bg-purple-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                // onClick={() => handleShare(file.id)}
+                onClick={() => setCard({ name: "Share", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: s3GetPromiseUrl })}
               >
                 <FaShare/>
               </button>
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null })}
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: null })}
               >
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Rename", shown: true,  folderId: null, filekey: file.filekey, newName: file.name })}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: null, filekey: file.filekey, newName: file.name, url: null })}
               >
                 <FaMarker/>
               </button>

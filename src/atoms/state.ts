@@ -10,6 +10,7 @@ type card = {
     filekey: string | null | undefined;
     folderId: number | null | undefined;
     newName: string | null | undefined;
+    url: string | null | undefined;
 }
 export const cardState = atom<card>({
     key: 'cardkey',
@@ -19,6 +20,7 @@ export const cardState = atom<card>({
         filekey: '',
         folderId: null,
         newName: undefined,
+        url: null,
     },
 });
 
@@ -63,6 +65,7 @@ type User = {
     name: string | null | undefined;
     email: string | null | undefined;
     id: string | null | undefined;
+    fileLimit: number | null | undefined;
 };
 
 export const userState = atom<User>({
@@ -71,6 +74,7 @@ export const userState = atom<User>({
         name: null,
         email: null,
         id: null,
+        fileLimit: null,
     },
 });
 
@@ -92,5 +96,21 @@ export const messageState = atom({
     default: {
         open: false,
         text: ""
+    }
+});
+
+type dragItem = {
+    entity: string;
+    filekey: string | null | undefined;
+    id: number | null | undefined;
+}
+
+// Drag State
+export const dragState = atom<dragItem>({
+    key: "drag",
+    default: {
+        entity: "",
+        filekey: null,
+        id: null,
     }
 });

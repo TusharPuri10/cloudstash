@@ -89,7 +89,7 @@ const RenameCard = () => {
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
           Rename();
-          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
         }}
       >
         rename
@@ -97,7 +97,7 @@ const RenameCard = () => {
       <button
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
-          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
         }}
       >
         cancel

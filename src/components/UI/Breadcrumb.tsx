@@ -13,8 +13,8 @@ export default function Breadcrumb() {
   const displayedDirectories = directory.slice(-2);
 
   return (
-    <nav className="flex justify-between ml-32" aria-label="Breadcrumb">
-      <ol className="inline-flex items-center mb-3 sm:mb-0">
+    <nav className="flex justify-between mr-0 md:mr-36" aria-label="Breadcrumb">
+      <ol className="inline-flex items-center mb-0">
       {directory.length <= 2 && (
           <li key={-2}>
             <button
@@ -89,7 +89,7 @@ export default function Breadcrumb() {
                         <button
                           className="px-4 py-2 dark:hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "CreateFolder", shown: true, folderId: null, filekey: "", newName: null });
+                            setCard({ name: "CreateFolder", shown: true, folderId: null, filekey: "", newName: null, url: null });
                             setDropDown(false);
                           }}
                         >
@@ -100,7 +100,7 @@ export default function Breadcrumb() {
                         <button
                           className="px-4 py-2 dark:hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "UploadFile", shown: true, folderId: null, filekey: "", newName: null });
+                            setCard({ name: "UploadFile", shown: true, folderId: null, filekey: "", newName: null, url: null });
                             setDropDown(false);
                           }}
                         >

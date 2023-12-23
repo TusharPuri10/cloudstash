@@ -10,6 +10,7 @@ async function getuserid(email: string) {
       // Select id
       select: {
         id: true,
+        fileLimit: true,
       },
     });
 

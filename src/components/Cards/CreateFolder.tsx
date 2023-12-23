@@ -1,14 +1,16 @@
-import { useRecoilState } from "recoil";
-import { cardState,directoryState,userState,updationState } from "@/atoms/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { cardState,directoryState,userState,updationState, folderState, messageState } from "@/atoms/state";
 import axios from "axios";
 import { useState } from "react";
 
 const CreateFolderCard = () => {
   const [card, setCard] = useRecoilState(cardState);
   const [directory, setDirectory] = useRecoilState(directoryState);
+  const folders = useRecoilValue(folderState);
   const [folderName, setFolderName] = useState("untitled_folder");
   const [user, setUser] = useRecoilState(userState);
   const [updation, setUpdation] = useRecoilState(updationState);
+  
 
   // CREATE FOLDER
   async function createFolder() {
@@ -39,7 +41,7 @@ const CreateFolderCard = () => {
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
           createFolder();
-          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null, url: null });
         }}
       >
         create
@@ -47,7 +49,7 @@ const CreateFolderCard = () => {
       <button
         className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
         onClick={() => {
-          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: "", newName: null, url: null });
         }}
       >
         cancel

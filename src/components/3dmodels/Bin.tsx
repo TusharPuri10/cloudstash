@@ -7,6 +7,8 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { dragState, cardState } from "@/atoms/state";
 
 function Object() {
   const ref = useRef<THREE.Mesh>(null!);
@@ -31,6 +33,8 @@ function Object() {
 }
 
 export default function Bin(){
+  const drag = useRecoilValue(dragState);
+  const [card, setCard] = useRecoilState(cardState);
     return (
         
         <div className="absolute top-28 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
