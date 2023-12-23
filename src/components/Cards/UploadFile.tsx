@@ -10,6 +10,7 @@ import {
 import { useDropzone } from "React-dropzone";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { generateFileKey } from "@/lib/keygenerator"
 
 const UploadFileCard = () => {
   // Props for Drop Zone
@@ -52,13 +53,6 @@ const UploadFileCard = () => {
     </li>
   ));
 
-  // Generate File Key
-  const generateFileKey = (bytes = 32) => {
-    const array = new Uint8Array(bytes);
-    crypto.getRandomValues(array);
-    return [...array].map((b) => b.toString(16).padStart(2, "0")).join("");
-  };
-
   // States
   const [directory, setDirectory] = useRecoilState(directoryState);
   const user = useRecoilValue(userState);
@@ -78,7 +72,7 @@ const UploadFileCard = () => {
           setMessage({text: "You have reached the limit", open: true});
           setTimeout(() => {
             setMessage({text: "", open: false});
-          }, 1500);
+          }, 2000);
           return;
         }
         const filekey = generateFileKey();
@@ -115,15 +109,15 @@ const UploadFileCard = () => {
 
   return (
     <div
-      className="container absolute inset-0 z-50 mx-auto w-1/4 h-1/2 mt-32 rounded-xl flex flex-col items-center"
+      className="container absolute inset-0 z-50 mx-auto md:w-1/4 w-1/2 h-80 mt-32 rounded-xl flex flex-col items-center"
       style={{ backgroundColor: "#2D4A53" }}
     >
       <div
         {...getRootProps({ className: "dropzone" })}
-        className="h-60 py-24 px-12 block mt-6 mx-auto w-80 bg-transparent border-4 border-amber-500 border-dotted rounded-lg text-xl font-medium text-gray-900 dark:text-white"
+        className="h-52 px-8 pt-12 block mt-4 w-full bg-transparent border-4 border-amber-500 border-dotted rounded-lg"
       >
         <input {...getInputProps()} />
-        {!isDragReject && <p>Drag 'n' drop your file here</p>}
+        {!isDragReject && <div><p className="md:text-xl text-sm font-medium text-gray-900 dark:text-white">Drag 'n' drop your file here</p><p className="text-[#CCD0CF] text-sm">or click here</p></div>}
         {isFileTooLarge && (
           <div className="text-danger mt-2">File is too large.</div>
         )}
@@ -131,20 +125,20 @@ const UploadFileCard = () => {
       <aside className="flex justify-center ">
         <ul>{file}</ul>
       </aside>
-      <div className="ml-24">
+      <div className="w-full text-right mt-6">
         <button
-          className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+          className="inline shadow-lg shadow-teal-950 text-white bg-amber-600 md:text-lg md:font-medium rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mr-2"
           onClick={() => {
             uploadFile();
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null});
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false});
           }}
         >
           upload
         </button>
         <button
-          className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+          className="inline shadow-lg shadow-teal-950 text-white bg-transparent border-2 border-neutral-500 md:text-lg rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mx-2"
           onClick={() => {
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
+            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false });
           }}
         >
           cancel

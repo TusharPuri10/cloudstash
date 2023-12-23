@@ -9,7 +9,7 @@ export const authOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   theme: {
-    logo: "/logo.jpg",
+    logo: "/icons/logo.jpg",
   },
   providers: [
     GoogleProvider({

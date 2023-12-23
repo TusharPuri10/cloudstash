@@ -8,12 +8,15 @@ import { useRouter } from "next/router";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
 import { useSession} from "next-auth/react";
+import { useSetRecoilState } from "recoil";
+import { directoryState, mainFolderState } from "@/atoms/state";
 
 function Cloud(
     props:{ target: THREE.Vector3 }
   ) {
     const ref = useRef<THREE.Mesh>(null!);
     const gltf = useLoader(GLTFLoader, "/models/cloud_test/scene.gltf");
+    
     
     
     useFrame(({ clock }) => {
@@ -37,8 +40,9 @@ function Cloud(
   }
   
   function Box() {
-    const { data: session, status } = useSession();
     const router = useRouter();
+    const setMainFolder = useSetRecoilState(mainFolderState);
+    const setDirectory = useSetRecoilState(directoryState);
     // This reference will give us direct access to the THREE.Mesh object
     const ref = useRef<THREE.Mesh>(null!);
     // Hold state for hovered and clicked events
@@ -53,6 +57,8 @@ function Cloud(
         set.start({ scale: targetScale, rotation: targetRotation });
       },
       onClick: () => {
+        setDirectory([]);
+        setMainFolder("root");
         router.push("/root");
       }
     })

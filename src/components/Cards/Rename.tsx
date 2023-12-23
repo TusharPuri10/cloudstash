@@ -7,7 +7,7 @@ const RenameCard = () => {
   const [card, setCard] = useRecoilState(cardState);
   const [updation, setUpdation] = useRecoilState(updationState);
   const [newName, setNewName] = useState<string | null | undefined>(null);
-  const placeholder: string | undefined = card.newName!;
+  const [defaultvalue, setDefaultvalue] = useState<string>(card.newName!);
   const originalExtension = card.newName ? card.newName.split('.').pop() : '';
   const [isTyping, setIsTyping] = useState(false);
   console.log("original extension: ",originalExtension);
@@ -77,27 +77,30 @@ const RenameCard = () => {
   
 
   return (
-    <div className="absolute inset-0 z-50 mx-auto w-1/4 h-1/4 mt-24 rounded-xl flex flex-col items-center" style={{backgroundColor: "#2D4A53"}}>
-    <label className="block mt-6 mb-4 mr-32 text-xl font-medium text-gray-900 dark:text-white">Edit the name</label>
-      <input className="bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white " placeholder={placeholder} required
+    <div className="absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-48 mt-24 rounded-xl flex flex-col items-center" style={{backgroundColor: "#2D4A53"}}>
+    <label className="w-full px-4 mt-6 mb-4 text-left text-xl font-medium text-gray-900 dark:text-white">Edit the name</label>
+    <div className="px-4 w-full">
+      <input className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white " value={defaultvalue} required
       onChange={(e) => {
         setNewName(e.target.value);
+        setDefaultvalue(e.target.value);
       }}
     ></input>
-      <div className="ml-24">
+    </div>
+      <div className="w-full text-right mt-4">
       <button
-        className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+        className="inline shadow-lg shadow-teal-950 text-white bg-amber-600 md:text-lg md:font-medium rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mr-2"
         onClick={() => {
           Rename();
-          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false });
         }}
       >
         rename
       </button>
       <button
-        className="inline text-white bg-stone-500 hover:bg-neutral-500 rounded-2xl py-1 px-3 my-4 mx-2"
+        className="inline shadow-lg shadow-teal-950 text-white bg-transparent border-2 border-neutral-500 md:text-lg rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 ml-2 mr-1"
         onClick={() => {
-          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null });
+          setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false });
         }}
       >
         cancel

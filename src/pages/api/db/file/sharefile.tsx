@@ -15,7 +15,7 @@ async function shareFile(
     });
 
     if (!user) {
-      return { message: "User not found" };
+      return { message: "User not found", type: "error" };
     }
 
     // Find the source file information
@@ -57,6 +57,7 @@ async function shareFile(
           name: sourceFile.name,
           type: sourceFile.type,
           filekey: copiedFileKey,
+          sharekey: originalFileKey,
         },
       });
     } else {
@@ -72,7 +73,7 @@ async function shareFile(
       });
     }
 
-    return { message: "File shared" };
+    return { message: "File shared", type: "success" };
   } catch (error) {
     console.error("Error sharing file:", error);
     throw error; // Propagate the error for better error handling
@@ -83,9 +84,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { copiedFileURL, originalFileURL, userEmail } = req.body;
+  const { copiedfilekey, originalfilekey, userEmail } = req.body;
 
-  if (!copiedFileURL || !originalFileURL || !userEmail) {
+  if (!copiedfilekey || !originalfilekey || !userEmail) {
     res
       .status(400)
       .json({
@@ -95,7 +96,7 @@ export default async function handler(
   }
 
   try {
-    const message = await shareFile(copiedFileURL, originalFileURL, userEmail);
+    const message = await shareFile(copiedfilekey, originalfilekey, userEmail);
     await prisma.$disconnect();
     res.status(200).json(message);
   } catch (error) {

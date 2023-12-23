@@ -1,6 +1,6 @@
 import Draggable, { DraggableEvent, DraggableData, DraggableEventHandler } from 'react-draggable';
 import React, { useState, useRef, useEffect } from 'react';
-import { cardState, dragState } from "@/atoms/state";
+import { cardState, dragState, mainFolderState } from "@/atoms/state";
 import { useRecoilState } from 'recoil';
 import axios from "axios";
 import { FaDownload, FaShare, FaTrash , FaMarker } from 'react-icons/fa';
@@ -8,6 +8,8 @@ import { calculatePosition } from '@/lib/grid';
 
 interface Props {
     file: {
+        owner: string | null | undefined;
+        sharekey: string | null | undefined;
         filekey: string | null | undefined;
         name: string | null | undefined;
         createdAt: string | null | undefined;
@@ -25,6 +27,7 @@ export default function File({ file, index }: Props) {
   const [s3GetDownloadUrl, setS3GetDownloadUrl] = useState<string|undefined>(undefined);
   const [card, setCard] = useRecoilState(cardState);
   const [drag, setDrag] = useRecoilState(dragState);
+  const [mainFolder, setMainFolder] = useRecoilState(mainFolderState);
   
 
   const handleDrag: DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {
@@ -46,30 +49,14 @@ export default function File({ file, index }: Props) {
       }, 180); 
   };
 
-  const handleDelete = (filekey: string | null | undefined) => {
-    try{
-      axios
-      .post("/api/aws/s3/delete-file", {
-        file_key: filekey,
-        type: file.type,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error.message));
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
     try{
       if(!s3GetPromiseUrl)
       {
+        const filekey = (file.sharekey==="" ? file.filekey : file.sharekey)
         axios
         .post("/api/aws/s3/get-file", {
-          file_key: file.filekey,
+          file_key: filekey,
           type: file.type,
         })
         .then((response) => setS3GetPromiseUrl(response.data.url))
@@ -77,9 +64,10 @@ export default function File({ file, index }: Props) {
       }
       if(!s3GetDownloadUrl)
       {
+        const filekey = (file.sharekey==="" ? file.filekey : file.sharekey)
         axios
         .post("/api/aws/s3/download-file", {
-          file_key: file.filekey,
+          file_key: filekey,
           type: file.type,
           file_name: file.name,
         })
@@ -161,6 +149,8 @@ export default function File({ file, index }: Props) {
         <div className="absolute top-0 left-0 w-44">
           <div className='h-12'></div>
           <div className='h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white'>
+            {mainFolder==="shared" && <p className='text-amber-500'>Owner:</p>}
+            {mainFolder==="shared" && <p>{file.owner}</p>}
             <p className='text-amber-500'>Name:</p>
             <p>{file.name}</p>
             <p className='text-amber-500'>Created:</p>
@@ -174,21 +164,22 @@ export default function File({ file, index }: Props) {
                   <FaDownload/>
                 </button>
               </a>
-              <button
+              {mainFolder==="root" && <button
                 className="bg-purple-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Share", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: s3GetPromiseUrl })}
+                onClick={() => setCard({ name: "Share", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: s3GetPromiseUrl, sharedfiledelete: false })}
               >
                 <FaShare/>
-              </button>
+              </button>}
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: null })}
-              >
+                onClick={() => {
+                  (file.sharekey===""?setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: null, sharedfiledelete: false }):setCard({ name: "Delete", shown: true,  folderId: null, filekey: file.filekey, newName: null, url: null, sharedfiledelete: false }))
+                  }}>
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Rename", shown: true,  folderId: null, filekey: file.filekey, newName: file.name, url: null })}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: null, filekey: file.filekey, newName: file.name, url: null, sharedfiledelete: false })}
               >
                 <FaMarker/>
               </button>

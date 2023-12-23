@@ -22,7 +22,7 @@ function Object() {
   }));
   const bind = useGesture({
     onHover: ({ hovering }) => {
-      const targetRotation = hovering ? [0.5, 0, 0] : [0, 0, 0];
+      const targetRotation = hovering ? [-0.4, 0, 0] : [0, 0, 0];
       set.start({ rotation: targetRotation });
     },
   });
@@ -38,7 +38,7 @@ function Object() {
 export default function Mailbox(){
     return (
         
-        <div className="absolute top-64 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
+        <div className="md:h-36 h-28">
             <Canvas
             camera={{ position: [1 ,2, 2] }}
             >

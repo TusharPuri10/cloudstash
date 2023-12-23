@@ -37,7 +37,7 @@ export default function Bin(){
   const [card, setCard] = useRecoilState(cardState);
     return (
         
-        <div className="absolute top-28 right-10 z-0 w-full h-screen" style={{width: "120px", height: "120px"}}>
+        <div className="md:h-32 h-24">
             <Canvas
             camera={{ position: [1.5, 3, 7.5] }}
             >

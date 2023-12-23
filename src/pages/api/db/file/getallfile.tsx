@@ -10,11 +10,13 @@ async function getAllFilesInFolder(folderId: number) {
         },
       // Select id, name, type, createdAt, and updatedAt fields
       select: {
+        owner: true,
         name: true,
         type: true,
         createdAt: true,
         updatedAt: true,
         filekey: true,
+        sharekey: true,
       },
     });
 

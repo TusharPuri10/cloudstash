@@ -66,7 +66,7 @@ export default function Folder({ folder, index }: Props) {
       onStop={handleDragStop}
     >
       <div
-        className="w-20 h-20 handle z-0 mx-12 mt-10"
+        className="md:w-20 md:h-20 w-16 h-16 handle z-0 mx-12 mt-10"
         onMouseLeave={() =>{
           setShowDetails(false)
           if (folderRef.current) {
@@ -102,7 +102,7 @@ export default function Folder({ folder, index }: Props) {
         {showDetails && (
         <div className="absolute top-0 w-44">
           <div className='h-12'></div>
-          <div className='h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white'>
+          <div className='h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 text-sm text-gray-700 dark:text-white'>
             <p className='text-amber-500'>Name:</p>
             <p>{folder.name}</p>
             <p className='text-amber-500'>Created:</p>
@@ -112,13 +112,13 @@ export default function Folder({ folder, index }: Props) {
             <div className="flex space-x-2 mt-2">
               <button
                 className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, filekey: null, newName: null, url: null })}
+                onClick={() => setCard({ name: "Delete", shown: true,  folderId: folder.id, filekey: null, newName: null, url: null, sharedfiledelete: false })}
               >
                 <FaTrash/>
               </button>
               <button
                 className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
-                onClick={() => setCard({ name: "Rename", shown: true,  folderId: folder.id, filekey: null, newName: folder.name, url: null })}
+                onClick={() => setCard({ name: "Rename", shown: true,  folderId: folder.id, filekey: null, newName: folder.name, url: null, sharedfiledelete: false })}
               >
                 <FaMarker/>
               </button>

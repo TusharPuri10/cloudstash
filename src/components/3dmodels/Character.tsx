@@ -73,13 +73,13 @@ function Object(props: { target: THREE.Vector3 }) {
     return (
         <Canvas
           style={{ height: "100vh", backgroundColor: "#0D1F23" }}
-          camera={{ position: isMobile? [-4, 2, 6.5] : [-6, 2, 4.5] }}
+          camera={{ position: isMobile? [-4, 2, 6.5] : [-6, 2, 6.5] }}
         >
             <ambientLight intensity={1.3} />
             <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
                 <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
             </directionalLight>
-            <Object target={ isMobile ? new THREE.Vector3(2.3, -0.3, 0) : new THREE.Vector3(4, -0.5, 1.2)} />
+            <Object target={ isMobile ? new THREE.Vector3(2.3, -0.3, 0) : new THREE.Vector3(5.3, -0.5, 1.8)} />
         </Canvas>
     )
   }

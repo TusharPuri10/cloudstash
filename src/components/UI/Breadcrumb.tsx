@@ -13,7 +13,7 @@ export default function Breadcrumb() {
   const displayedDirectories = directory.slice(-2);
 
   return (
-    <nav className="flex justify-between mr-0 md:mr-36" aria-label="Breadcrumb">
+    <nav className="flex justify-between mr-0 md:mr-44" aria-label="Breadcrumb">
       <ol className="inline-flex items-center mb-0">
       {directory.length <= 2 && (
           <li key={-2}>
@@ -34,7 +34,7 @@ export default function Breadcrumb() {
             <button
               className="text-white font-medium  px-2 hover:text-amber-500"
               onClick={() => {
-                setDirectory(prevDirectory => prevDirectory.slice(0, -1));
+                setDirectory(prevDirectory => prevDirectory.slice(0, -2));
               }}
               type="button"
             >
@@ -48,10 +48,10 @@ export default function Breadcrumb() {
               <div className="flex items-center">
                 {index === displayedDirectories.length - 1 ? (
                   <button
-                    className="text-white font-medium inline-flex items-center px-2 hover:text-amber-500"
-                    onClick={() => {
-                      setDropDown(!dropDown);
-                    }}
+                    className={`font-medium inline-flex items-center px-2 ${dropDown?'text-amber-500':'text-white'}`}
+                    onClick={() => setDropDown(!dropDown)}
+                    onMouseEnter={() => setDropDown(true)}
+                    onMouseLeave={() => setDropDown(false)}
                   >
                     {dir.name}
                     {index === displayedDirectories.length - 1 && (
@@ -74,22 +74,31 @@ export default function Breadcrumb() {
                   </button>
                 ) : (
                   <span>
-                    <span className="text-white font-medium px-2">{dir.name}</span>
+                    <button
+                    className="font-medium inline-flex items-center px-2 text-white hover:text-amber-500"
+                    onClick={() => {
+                      setDirectory(prevDirectory => prevDirectory.slice(0, -1));
+                    }}
+                  >
+                    {dir.name}
+                  </button>
                     <span className="mx-2 text-gray-400">/</span>
                   </span>
                 )}
                 {dropDown && index === displayedDirectories.length - 1 && (
                   <div
-                    style={{ backgroundColor: "#2D4A53" }}
                     id="dropdown-database"
-                    className="z-10 mt-40 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-32 dark:bg-gray-700"
+                    className="z-10 mt-24 absolute w-32"
+                    onMouseEnter={() => setDropDown(true)}
+                    onMouseLeave={() => setDropDown(false)}
                   >
-                    <ul className="py-2 text-sm text-white dark:text-white">
+                    <div className='h-12 '></div>
+                    <ul className="bg-[#253745] rounded-lg h-auto py-2 shadow text-sm text-white dark:text-white">
                       <li key={"create folder"}>
                         <button
-                          className="px-4 py-2 dark:hover:text-gray-300"
+                          className="px-4 py-2 font-medium hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "CreateFolder", shown: true, folderId: null, filekey: "", newName: null, url: null });
+                            setCard({ name: "CreateFolder", shown: true, folderId: null, filekey: "", newName: null, url: null, sharedfiledelete: false });
                             setDropDown(false);
                           }}
                         >
@@ -98,9 +107,9 @@ export default function Breadcrumb() {
                       </li>
                       <li key={"upload file"}>
                         <button
-                          className="px-4 py-2 dark:hover:text-gray-300"
+                          className="px-4 py-2 font-medium hover:text-gray-300"
                           onClick={() => {
-                            setCard({ name: "UploadFile", shown: true, folderId: null, filekey: "", newName: null, url: null });
+                            setCard({ name: "UploadFile", shown: true, folderId: null, filekey: "", newName: null, url: null, sharedfiledelete: false });
                             setDropDown(false);
                           }}
                         >

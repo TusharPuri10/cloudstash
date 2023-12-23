@@ -11,6 +11,7 @@ type card = {
     folderId: number | null | undefined;
     newName: string | null | undefined;
     url: string | null | undefined;
+    sharedfiledelete: boolean;
 }
 export const cardState = atom<card>({
     key: 'cardkey',
@@ -21,6 +22,7 @@ export const cardState = atom<card>({
         folderId: null,
         newName: undefined,
         url: null,
+        sharedfiledelete: false,
     },
 });
 
@@ -49,6 +51,8 @@ export const folderState = atom<Folder[]>({
 
 // FILE STATE
 type File = {
+    owner: string | null | undefined;
+    sharekey: string | null | undefined;
     name: string | null | undefined;
     filekey: string | null | undefined;
     type: string | null | undefined;
@@ -95,7 +99,8 @@ export const messageState = atom({
     key: "message",
     default: {
         open: false,
-        text: ""
+        text: "",
+        type: "success",
     }
 });
 

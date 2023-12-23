@@ -72,6 +72,7 @@ model Folder {
 
 model File {
   filekey  String @id @unique
+  sharekey String @default("")
   folderId Int
   folder   Folder  @relation(fields: [folderId], references: [id], onDelete: Cascade)
   owner    String
