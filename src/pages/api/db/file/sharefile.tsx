@@ -69,6 +69,7 @@ async function shareFile(
           name: sourceFile.name,
           type: sourceFile.type,
           filekey: copiedFileKey,
+          sharekey: originalFileKey,
         },
       });
     }

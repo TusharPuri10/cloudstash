@@ -1,16 +1,15 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useLoader } from "@react-three/fiber";
-import exp from "constants";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import * as React from "react";
 import { useRef, useEffect, useState } from "react";
 
 function Object(props: { target: THREE.Vector3 }) {
-    const ref = useRef<THREE.Mesh>(null!);
-    const gltf = useLoader(GLTFLoader, "/models/book_spirit/scene.gltf");
+  const ref = useRef<THREE.Mesh>(null!);
+  const gltf = useLoader(GLTFLoader, "/models/book_spirit/scene.gltf");
 
-    const rotationFlag = useRef(true);
+  const rotationFlag = useRef(true);
   const rotationTarget = useRef(0);
   const rotationSpeed = useRef(0.08);
 
@@ -20,7 +19,8 @@ function Object(props: { target: THREE.Vector3 }) {
   }, []);
 
   useFrame(() => {
-    const remainingRotation = rotationTarget.current - ref.current.parent!.rotation.y;
+    const remainingRotation =
+      rotationTarget.current - ref.current.parent!.rotation.y;
 
     if (rotationFlag.current && remainingRotation > 0.01) {
       // Gradually slow down the rotation
@@ -42,16 +42,16 @@ function Object(props: { target: THREE.Vector3 }) {
 
     ref.current.position.set(props.target.x, y, props.target.z);
   });
-  
-    return (
-      <mesh position={[0, 0, -1]} ref={ref} scale={1.4}>
-        <primitive object={gltf.scene} />
-      </mesh>
-    );
-  }
 
-  export default function Character(){
-    const [isMobile, setIsMobile] = useState(false);
+  return (
+    <mesh position={[0, 0, -1]} ref={ref} scale={1.4}>
+      <primitive object={gltf.scene} />
+    </mesh>
+  );
+}
+
+export default function Character() {
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Update isMobile based on window width
@@ -63,23 +63,33 @@ function Object(props: { target: THREE.Vector3 }) {
     handleResize();
 
     // Listen for window resize events
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-    return (
-        <Canvas
-          style={{ height: "100vh", backgroundColor: "#0D1F23" }}
-          camera={{ position: isMobile? [-4, 2, 6.5] : [-6, 2, 6.5] }}
-        >
-            <ambientLight intensity={1.3} />
-            <directionalLight castShadow position={[0.4, 1, 2]} shadow-mapSize={[1024, 1024]}>
-                <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
-            </directionalLight>
-            <Object target={ isMobile ? new THREE.Vector3(2.3, -0.3, 0) : new THREE.Vector3(5.3, -0.5, 1.8)} />
-        </Canvas>
-    )
-  }
+  return (
+    <Canvas
+      style={{ height: "100vh", backgroundColor: "#0D1F23" }}
+      camera={{ position: isMobile ? [-4, 2, 6.5] : [-6, 2, 6.5] }}
+    >
+      <ambientLight intensity={1.3} />
+      <directionalLight
+        castShadow
+        position={[0.4, 1, 2]}
+        shadow-mapSize={[1024, 1024]}
+      >
+        <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
+      </directionalLight>
+      <Object
+        target={
+          isMobile
+            ? new THREE.Vector3(2.3, -0.3, 0)
+            : new THREE.Vector3(5.3, -0.5, 1.8)
+        }
+      />
+    </Canvas>
+  );
+}

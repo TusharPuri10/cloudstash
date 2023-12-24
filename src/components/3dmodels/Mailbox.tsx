@@ -1,14 +1,14 @@
-import Head from "next/head";
 import * as THREE from "three";
 import * as React from "react";
 import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
-import { mainFolderState } from "@/atoms/state";
 import { useSetRecoilState } from "recoil";
+import { cardState, mainFolderState } from "@/atoms/state";
+import { useDrop } from "react-dnd";
 
 function Object() {
   const setMainFolder = useSetRecoilState(mainFolderState);
@@ -27,27 +27,63 @@ function Object() {
     },
   });
   return (
-    <a.mesh ref={ref} {...spring} {...bind()} onClick={()=>{
-      setMainFolder("shared");
-      }}>
-      <primitive object={gltf.scene}/>
+    <a.mesh
+      ref={ref}
+      {...spring}
+      {...bind()}
+      onClick={() => {
+        setMainFolder("shared");
+      }}
+    >
+      <primitive object={gltf.scene} />
     </a.mesh>
   );
 }
 
-export default function Mailbox(){
-    return (
-        
-        <div className="md:h-36 h-28">
-            <Canvas
-            camera={{ position: [1 ,2, 2] }}
-            >
-                <ambientLight intensity={1.2} />
-                <directionalLight castShadow position={[1, -2, 1]} shadow-mapSize={[1024, 1024]}>
-                    <orthographicCamera attach="shadow-camera" args={[-1, 1, 1, -1]} />
-                </directionalLight>
-                <Object/>
-            </Canvas>
-        </div>
-    )
+export default function Mailbox() {
+  const setCardState = useSetRecoilState(cardState);
+  const [{ isOver }, drop] = useDrop({
+    accept: "object",
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+    hover: (item, monitor) => {
+      const object: {
+        id: number | null | undefined;
+        key: string | null | undefined;
+        url: string | null | undefined;
+      } = item as {
+        id: number | null | undefined;
+        key: string | null | undefined;
+        url: string | null | undefined;
+      };
+      console.log(object);
+      if (!object.id) {
+        setCardState({
+          name: "Share",
+          shown: true,
+          folderId: null,
+          filekey: object.key,
+          newName: null,
+          url: object.url,
+          sharedfiledelete: false,
+        });
+      }
+    },
+  });
+  return (
+    <div ref={drop} className="md:h-36 h-28">
+      <Canvas camera={{ position: [1, 2, 2] }}>
+        <ambientLight intensity={1.2} />
+        <directionalLight
+          castShadow
+          position={[1, -2, 1]}
+          shadow-mapSize={[1024, 1024]}
+        >
+          <orthographicCamera attach="shadow-camera" args={[-1, 1, 1, -1]} />
+        </directionalLight>
+        <Object />
+      </Canvas>
+    </div>
+  );
 }

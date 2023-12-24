@@ -7,80 +7,84 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useRouter } from "next/router";
 import { useSpring, a } from "@react-spring/three";
 import { useGesture } from "react-use-gesture";
-import { useSession} from "next-auth/react";
 import { useSetRecoilState } from "recoil";
 import { directoryState, mainFolderState } from "@/atoms/state";
 
-function Cloud(
-    props:{ target: THREE.Vector3 }
-  ) {
-    const ref = useRef<THREE.Mesh>(null!);
-    const gltf = useLoader(GLTFLoader, "/models/cloud_test/scene.gltf");
-    
-    
-    
-    useFrame(({ clock }) => {
-      const t = clock.getElapsedTime();
-      const radius = 3.5;
-      const angle = t * 0.7; // Adjust the rotation speed here
-  
-      const x = props.target.x + radius * Math.cos(angle);
-      const z = props.target.z + radius * Math.sin(angle);
-      ref.current.position.set(x, -1, z);
-      const rotationAngle =
-        Math.atan2(z - props.target.z, x - props.target.x) + Math.PI / 2;
-      ref.current.rotation.y = -rotationAngle;
-    });
-  
-    return (
-      <mesh ref={ref} scale={1}>
-        <primitive object={gltf.scene} />
-      </mesh>
-    );
-  }
-  
-  function Box() {
-    const router = useRouter();
-    const setMainFolder = useSetRecoilState(mainFolderState);
-    const setDirectory = useSetRecoilState(directoryState);
-    // This reference will give us direct access to the THREE.Mesh object
-    const ref = useRef<THREE.Mesh>(null!);
-    // Hold state for hovered and clicked events
-    // Rotate mesh every frame, this is outside of React without overhead
-    useFrame((state, delta) => (ref.current.rotation.y += 0.01));
-    const gltf = useLoader(GLTFLoader, "/models/cardboard_box/scene.gltf");
-    const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, -1, 0], rotation: [0, 0, 0], config: { friction: 10 } }))
-    const bind = useGesture({
-      onHover: ({ hovering }) => {
-        const targetScale = hovering ? [1.5, 1.5, 1.5] : [1, 1, 1];
-        const targetRotation = hovering ? [0, 2, 0] : [0, 0, 0];
-        set.start({ scale: targetScale, rotation: targetRotation });
-      },
-      onClick: () => {
-        setDirectory([]);
-        setMainFolder("root");
-        router.push("/root");
-      }
-    })
-    return (
-      <a.mesh ref={ref} {...spring} {...bind()} >
-        <primitive object={gltf.scene} />
-      </a.mesh>
-    );
-  }
+function Cloud(props: { target: THREE.Vector3 }) {
+  const ref = useRef<THREE.Mesh>(null!);
+  const gltf = useLoader(GLTFLoader, "/models/cloud_test/scene.gltf");
 
-  export default function CloudAndBox(){
-    return (
-        <Canvas
-        style={{ height: "100vh", backgroundColor: "#0D1F23" }}
-        camera={{ position: [0, 2, 7] }}
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    const radius = 3.5;
+    const angle = t * 0.7; // Adjust the rotation speed here
+
+    const x = props.target.x + radius * Math.cos(angle);
+    const z = props.target.z + radius * Math.sin(angle);
+    ref.current.position.set(x, -1, z);
+    const rotationAngle =
+      Math.atan2(z - props.target.z, x - props.target.x) + Math.PI / 2;
+    ref.current.rotation.y = -rotationAngle;
+  });
+
+  return (
+    <mesh ref={ref} scale={1}>
+      <primitive object={gltf.scene} />
+    </mesh>
+  );
+}
+
+function Box() {
+  const router = useRouter();
+  const setMainFolder = useSetRecoilState(mainFolderState);
+  const setDirectory = useSetRecoilState(directoryState);
+  // This reference will give us direct access to the THREE.Mesh object
+  const ref = useRef<THREE.Mesh>(null!);
+  // Hold state for hovered and clicked events
+  // Rotate mesh every frame, this is outside of React without overhead
+  useFrame((state, delta) => (ref.current.rotation.y += 0.01));
+  const gltf = useLoader(GLTFLoader, "/models/cardboard_box/scene.gltf");
+  const [spring, set] = useSpring(() => ({
+    scale: [1, 1, 1],
+    position: [0, -1, 0],
+    rotation: [0, 0, 0],
+    config: { friction: 10 },
+  }));
+  const bind = useGesture({
+    onHover: ({ hovering }) => {
+      const targetScale = hovering ? [1.5, 1.5, 1.5] : [1, 1, 1];
+      const targetRotation = hovering ? [0, 2, 0] : [0, 0, 0];
+      set.start({ scale: targetScale, rotation: targetRotation });
+    },
+    onClick: () => {
+      setDirectory([]);
+      setMainFolder("root");
+      router.push("/root");
+    },
+  });
+  return (
+    <a.mesh ref={ref} {...spring} {...bind()}>
+      <primitive object={gltf.scene} />
+    </a.mesh>
+  );
+}
+
+export default function CloudAndBox() {
+  return (
+    <Canvas
+      style={{ height: "100vh", backgroundColor: "#0D1F23" }}
+      camera={{ position: [0, 2, 7] }}
+    >
+      <ambientLight intensity={1.5} />
+      <directionalLight
+        castShadow
+        position={[0.2, 2, 1]}
+        shadow-mapSize={[1024, 1024]}
       >
-          <ambientLight intensity={1.5} />
-          <directionalLight castShadow position={[0.2, 2, 1]} shadow-mapSize={[1024, 1024]}>
-              <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
-          </directionalLight>
-          <Box/>
-          <Cloud target={new THREE.Vector3(0, 0, -2)} />
-      </Canvas>
-    )
-  }
+        <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
+      </directionalLight>
+      <Box />
+      <Cloud target={new THREE.Vector3(0, 0, -2)} />
+    </Canvas>
+  );
+}

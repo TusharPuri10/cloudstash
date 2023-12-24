@@ -2,7 +2,10 @@ import { signIn } from "next-auth/react";
 
 const AuthCard = () => {
   return (
-    <div className="absolute inset-0 z-50 mx-auto w-1/2 h-1/2 mt-36 rounded-xl auth-card flex flex-col items-center justify-center" style={{backgroundColor: "#132E35"}}>
+    <div
+      className="absolute inset-0 z-50 mx-auto w-1/2 h-1/2 mt-36 rounded-xl auth-card flex flex-col items-center justify-center"
+      style={{ backgroundColor: "#132E35" }}
+    >
       <h1 className="pb-4 md:text-3xl text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
         Welcome to CloudStash
       </h1>

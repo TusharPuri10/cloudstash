@@ -10,9 +10,11 @@ import {
 import { useDropzone } from "React-dropzone";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { generateFileKey } from "@/lib/keygenerator"
+import { generateFileKey } from "@/lib/keygenerator";
+import { useState } from "react";
 
 const UploadFileCard = () => {
+  const [loading, setLoading] = useState(false);
   // Props for Drop Zone
   const maxSize = 1024 * 1024 * 10; //10mb
   const minSize = 0;
@@ -40,7 +42,7 @@ const UploadFileCard = () => {
         ".xls",
       ], // xlsx
       "application/zip": [".zip"], // zip
-      "application/vnd.ms-excel": [".csv"],//csv
+      "application/vnd.ms-excel": [".csv"], //csv
     },
   });
   const isFileTooLarge =
@@ -63,15 +65,17 @@ const UploadFileCard = () => {
   const [files, setFiles] = useRecoilState(fileState);
 
   async function uploadFile() {
-    
     if (acceptedFiles[0] && session && session.user) {
       try {
         console.log(user.fileLimit, files.length);
-        if(user.fileLimit && files.length + 1 > user.fileLimit)
-        {
-          setMessage({text: "You have reached the limit", open: true});
+        if (user.fileLimit && files.length + 1 > user.fileLimit) {
+          setMessage({
+            text: "You have reached the limit",
+            open: true,
+            type: "error",
+          });
           setTimeout(() => {
-            setMessage({text: "", open: false});
+            setMessage({ text: "", open: false, type: "" });
           }, 2000);
           return;
         }
@@ -81,14 +85,16 @@ const UploadFileCard = () => {
           type: acceptedFiles[0].type,
         });
         console.log("data: ", data);
-        await axios.put(data.url, acceptedFiles[0], {
-          headers: {
-            "Content-type": acceptedFiles[0].type,
-            "Access-Control-Allow-Origin": "*",
-          },
-        }).then((res) => {
-          console.log(res);
-        });
+        await axios
+          .put(data.url, acceptedFiles[0], {
+            headers: {
+              "Content-type": acceptedFiles[0].type,
+              "Access-Control-Allow-Origin": "*",
+            },
+          })
+          .then((res) => {
+            console.log(res);
+          });
         await axios
           .post("/api/db/file/createfile", {
             folderId: directory[directory.length - 1].id,
@@ -99,7 +105,17 @@ const UploadFileCard = () => {
           })
           .then((res) => {
             console.log("files: ", res.data.files);
-            (updation) ? setUpdation(false) : setUpdation(true);
+            setUpdation(!updation);
+            setLoading(false);
+            setCard({
+              name: "",
+              shown: false,
+              folderId: null,
+              filekey: null,
+              newName: null,
+              url: null,
+              sharedfiledelete: false,
+            });
           });
       } catch (error) {
         console.error("Error fetching folders:", error);
@@ -117,7 +133,14 @@ const UploadFileCard = () => {
         className="h-52 px-8 pt-12 block mt-4 w-full bg-transparent border-4 border-amber-500 border-dotted rounded-lg"
       >
         <input {...getInputProps()} />
-        {!isDragReject && <div><p className="md:text-xl text-sm font-medium text-gray-900 dark:text-white">Drag 'n' drop your file here</p><p className="text-[#CCD0CF] text-sm">or click here</p></div>}
+        {!isDragReject && (
+          <div>
+            <p className="md:text-xl text-sm font-medium text-gray-900 dark:text-white">
+              Drag 'n' drop your file here
+            </p>
+            <p className="text-[#CCD0CF] text-sm">or click here</p>
+          </div>
+        )}
         {isFileTooLarge && (
           <div className="text-danger mt-2">File is too large.</div>
         )}
@@ -130,15 +153,23 @@ const UploadFileCard = () => {
           className="inline shadow-lg shadow-teal-950 text-white bg-amber-600 md:text-lg md:font-medium rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mr-2"
           onClick={() => {
             uploadFile();
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false});
+            setLoading(true);
           }}
         >
-          upload
+          {loading ? "uploading..." : "upload"}
         </button>
         <button
           className="inline shadow-lg shadow-teal-950 text-white bg-transparent border-2 border-neutral-500 md:text-lg rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mx-2"
           onClick={() => {
-            setCard({ name: "", shown: false, folderId: null, filekey: null, newName: null, url: null, sharedfiledelete: false });
+            setCard({
+              name: "",
+              shown: false,
+              folderId: null,
+              filekey: null,
+              newName: null,
+              url: null,
+              sharedfiledelete: false,
+            });
           }}
         >
           cancel

@@ -54,7 +54,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   folders       Folder[]
-  fileLimit    Int       @default(5)
+  fileLimit    Int       @default(2)
 }
 
 model Folder {

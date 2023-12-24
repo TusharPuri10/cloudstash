@@ -25,7 +25,7 @@ const  calculateColumns = () => {
 
 export const calculatePosition = (index: number) => {
     const columns = calculateColumns();
-    const x = (index % columns) * ((window.innerWidth-200) / columns);
-    const y = Math.floor(index / columns) * (window.innerHeight / 5);
+    const x = (index % columns) * ((window.innerWidth-((columns<5)?(columns<3?100:200):300)) / columns);
+    const y = Math.floor(index / columns) * (window.innerHeight / ((columns<5)?(columns<3?8:7):6));
     return { x, y };
 };
