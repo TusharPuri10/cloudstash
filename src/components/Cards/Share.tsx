@@ -161,10 +161,18 @@ const ShareCard = () => {
           </label>
           <div className="mt-2">
             <input
+              autoFocus={true}
               className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
               placeholder="Enter email"
               value={shareWithEmail || ""}
               onChange={(e) => setShareWithEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  Share();
+                  setLoading(true);
+                }
+              }}
             />
           </div>
         </div>

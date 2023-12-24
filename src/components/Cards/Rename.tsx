@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { cardState, updationState } from "@/atoms/state";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const RenameCard = () => {
   const [card, setCard] = useRecoilState(cardState);
@@ -10,7 +10,6 @@ const RenameCard = () => {
   const [defaultvalue, setDefaultvalue] = useState<string>(card.newName!);
   const originalExtension = card.newName ? card.newName.split(".").pop() : "";
   const [loading, setLoading] = useState(false);
-
   // RENAME
   async function Rename() {
     try {
@@ -120,12 +119,20 @@ const RenameCard = () => {
       </label>
       <div className="px-4 w-full">
         <input
+          autoFocus={true}
           className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
           value={defaultvalue}
           required
           onChange={(e) => {
             setNewName(e.target.value);
             setDefaultvalue(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              Rename();
+              setLoading(true);
+            }
           }}
         ></input>
       </div>

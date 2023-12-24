@@ -53,11 +53,19 @@ const CreateFolderCard = () => {
       </label>
       <div className="px-4 w-full">
         <input
+          autoFocus={true}
           className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg p-2.5 dark:bg-gray-700 dark:text-white "
           placeholder="untitled_folder"
           required
           onChange={(e) => {
             setFolderName(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              createFolder();
+              setLoading(true);
+            }
           }}
         ></input>
       </div>
