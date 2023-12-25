@@ -12,7 +12,7 @@ const AuthCard = () => {
       <p className="md:text-lg text-md font-normal text-white lg:text-xl">
         Sign in to access your CloudStash account
       </p>
-      <button
+      {/* <button
         type="button"
         className="md:w-3/5 w-11/12 bg-[#4285F4] text-white w-full py-2.5 rounded-lg mt-4 hover:bg-[#4285F4]/70  md:text-base text-sm md:font-semibold transition duration-200 flex items-center justify-center"
         onClick={() => signIn("google")}
@@ -33,7 +33,7 @@ const AuthCard = () => {
           ></path>
         </svg>
         Sign in with Google
-      </button>
+      </button> */}
       <button
         type="button"
         className="md:w-3/5 w-11/12 bg-gray-600 text-white w-full py-2.5 rounded-lg mt-4 hover:bg-gray-700 md:text-base text-sm md:font-semibold transition duration-200 flex items-center justify-center"
