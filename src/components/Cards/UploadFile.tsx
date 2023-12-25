@@ -7,7 +7,7 @@ import {
   messageState,
   fileState,
 } from "@/atoms/state";
-import { useDropzone } from "React-dropzone";
+import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { generateFileKey } from "@/lib/keygenerator";
