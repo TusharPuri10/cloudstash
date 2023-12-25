@@ -77,6 +77,16 @@ const UploadFileCard = () => {
           setTimeout(() => {
             setMessage({ text: "", open: false, type: "" });
           }, 2000);
+          setLoading(false);
+            setCard({
+              name: "",
+              shown: false,
+              folderId: null,
+              filekey: null,
+              newName: null,
+              url: null,
+              sharedfiledelete: false,
+            });
           return;
         }
         const filekey = generateFileKey();
