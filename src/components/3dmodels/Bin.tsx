@@ -26,7 +26,7 @@ function Object() {
     },
   });
   return (
-    <a.mesh ref={ref} {...spring} {...bind()}>
+    <a.mesh ref={ref} {...spring as any} {...bind()}>
       <primitive object={gltf.scene} />
     </a.mesh>
   );

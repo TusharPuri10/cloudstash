@@ -29,7 +29,7 @@ function Object() {
   return (
     <a.mesh
       ref={ref}
-      {...spring}
+      {...spring as any}
       {...bind()}
       onClick={() => {
         setMainFolder("shared");
