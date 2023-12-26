@@ -176,6 +176,7 @@ export default function App() {
     }
   }
   useEffect(() => {
+    console.log("sign in use effect");
     //Signin Card
     if (status === "unauthenticated") {
       setCard({
@@ -204,7 +205,7 @@ export default function App() {
   }, [session]);
 
   useEffect(() => {
-    console.log(directory);
+    console.log(directory,"directory useeffect");
     console.log(mainFolder);
     if (user.id && mainFolder === "root" && directory.length === 0)
       getMainFolder(mainFolder);
@@ -212,6 +213,7 @@ export default function App() {
   }, [user, mainFolder]);
 
   useEffect(() => {
+    console.log("files loading useeffect");
     if (user.id) {
       setLoading(true);
       if (directory.length > 0) {
@@ -220,7 +222,7 @@ export default function App() {
         });
       }
     }
-  }, [updation, directory, session]);
+  }, [updation, directory]);
 
   return (
     <div className="bg-[#0D1F23]">
