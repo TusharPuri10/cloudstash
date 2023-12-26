@@ -57,7 +57,7 @@ export default function Mailbox() {
         key: string | null | undefined;
         url: string | null | undefined;
       };
-      console.log(object);
+      // console.log(object);
       if (!object.id) {
         setCardState({
           name: "Share",

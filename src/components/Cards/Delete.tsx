@@ -17,7 +17,7 @@ const DeleteCard = () => {
             filekey: card.filekey,
           })
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setUpdation(!updation);
             setLoading(false);
             setCard({
@@ -44,7 +44,7 @@ const DeleteCard = () => {
                 filekey: card.filekey,
               })
               .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 setUpdation(!updation);
                 setLoading(false);
                 setCard({
@@ -67,7 +67,7 @@ const DeleteCard = () => {
             folderId: card.folderId,
           })
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setUpdation(!updation);
             setLoading(false);
             setCard({

@@ -31,7 +31,7 @@ const ShareCard = () => {
               userEmail: shareWithEmail,
             })
             .then((response) => {
-              console.log(response.data);
+              // console.log(response.data);
               setMessage({
                 open: true,
                 text: response.data.message,

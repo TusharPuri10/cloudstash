@@ -24,7 +24,7 @@ function Object(props: { target: THREE.Vector3 }) {
 
     if (rotationFlag.current && remainingRotation > 0.01) {
       // Gradually slow down the rotation
-      rotationSpeed.current *= 0.95;
+      rotationSpeed.current *= 0.99;
 
       // Perform the rotation animation until the target is reached
       ref.current.parent!.rotation.y -= rotationSpeed.current;

@@ -67,7 +67,7 @@ const UploadFileCard = () => {
   async function uploadFile() {
     if (acceptedFiles[0] && session && session.user) {
       try {
-        console.log(user.fileLimit, files.length);
+        // console.log(user.fileLimit, files.length);
         if (user.fileLimit && files.length + 1 > user.fileLimit) {
           setMessage({
             text: "You have reached the limit",
@@ -94,7 +94,7 @@ const UploadFileCard = () => {
           file_key: filekey,
           type: acceptedFiles[0].type,
         });
-        console.log("data: ", data);
+        // console.log("data: ", data);
         await axios
           .put(data.url, acceptedFiles[0], {
             headers: {
@@ -103,7 +103,7 @@ const UploadFileCard = () => {
             },
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           });
         await axios
           .post("/api/db/file/createfile", {
@@ -114,7 +114,7 @@ const UploadFileCard = () => {
             owner: user.name,
           })
           .then((res) => {
-            console.log("files: ", res.data.files);
+            // console.log("files: ", res.data.files);
             setUpdation(!updation);
             setLoading(false);
             setCard({

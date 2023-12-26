@@ -26,7 +26,7 @@ const RenameCard = () => {
               newName: newName.replace(/\.[^.]+$/, `.${originalExtension}`),
             })
             .then((response) => {
-              console.log(response.data);
+              // console.log(response.data);
               setUpdation(!updation);
               setCard({
                 name: "",
@@ -47,7 +47,7 @@ const RenameCard = () => {
               newName: `${newName}.${originalExtension}`,
             })
             .then((response) => {
-              console.log(response.data);
+              // console.log(response.data);
               setUpdation(!updation);
               setCard({
                 name: "",
@@ -67,7 +67,7 @@ const RenameCard = () => {
               newName: newName,
             })
             .then((response) => {
-              console.log(response.data);
+              // console.log(response.data);
               setUpdation(!updation);
               setCard({
                 name: "",
@@ -90,7 +90,7 @@ const RenameCard = () => {
             newName: newName,
           })
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setUpdation(!updation);
             setCard({
               name: "",

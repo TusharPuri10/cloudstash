@@ -61,16 +61,16 @@ export default function App() {
 
   // GET ALL FOLDERS IN CURRENT FOLDER
   async function getFolders() {
-    console.log("inside get folders");
+    // console.log("inside get folders");
     try {
-      console.log("parent folder id: ", directory[directory.length - 1].id);
+      // console.log("parent folder id: ", directory[directory.length - 1].id);
       await axios
         .post("/api/db/folder/getallfolder", {
           parentFolderId: directory[directory.length - 1].id,
           userId: user.id,
         })
         .then((res) => {
-          console.log("folders: ", res.data.folders);
+          // console.log("folders: ", res.data.folders);
           setFolders(res.data.folders);
         });
     } catch (error) {
@@ -80,7 +80,7 @@ export default function App() {
 
   // GET ALL FILES IN CURRENT FOLDER
   async function getFiles() {
-    console.log("inside get files");
+    // console.log("inside get files");
     try {
       await axios
         .post("/api/db/file/getallfile", {
@@ -88,7 +88,7 @@ export default function App() {
           folderId: directory[directory.length - 1].id,
         })
         .then((res) => {
-          console.log("files: ", res.data.files);
+          // console.log("files: ", res.data.files);
           setFiles(res.data.files);
           setLoading(false);
         });
@@ -99,7 +99,7 @@ export default function App() {
 
   // CREATE ROOT FOLDER FUNCTION
   async function createRootFolder() {
-    console.log("inside create root folder");
+    // console.log("inside create root folder");
     try {
       await axios
         .post("/api/db/folder/createfolder", {
@@ -107,7 +107,7 @@ export default function App() {
           folderName: "root",
         })
         .then((res) => {
-          console.log("created root folder: ", res.data);
+          // console.log("created root folder: ", res.data);
           setDirectory([{ id: res.data.folderId, name: "root" }]);
           setRootid(res.data.id);
         });
@@ -118,7 +118,7 @@ export default function App() {
 
   //  GET MAIN FOLDER (ROOT, SHARED) ID
   async function getMainFolder(folderName: string) {
-    console.log("inside get main folder");
+    // console.log("inside get main folder");
     try {
       await axios
         .post("/api/db/folder/getmainfolder", {
@@ -127,14 +127,14 @@ export default function App() {
         })
         .then((res) => {
           if (res.data) {
-            console.log(mainFolder, " folder exists: ", res.data.id);
+            // console.log(mainFolder, " folder exists: ", res.data.id);
             setDirectory([{ id: res.data.id, name: mainFolder }]);
             setRootid(res.data.id);
           } else if (mainFolder === "root") {
-            console.log(
-              mainFolder,
-              " folder does not exist. Creating root folder..."
-            );
+            // console.log(
+            //   mainFolder,
+            //   " folder does not exist. Creating root folder..."
+            // );
             createRootFolder();
           } else if (mainFolder === "shared") {
             setMessage({
@@ -156,7 +156,7 @@ export default function App() {
 
   // GET USER ID FUNCTION
   async function getUserId() {
-    console.log("inside get user id");
+    // console.log("inside get user id");
     try {
       await axios
         .post("/api/db/user/getuserid", {
@@ -169,14 +169,14 @@ export default function App() {
             email: session?.user?.email,
             fileLimit: res.data.fileLimit,
           });
-          console.log("user id: ", res.data);
+          // console.log("user id: ", res.data);
         });
     } catch (error) {
       console.error("Error fetching user id", error);
     }
   }
   useEffect(() => {
-    console.log("sign in use effect");
+    // console.log("sign in use effect");
     //Signin Card
     if (status === "unauthenticated") {
       setCard({
@@ -205,15 +205,15 @@ export default function App() {
   }, [session]);
 
   useEffect(() => {
-    console.log(directory,"directory useeffect");
-    console.log(mainFolder);
+    // console.log(directory,"directory useeffect");
+    // console.log(mainFolder);
     if (user.id && mainFolder === "root" && directory.length === 0)
       getMainFolder(mainFolder);
     if (user.id && mainFolder === "shared") getMainFolder(mainFolder);
   }, [user, mainFolder]);
 
   useEffect(() => {
-    console.log("files loading useeffect");
+    // console.log("files loading useeffect");
     if (user.id) {
       setLoading(true);
       if (directory.length > 0) {
