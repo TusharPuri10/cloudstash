@@ -14,7 +14,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.15",
-    "@prisma/extension-accelerate": "^0.6.2",
     "@react-three/drei": "^9.88.13",
     "@react-three/fiber": "^8.15.9",
     "@stripe/react-stripe-js": "^2.4.0",

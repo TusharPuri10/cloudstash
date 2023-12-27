@@ -7,7 +7,7 @@ import prisma from "@/lib/prisma";
 
 export const authOptions = {
   // Configure one or more authentication providers
-  adapter: PrismaAdapter(prisma as any),
+  adapter: PrismaAdapter(prisma),
   theme: {
     logo: "/icons/logo.jpg",
   },
