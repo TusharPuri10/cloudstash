@@ -15,14 +15,14 @@ function Object() {
   const ref = useRef<THREE.Mesh>(null!);
   const gltf = useLoader(GLTFLoader, "/models/mailbox/scene.gltf");
   const [spring, set] = useSpring(() => ({
-    scale: [1.25, 1.1, 1.25],
-    position: [0, 0, 0],
+    scale: [1, 1., 1],
+    position: [0, -0.4, 0],
     rotation: [0, 0, 0],
     config: { friction: 10 },
   }));
   const bind = useGesture({
     onHover: ({ hovering }) => {
-      const targetRotation = hovering ? [-0.4, 0, 0] : [0, 0, 0];
+      const targetRotation = hovering ? [-0.4, 0, 0] : [0.1, 0, 0];
       set.start({ rotation: targetRotation });
     },
   });
@@ -73,7 +73,7 @@ export default function Mailbox() {
   });
   return (
     <div ref={drop} className="md:h-36 h-28">
-      <Canvas camera={{ position: [1, 2, 2] }}>
+      <Canvas camera={{ position: [1, 1, 2] }}>
         <ambientLight intensity={1.2} />
         <directionalLight
           castShadow

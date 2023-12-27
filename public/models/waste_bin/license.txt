@@ -1,0 +1,11 @@
+Model Information:
+* title:	Waste Bin
+* source:	https://sketchfab.com/3d-models/waste-bin-a42a735a371e4845a1ae8570e42e50ce
+* author:	Lasse Harm (https://sketchfab.com/GreenLineStudio)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Waste Bin" (https://sketchfab.com/3d-models/waste-bin-a42a735a371e4845a1ae8570e42e50ce) by Lasse Harm (https://sketchfab.com/GreenLineStudio) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

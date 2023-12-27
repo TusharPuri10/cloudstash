@@ -12,16 +12,16 @@ import { useDrop } from "react-dnd";
 
 function Object() {
   const ref = useRef<THREE.Mesh>(null!);
-  const gltf = useLoader(GLTFLoader, "/models/bin.gltf");
+  const gltf = useLoader(GLTFLoader, "/models/waste_bin/scene.gltf");
   const [spring, set] = useSpring(() => ({
-    scale: [7.5, 7.5, 7.5],
-    position: [0, 1, 0],
+    scale: [0.8, 0.8, 0.8],
+    position: [0, -1.5, 0],
     rotation: [0, 0, 0],
     config: { friction: 10 },
   }));
   const bind = useGesture({
     onHover: ({ hovering }) => {
-      const targetRotation = hovering ? [0.5, 0, 0] : [0, 0, 0];
+      const targetRotation = hovering ? [0.4, 0, 0] : [0, 0, 0];
       set.start({ rotation: targetRotation });
     },
   });
@@ -74,11 +74,11 @@ export default function Bin() {
   });
   return (
     <div ref={drop} className="md:h-32 h-24">
-      <Canvas camera={{ position: [1.5, 3, 7.5] }}>
-        <ambientLight intensity={4} />
+      <Canvas camera={{ position: [1.5, 1, 3] }}>
+        <ambientLight intensity={2} />
         <directionalLight
           castShadow
-          position={[0.4, 1, 2]}
+          position={[0.4, -1, 2]}
           shadow-mapSize={[1024, 1024]}
         >
           <orthographicCamera
