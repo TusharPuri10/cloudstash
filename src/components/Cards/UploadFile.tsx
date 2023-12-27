@@ -99,7 +99,7 @@ const UploadFileCard = () => {
           .put(data.url, acceptedFiles[0], {
             headers: {
               "Content-type": acceptedFiles[0].type,
-              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Origin": process.env.NEXTAUTH_URL,
             },
           })
           .then((res) => {
