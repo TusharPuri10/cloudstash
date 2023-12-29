@@ -19,7 +19,7 @@ export default function Topbar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
           <button
-            className="ml-6 flex items-center py-6 self-center md:text-2xl sm:text-xl text-md font-semibold whitespace-nowrap dark:text-white"
+            className="ml-6 flex items-center py-6 self-center text-md sm:text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white"
             onClick={() => {
               router.push("/");
             }}

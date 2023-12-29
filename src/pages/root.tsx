@@ -231,7 +231,7 @@ export default function App() {
       <div className="mx-6 rounded-xl bg-[#132E35]">
         {/* Area to add files and folders */}
         {loading ? (
-          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+          <div className="flex items-center justify-center md:h-[calc(100vh-80px)] sm:h-[calc(100vh-77px)] h-[calc(100vh-73px)]">
             <div className="w-28 h-28 border-t-4 border-amber-500 rounded-full animate-spin"></div>
           </div>
         ) : (
@@ -239,8 +239,8 @@ export default function App() {
             <div
               className={
                 card.shown
-                  ? "opacity-30 flex h-[calc(100vh-80px)]"
-                  : "flex h-[calc(100vh-80px)]"
+                  ? "opacity-30 flex md:h-[calc(100vh-80px)] sm:h-[calc(100vh-77px)] h-[calc(100vh-73px)]"
+                  : "flex md:h-[calc(100vh-80px)] sm:h-[calc(100vh-77px)] h-[calc(100vh-73px)]"
               }
               onDoubleClick={() =>
                 card.shown &&
