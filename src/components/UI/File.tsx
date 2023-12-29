@@ -154,9 +154,9 @@ export default function File({ file, index }: Props) {
             file.type === "application/pdf"
               ? "filetypes/pdf.png"
               : file.type === "image/jpeg"
-              ? s3GetPromiseUrl
+              ? (s3GetPromiseUrl === undefined ? "filetypes/jpg.png":s3GetPromiseUrl)
               : file.type === "image/png"
-              ? s3GetPromiseUrl
+              ? (s3GetPromiseUrl === undefined ? "filetypes/png.png":s3GetPromiseUrl)
               : file.type === "text/plain"
               ? "filetypes/txt.png"
               : file.type ===
