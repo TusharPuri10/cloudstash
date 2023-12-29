@@ -24,10 +24,10 @@ import axios from "axios";
 import Topbar from "@/components/UI/Topbar";
 import { FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/router";
-import Bin from "@/components/3dmodels/Bin";
-import Mailbox from "@/components/3dmodels/Mailbox";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
+import Bin from "@/components/3dmodels/Bin";
+import Mailbox from "@/components/3dmodels/Mailbox";
 
 interface FolderInterface {
   id: number | null | undefined;
