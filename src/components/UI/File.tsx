@@ -174,6 +174,7 @@ export default function File({ file, index }: Props) {
           }
           alt="Folder Icon"
           draggable="false"
+          className="object-scale-down"
         />
         <button
           className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"

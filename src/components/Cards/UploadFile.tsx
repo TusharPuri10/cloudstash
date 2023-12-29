@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   cardState,
   directoryState,
@@ -51,18 +51,21 @@ const UploadFileCard = () => {
   // List of Files
   const file = acceptedFiles.map((file) => (
     <li className="text text-amber-500" key={file.size}>
-      {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name}
+      {/* {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name} */}
+      {file.name}
+      {file.type}
+      {(file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg") ? (<img src={URL.createObjectURL(file)} alt="*" className="object-scale-down w-20 h-20"/>) : (<></>)}
     </li>
   ));
 
   // States
-  const [directory, setDirectory] = useRecoilState(directoryState);
+  const directory = useRecoilValue(directoryState);
   const user = useRecoilValue(userState);
   const [updation, setUpdation] = useRecoilState(updationState);
-  const [card, setCard] = useRecoilState(cardState);
-  const { data: session, status } = useSession();
-  const [message, setMessage] = useRecoilState(messageState);
-  const [files, setFiles] = useRecoilState(fileState);
+  const setCard = useSetRecoilState(cardState);
+  const { data: session } = useSession();
+  const setMessage = useSetRecoilState(messageState);
+  const files = useRecoilValue(fileState);
 
   async function uploadFile() {
     if (acceptedFiles[0] && session && session.user) {
@@ -138,21 +141,22 @@ const UploadFileCard = () => {
         className="h-52 px-8 pt-12 block mt-4 w-full bg-transparent border-4 border-amber-500 border-dotted rounded-lg"
       >
         <input {...getInputProps()} />
-        {!isDragReject && (
+        {!isDragReject && ( acceptedFiles.length === 0 ? (
           <div>
             <p className="md:text-xl text-sm font-medium text-gray-900 dark:text-white">
               Drag 'n' drop your file here
             </p>
             <p className="text-[#CCD0CF] text-sm">or click here</p>
-          </div>
+          </div> ) : (
+            <aside className="flex justify-center ">
+              <ul>{file}</ul>
+            </aside>
+          )
         )}
         {isFileTooLarge && (
           <div className="text-danger mt-2">File is too large.</div>
         )}
       </div>
-      <aside className="flex justify-center ">
-        <ul>{file}</ul>
-      </aside>
       <div className="w-full text-right mt-6">
         <button
           className="inline shadow-lg shadow-teal-950 text-white bg-amber-600 md:text-lg md:font-medium rounded-lg md:py-1.5 py-1 md:px-3.5 px-3 mr-2"
