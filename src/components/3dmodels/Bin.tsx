@@ -56,7 +56,7 @@ export default function Bin() {
           folderId: null,
           filekey: object.key,
           newName: null,
-          url: null,
+          fileType: null,
           sharedfiledelete: false,
         });
       } else {
@@ -66,7 +66,7 @@ export default function Bin() {
           folderId: object.id,
           filekey: null,
           newName: null,
-          url: null,
+          fileType: null,
           sharedfiledelete: false,
         });
       }

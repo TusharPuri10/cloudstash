@@ -65,7 +65,7 @@ export default function Mailbox() {
           folderId: null,
           filekey: object.key,
           newName: null,
-          url: object.url,
+          fileType: null,
           sharedfiledelete: false,
         });
       }
