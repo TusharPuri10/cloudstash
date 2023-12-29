@@ -78,7 +78,7 @@ export default function File({ file, index }: Props) {
 
   useEffect(() => {
     try {
-      if (!s3GetPromiseUrl) {
+      if (!s3GetPromiseUrl && (file.type === "image/jpeg" || file.type === "image/png")) {
         const filekey = file.sharekey === "" ? file.filekey : file.sharekey;
         axios
           .post("/api/aws/s3/get-file", {
@@ -154,9 +154,9 @@ export default function File({ file, index }: Props) {
             file.type === "application/pdf"
               ? "filetypes/pdf.png"
               : file.type === "image/jpeg"
-              ? "filetypes/jpg.png"
+              ? s3GetPromiseUrl
               : file.type === "image/png"
-              ? "filetypes/png.png"
+              ? s3GetPromiseUrl
               : file.type === "text/plain"
               ? "filetypes/txt.png"
               : file.type ===
@@ -174,7 +174,6 @@ export default function File({ file, index }: Props) {
           }
           alt="Folder Icon"
           draggable="false"
-          onDoubleClick={() => window.open(s3GetPromiseUrl, "_blank")}
         />
         <button
           className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
