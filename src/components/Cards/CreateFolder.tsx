@@ -33,7 +33,7 @@ const CreateFolderCard = () => {
             folderId: null,
             filekey: "",
             newName: null,
-            url: null,
+            fileType: null,
             sharedfiledelete: false,
           });
           setLoading(false);
@@ -88,7 +88,7 @@ const CreateFolderCard = () => {
               folderId: null,
               filekey: "",
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           }}
