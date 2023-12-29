@@ -57,7 +57,7 @@ const AboutPage = () => {
             </li>
             <li>
               <strong>Next.js for Scalability:</strong> Built on Next.js, our
-              platform is optimized for performance and scalability.
+              platform is optimized for performance, scalability, and SEO.
             </li>
             <li>
               <strong>TypeScript for Robust Code:</strong> We believe in clean
