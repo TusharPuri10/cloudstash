@@ -53,7 +53,6 @@ const UploadFileCard = () => {
     <li className="text text-amber-500" key={file.size}>
       {/* {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name} */}
       {file.name}
-      {file.type}
       {(file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg") ? (<img src={URL.createObjectURL(file)} alt="*" className="object-scale-down w-20 h-20"/>) : (<></>)}
     </li>
   ));
@@ -87,7 +86,7 @@ const UploadFileCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           return;
@@ -121,7 +120,7 @@ const UploadFileCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           });
@@ -176,7 +175,7 @@ const UploadFileCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           }}

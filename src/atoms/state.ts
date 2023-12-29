@@ -5,9 +5,9 @@ type card = {
   name: string;
   shown: boolean;
   filekey: string | null | undefined;
+  fileType: string | null | undefined;
   folderId: number | null | undefined;
   newName: string | null | undefined;
-  url: string | null | undefined;
   sharedfiledelete: boolean;
 };
 export const cardState = atom<card>({
@@ -16,9 +16,9 @@ export const cardState = atom<card>({
     name: "",
     shown: false,
     filekey: "",
+    fileType: null,
     folderId: null,
     newName: undefined,
-    url: null,
     sharedfiledelete: false,
   },
 });

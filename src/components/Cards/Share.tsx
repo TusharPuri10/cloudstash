@@ -1,8 +1,9 @@
 import { useRecoilState } from "recoil";
 import { cardState, updationState, messageState } from "@/atoms/state";
 import axios from "axios";
-import { useState } from "react";
+import { use, useState } from "react";
 import { generateFileKey } from "@/lib/keygenerator";
+import { useEffect } from "react";
 
 // ShareCard Component
 const ShareCard = () => {
@@ -13,9 +14,25 @@ const ShareCard = () => {
   >("");
   const [shareWithEveryone, setShareWithEveryone] = useState<boolean>(false);
   const [optionSelect, setOptionSelect] = useState<boolean>(false);
-  const [shareLink, setShareLink] = useState<string>(card.url!);
+  const [shareLink, setShareLink] = useState<string>("");
   const [message, setMessage] = useRecoilState(messageState);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      // console.log(card);
+      axios
+          .post("/api/aws/s3/share-file", {
+            file_key: card.filekey,
+            type: card.fileType,
+            file_name: card.newName,
+          })
+          .then((response) => setShareLink(response.data.url))
+          .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   // SHARE
   async function Share() {
@@ -47,7 +64,7 @@ const ShareCard = () => {
                 folderId: null,
                 filekey: null,
                 newName: null,
-                url: null,
+                fileType: null,
                 sharedfiledelete: false,
               });
             })
@@ -275,7 +292,7 @@ const ShareCard = () => {
                 folderId: null,
                 filekey: null,
                 newName: null,
-                url: null,
+                fileType: null,
                 sharedfiledelete: false,
               });
             }}

@@ -185,7 +185,7 @@ export default function App() {
         folderId: null,
         filekey: null,
         newName: null,
-        url: null,
+        fileType: null,
         sharedfiledelete: false,
       });
     } else if (!user.id && session?.user?.email) {
@@ -198,7 +198,7 @@ export default function App() {
         folderId: null,
         filekey: null,
         newName: null,
-        url: null,
+        fileType: null,
         sharedfiledelete: false,
       });
     }
@@ -250,7 +250,7 @@ export default function App() {
                   folderId: null,
                   filekey: null,
                   newName: null,
-                  url: null,
+                  fileType: null,
                   sharedfiledelete: false,
                 })
               }

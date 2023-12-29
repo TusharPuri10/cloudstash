@@ -26,7 +26,7 @@ const DeleteCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           })
@@ -53,7 +53,7 @@ const DeleteCard = () => {
                   folderId: null,
                   filekey: null,
                   newName: null,
-                  url: null,
+                  fileType: null,
                   sharedfiledelete: false,
                 });
               })
@@ -76,7 +76,7 @@ const DeleteCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           })
@@ -111,7 +111,7 @@ const DeleteCard = () => {
               folderId: null,
               filekey: null,
               newName: null,
-              url: null,
+              fileType: null,
               sharedfiledelete: false,
             });
           }}

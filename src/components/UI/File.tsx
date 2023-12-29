@@ -82,6 +82,7 @@ export default function File({ file, index }: Props) {
         const filekey = file.sharekey === "" ? file.filekey : file.sharekey;
         axios
           .post("/api/aws/s3/get-file", {
+            file_name: file.name,
             file_key: filekey,
             type: file.type,
           })
@@ -175,6 +176,7 @@ export default function File({ file, index }: Props) {
           alt="Folder Icon"
           draggable="false"
           className="object-scale-down"
+          onDoubleClick={() => { ((file.type === "image/jpeg" || file.type === "image/png")?window.open(s3GetPromiseUrl,"_blank"):'')}}
         />
         <button
           className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
@@ -224,8 +226,8 @@ export default function File({ file, index }: Props) {
                         shown: true,
                         folderId: null,
                         filekey: file.filekey,
-                        newName: null,
-                        url: s3GetPromiseUrl,
+                        newName: file.name,
+                        fileType: file.type,
                         sharedfiledelete: false,
                       })
                     }
@@ -243,7 +245,7 @@ export default function File({ file, index }: Props) {
                           folderId: null,
                           filekey: file.filekey,
                           newName: null,
-                          url: null,
+                          fileType: null,
                           sharedfiledelete: false,
                         })
                       : setCard({
@@ -252,7 +254,7 @@ export default function File({ file, index }: Props) {
                           folderId: null,
                           filekey: file.filekey,
                           newName: null,
-                          url: null,
+                          fileType: null,
                           sharedfiledelete: false,
                         });
                   }}
@@ -268,7 +270,7 @@ export default function File({ file, index }: Props) {
                       folderId: null,
                       filekey: file.filekey,
                       newName: file.name,
-                      url: null,
+                      fileType: null,
                       sharedfiledelete: false,
                     })
                   }
