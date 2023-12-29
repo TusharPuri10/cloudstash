@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { cardState, updationState } from "@/atoms/state";
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 
 const DeleteCard = () => {
   const [card, setCard] = useRecoilState(cardState);
