@@ -152,7 +152,7 @@ export default function Folder({ folder, index }: Props) {
                       folderId: folder.id,
                       filekey: null,
                       newName: null,
-                      url: null,
+                      fileType: null,
                       sharedfiledelete: false,
                     })
                   }
@@ -168,7 +168,7 @@ export default function Folder({ folder, index }: Props) {
                       folderId: folder.id,
                       filekey: null,
                       newName: folder.name,
-                      url: null,
+                      fileType: null,
                       sharedfiledelete: false,
                     })
                   }

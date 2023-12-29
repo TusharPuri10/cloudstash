@@ -108,7 +108,7 @@ export default function Breadcrumb() {
                             folderId: null,
                             filekey: "",
                             newName: null,
-                            url: null,
+                            fileType: null,
                             sharedfiledelete: false,
                           });
                           setDropDown(false);
@@ -127,7 +127,7 @@ export default function Breadcrumb() {
                             folderId: null,
                             filekey: "",
                             newName: null,
-                            url: null,
+                            fileType: null,
                             sharedfiledelete: false,
                           });
                           setDropDown(false);
