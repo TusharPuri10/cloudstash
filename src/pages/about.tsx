@@ -67,6 +67,10 @@ const AboutPage = () => {
               <strong>AWS S3 Integration:</strong> Benefit from secure and
               reliable cloud storage with our integration with Amazon S3.
             </li>
+            <li>
+              <strong>Prisma Accelerate:</strong> Implemented Prisma Accelerate to reduce database query latency
+              and significantly decreased the load on the database for improved performance.
+            </li>
           </ul>
         </section>
 
@@ -91,6 +95,37 @@ const AboutPage = () => {
               href="https://sketchfab.com/jummydoodles"
             >
               jummydoodles
+            </a>{" "}
+            <br />
+            License:{" "}
+            <a
+              className="no-underline hover:underline"
+              target="_blank"
+              href="http://creativecommons.org/licenses/by/4.0/"
+            >
+              CC-BY-4.0
+            </a>{" "}
+            (Author must be credited. Commercial use is allowed.)
+          </p>
+          <br />
+          <p>
+            <strong>Waste Bin:</strong> <br />
+            Source:{" "}
+            <a
+              className="no-underline hover:underline"
+              target="_blank"
+              href="https://sketchfab.com/3d-models/waste-bin-a42a735a371e4845a1ae8570e42e50ce"
+            >
+              Waste Bin
+            </a>{" "}
+            <br />
+            Author:{" "}
+            <a
+              className="no-underline hover:underline"
+              target="_blank"
+              href="https://sketchfab.com/GreenLineStudio"
+            >
+              GreenLineStudio
             </a>{" "}
             <br />
             License:{" "}

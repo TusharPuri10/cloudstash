@@ -44,6 +44,7 @@ export default function Topbar() {
               >
                 <li key="home" className="px-5 md:py-0 py-2 mr-1">
                   <button
+                    className="no-underline hover:underline"
                     style={{
                       color: router.asPath === "/" ? "#FFA33C" : "white",
                     }}
@@ -58,6 +59,7 @@ export default function Topbar() {
                 </li>
                 <li key="about" className="px-5 md:py-0 py-2">
                   <button
+                    className="no-underline hover:underline"
                     style={{
                       color: router.asPath === "/about" ? "#FFA33C" : "white",
                     }}
@@ -72,6 +74,7 @@ export default function Topbar() {
                 </li>
                 <li key="contact" className="px-5 md:py-0 py-2">
                   <button
+                    className="no-underline hover:underline"
                     style={{
                       color: router.asPath === "/contact" ? "#FFA33C" : "white",
                     }}
