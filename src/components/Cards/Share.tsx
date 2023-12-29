@@ -180,7 +180,7 @@ const ShareCard = () => {
             <input
               autoFocus={true}
               className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
-              placeholder="Enter email"
+              placeholder="Enter email address of github user"
               value={shareWithEmail || ""}
               onChange={(e) => setShareWithEmail(e.target.value)}
               onKeyDown={(e) => {
@@ -215,7 +215,16 @@ const ShareCard = () => {
                   setMessage({ open: true, text: "copied", type: "success" });
                   setTimeout(() => {
                     setMessage({ text: "", open: false, type: "" });
-                  }, 2000);
+                    setCard({
+                      name: "",
+                      shown: false,
+                      folderId: null,
+                      filekey: null,
+                      newName: null,
+                      fileType: null,
+                      sharedfiledelete: false,
+                    });
+                  }, 600);
                   navigator.clipboard.writeText(shareLink || "");
                 }}
               >
