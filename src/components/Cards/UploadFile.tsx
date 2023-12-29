@@ -96,12 +96,7 @@ const UploadFileCard = () => {
         });
         // console.log("data: ", data);
         await axios
-          .put(data.url, acceptedFiles[0], {
-            headers: {
-              "Content-type": acceptedFiles[0].type,
-              "Access-Control-Allow-Origin": process.env.NEXTAUTH_URL,
-            },
-          })
+          .put(data.url, acceptedFiles[0])
           .then((res) => {
             // console.log(res);
           });
