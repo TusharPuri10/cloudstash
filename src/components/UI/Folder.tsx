@@ -35,7 +35,7 @@ export default function Folder({ folder, index }: Props) {
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "object",
-    item: { id: folder.id, key: null, url: null },
+    item: { id: folder.id, key: null, name: null, type: null },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

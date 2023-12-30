@@ -41,7 +41,7 @@ function Object() {
 }
 
 export default function Mailbox() {
-  const setCardState = useSetRecoilState(cardState);
+  const setCard = useSetRecoilState(cardState);
   const [{ isOver }, drop] = useDrop({
     accept: "object",
     collect: (monitor) => ({
@@ -51,23 +51,25 @@ export default function Mailbox() {
       const object: {
         id: number | null | undefined;
         key: string | null | undefined;
-        url: string | null | undefined;
+        name: string | null | undefined;
+        type: string | null | undefined;
       } = item as {
         id: number | null | undefined;
         key: string | null | undefined;
-        url: string | null | undefined;
+        name: string | null | undefined;
+        type: string | null | undefined;
       };
       // console.log(object);
       if (!object.id) {
-        setCardState({
-          name: "Share",
-          shown: true,
-          folderId: null,
-          filekey: object.key,
-          newName: null,
-          fileType: null,
-          sharedfiledelete: false,
-        });
+        setCard({
+            name: "Share",
+            shown: true,
+            folderId: null,
+            filekey: object.key,
+            newName: object.name,
+            fileType: object.type,
+            sharedfiledelete: false,
+          })
       }
     },
   });

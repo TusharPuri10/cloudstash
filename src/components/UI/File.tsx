@@ -46,7 +46,7 @@ export default function File({ file, index }: Props) {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: "object",
-      item: { key: file.filekey, id: null, url: s3GetPromiseUrl },
+      item: { key: file.filekey, id: null, name: file.name, type: file.type },
       collect: (monitor) => ({
         isDragging: !!monitor.isDragging(),
       }),

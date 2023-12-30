@@ -43,11 +43,13 @@ export default function Bin() {
       const object: {
         id: number | null | undefined;
         key: string | null | undefined;
-        url: string | null | undefined;
+        name: string | null | undefined;
+        type: string | null | undefined;
       } = item as {
         id: number | null | undefined;
         key: string | null | undefined;
-        url: string | null | undefined;
+        name: string | null | undefined;
+        type: string | null | undefined;
       };
       if (!object.id) {
         setCardState({
