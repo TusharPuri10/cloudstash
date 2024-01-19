@@ -179,7 +179,7 @@ export default function File({ file, index }: Props) {
           onDoubleClick={() => { ((file.type === "image/jpeg" || file.type === "image/png")?window.open(s3GetPromiseUrl,"_blank"):'')}}
         />
         <button
-          className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
+          className="text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
           onMouseEnter={() => {
             if (!isDragging) setShowDetails(true);
           }}
@@ -188,7 +188,7 @@ export default function File({ file, index }: Props) {
           i
         </button>
         <div className="flex items-center place-content-center">
-          <span className="font-semibold text-sm text-gray-900 dark:text-white">
+          <span className="font-semibold text-sm text-white ">
             {file.name!.length > 12
               ? `${file.name!.substring(0, 12)}...`
               : file.name}
@@ -197,29 +197,29 @@ export default function File({ file, index }: Props) {
         {showDetails && (
           <div className="absolute top-0 left-0 w-44">
             <div className="h-12"></div>
-            <div className="h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-white">
+            <div className="h-auto p-2 border-4 border-[#0D1F23] rounded-md bg-[#AFB3B7] text-sm text-gray-700 ">
               {mainFolder === "shared" && (
                 <p className="text-amber-500">Owner:</p>
               )}
               {mainFolder === "shared" && <p>{file.owner}</p>}
-              <p className="text-amber-500">Name:</p>
-              <p>{file.name}</p>
-              <p className="text-amber-500">Created:</p>
+              <p className="text-[#0D1F23] font-bold">Name:</p>
+              <p className="font-semibold">{file.name}</p>
+              <p className="text-[#0D1F23] font-bold">Created:</p>
               <p> {new Date(file.createdAt!).toLocaleString()}</p>
-              <p className="text-amber-500">Updated:</p>
+              <p className="text-[#0D1F23] font-bold">Updated:</p>
               <p>{new Date(file.updatedAt!).toLocaleString()}</p>
               <div className="flex space-x-2 mt-2">
                 <a
                   href={s3GetDownloadUrl}
                   download={`${file.name}.${file.type!.split("/")[1]}`}
                 >
-                  <button className="bg-green-500 text-white px-2 py-1 text-xs rounded flex items-center">
+                  <button className="border-2 border-green-800 bg-green-600 hover:shadow-md hover:shadow-green-500 text-white px-2 py-1 text-xs rounded flex items-center">
                     <FaDownload />
                   </button>
                 </a>
                 {mainFolder === "root" && (
                   <button
-                    className="bg-purple-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                    className="border-2 border-purple-800 bg-purple-600 hover:shadow-md hover:shadow-purple-500 text-white px-2 py-1 text-xs rounded flex items-center"
                     onClick={() =>
                       setCard({
                         name: "Share",
@@ -236,7 +236,7 @@ export default function File({ file, index }: Props) {
                   </button>
                 )}
                 <button
-                  className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                  className="border-2 border-red-800 bg-red-600 hover:shadow-md hover:shadow-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
                   onClick={() => {
                     file.sharekey === ""
                       ? setCard({
@@ -262,7 +262,7 @@ export default function File({ file, index }: Props) {
                   <FaTrash />
                 </button>
                 <button
-                  className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                  className="border-2 border-gray-800 bg-gray-600 hover:shadow-md hover:shadow-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
                   onClick={() =>
                     setCard({
                       name: "Rename",

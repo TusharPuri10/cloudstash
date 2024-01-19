@@ -17,7 +17,7 @@ const AboutPage = () => {
             className="object-cover h-48 w-48 rounded-full"
           />
         </div>
-        <h1 className="pt-10 px-4 mb-4 text-xl font-extrabold text-gray-900 dark:text-white md:text-xl lg:text-2xl">
+        <h1 className="pt-10 px-4 mb-4 text-xl text-white font-extrabold text-gray-900 md:text-xl lg:text-2xl">
           A cutting-edge cloud storage solution built with the latest
           technologies. Our platform is designed to provide users with a
           seamless and secure experience for managing and sharing their digital

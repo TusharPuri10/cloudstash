@@ -97,7 +97,7 @@ export default function Breadcrumb() {
                   onMouseLeave={() => setDropDown(false)}
                 >
                   <div className="h-12 "></div>
-                  <ul className="bg-[#253745] rounded-lg h-auto py-2 shadow text-sm text-white dark:text-white">
+                  <ul className="bg-[#253745] border-2 border-[#0D1F23] rounded-lg h-auto py-2 shadow text-sm text-white">
                     <li key={"create folder"}>
                       <button
                         className="px-4 py-2 font-medium hover:text-gray-300"

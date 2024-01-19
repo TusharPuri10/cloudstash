@@ -8,7 +8,7 @@ export default function App() {
       <NextNProgress color="#FFB000" />
       <div className="absolute inset-0 z-50 h-20">
         <Topbar />
-        <h1 className="flex justify-center items-center px-4 pt-4 mt-8 mb-2 text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl xl:text-6xl">
+        <h1 className="flex justify-center items-center px-4 pt-4 mt-8 mb-2 text-2xl font-extrabold text-white md:text-4xl lg:text-5xl xl:text-6xl">
           AWS S3 cloud-based storage service
         </h1>
         <p className="flex mr-6 justify-center items-center text-base font-normal md:text-lg text-white  lg:text-xl">

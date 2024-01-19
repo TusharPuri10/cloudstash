@@ -259,8 +259,8 @@ export default function App() {
               <button
                 className={
                   directory.length > 1 || mainFolder === "shared"
-                    ? "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 dark:text-amber-500 dark:hover:text-amber-400"
-                    : "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 dark:text-gray-400"
+                    ? "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 "
+                    : "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 "
                 }
                 onClick={() => {
                   if (directory.length > 1) {
@@ -326,11 +326,11 @@ export default function App() {
                 message.text === "Nothing shared with you yet!" && (
                   <div
                     id="toast-simple"
-                    className="absolute right-4 top-80 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                    className="absolute right-4 top-80 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow space-x "
                     role="alert"
                   >
                     <svg
-                      className="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45"
+                      className="w-5 h-5 text-blue-600 rotate-45"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -349,7 +349,7 @@ export default function App() {
                     </div>
                     <button
                       type="button"
-                      className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                      className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 "
                       data-dismiss-target="#toast-undo"
                       aria-label="Close"
                       onClick={() =>
@@ -389,7 +389,7 @@ export default function App() {
                 message.text === "File shared") && (
                 <div
                   id="toast-simple"
-                  className="absolute flex bottom-24 my-auto w-auto max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                  className="absolute flex bottom-24 my-auto w-auto max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow space-x "
                   role="alert"
                 >
                   {message.type === "error" && (
@@ -427,7 +427,7 @@ export default function App() {
                   <div className="ps-4 text-sm font-normal">{message.text}</div>
                   <button
                     type="button"
-                    className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                    className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 "
                     data-dismiss-target="#toast-undo"
                     aria-label="Close"
                     onClick={() =>

@@ -117,7 +117,7 @@ export default function Folder({ folder, index }: Props) {
         <img src="/folder.png" alt="folder icon" className="w-full h-full" />
         <button
           key={folder.id}
-          className="bold text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
+          className="bold text-white bg-blue-700 hover:bg-blue-800 rounded-full text-sm absolute top-0 right-0 mt-1 mr-1 w-5 h-5"
           onMouseEnter={() => {
             if (!isDragging) setShowDetails(true);
           }}
@@ -126,7 +126,7 @@ export default function Folder({ folder, index }: Props) {
           i
         </button>
         <div className="flex items-center place-content-center cursor-pointer">
-          <span className="font-semibold text-sm text-gray-900 dark:text-white">
+          <span className="font-semibold text-sm text-white ">
             {folder.name!.length > 12
               ? `${folder.name!.substring(0, 12)}...`
               : folder.name}
@@ -135,16 +135,16 @@ export default function Folder({ folder, index }: Props) {
         {showDetails && (
           <div className="cursor-pointer absolute top-0 w-44">
             <div className="h-12"></div>
-            <div className="h-auto p-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 text-sm text-gray-700 dark:text-white">
-              <p className="text-amber-500">Name:</p>
-              <p>{folder.name}</p>
-              <p className="text-amber-500">Created:</p>
+            <div className="h-auto p-2 border-4 border-[#0D1F23] rounded-md bg-[#AFB3B7] text-sm text-gray-700 ">
+              <p className="text-[#0D1F23] font-bold">Name:</p>
+              <p className="font-semibold">{folder.name}</p>
+              <p className="text-[#0D1F23] font-bold">Created:</p>
               <p> {new Date(folder.createdAt!).toLocaleString()}</p>
-              <p className="text-amber-500">Updated:</p>
+              <p className="text-[#0D1F23] font-bold">Updated:</p>
               <p>{new Date(folder.updatedAt!).toLocaleString()}</p>
               <div className="flex space-x-2 mt-2">
                 <button
-                  className="bg-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                  className="border-2 border-red-800 bg-red-600 hover:shadow-md hover:shadow-red-500 text-white px-2 py-1 text-xs rounded flex items-center"
                   onClick={() =>
                     setCard({
                       name: "Delete",
@@ -160,7 +160,7 @@ export default function Folder({ folder, index }: Props) {
                   <FaTrash />
                 </button>
                 <button
-                  className="bg-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
+                  className="border-2 border-gray-800 bg-gray-600 hover:shadow-md hover:shadow-gray-500 text-white px-2 py-1 text-xs rounded flex items-center"
                   onClick={() =>
                     setCard({
                       name: "Rename",

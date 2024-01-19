@@ -86,16 +86,16 @@ const ShareCard = () => {
 
   return (
     <div
-      className="absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-72 mt-24 rounded-xl flex flex-col items-center"
+      className="border-4 border-[#0D1F23] absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-72 mt-24 rounded-xl flex flex-col items-center"
       style={{ backgroundColor: "#2D4A53" }}
     >
       <div className="flex flex-row justify-center w-full">
-        <label className="mt-8 mb-4 mx-4 text-xl font-medium text-gray-900 dark:text-white">
+        <label className="mt-8 mb-4 mx-4 text-xl font-medium text-white">
           Share
         </label>
         {!optionSelect && (
           <label
-            className="inline-flex hover:text-gray-300 w-28  h-9 py-2 px-4 mt-8 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="inline-flex bg-slate-200 border-2 border-[#0D1F23] w-28  h-9 py-2 px-4 mt-8 text-sm font-semibold rounded-lg"
             onClick={() => setOptionSelect(true)}
           >
             {shareWithEveryone ? "everyone" : "friend"}
@@ -117,11 +117,11 @@ const ShareCard = () => {
           </label>
         )}
         {optionSelect && !shareWithEveryone && (
-          <ul className="mt-8 w-28 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <ul className="mt-8 w-28 text-sm bg-slate-200 border-2 border-[#0D1F23] rounded-lg">
             <li
               style={{ cursor: "pointer" }}
               key="friend"
-              className="px-4 py-2 hover:text-gray-300 border-b border-gray-200 dark:border-gray-600"
+              className="px-4 py-2 font-semibold "
               onClick={() => {
                 setShareWithEveryone(false);
                 setOptionSelect(false);
@@ -132,7 +132,7 @@ const ShareCard = () => {
             <li
               style={{ cursor: "pointer" }}
               key="everyone"
-              className="px-4 py-2 hover:text-gray-300 border-b border-gray-200 dark:border-gray-600"
+              className="px-4 py-2 font-semibold "
               onClick={() => {
                 setShareWithEveryone(true);
                 setOptionSelect(false);
@@ -143,11 +143,11 @@ const ShareCard = () => {
           </ul>
         )}
         {optionSelect && shareWithEveryone && (
-          <ul className="mt-8 w-28 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <ul className="mt-8 w-28 text-sm bg-slate-200 border-2 border-[#0D1F23] rounded-lg">
             <li
               style={{ cursor: "pointer" }}
               key="everyone"
-              className="px-4 py-2 hover:text-gray-300 border-b border-gray-200 dark:border-gray-600"
+              className="px-4 py-2 font-semibold"
               onClick={() => {
                 setShareWithEveryone(true);
                 setOptionSelect(false);
@@ -158,7 +158,7 @@ const ShareCard = () => {
             <li
               style={{ cursor: "pointer" }}
               key="friend"
-              className="px-4 py-2 hover:text-gray-300 border-b border-gray-200 dark:border-gray-600"
+              className="px-4 py-2 font-semibold"
               onClick={() => {
                 setShareWithEveryone(false);
                 setOptionSelect(false);
@@ -173,14 +173,14 @@ const ShareCard = () => {
       {/* Input for sharing with a specific email */}
       {shareWithEveryone === false && (
         <div className={`${optionSelect ? "w-full px-4" : "w-full mt-8 px-4"}`}>
-          <label className="text-left text-lg font-medium text-gray-900 dark:text-white">
+          <label className="text-left text-lg font-medium text-white ">
             Email
           </label>
           <div className="mt-2">
             <input
               autoFocus={true}
-              className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
-              placeholder="Enter email address of github user"
+              className="w-full bg-slate-200 border-2 border-[#0D1F23] text-white-900 rounded-lg w-60 p-2.5 "
+              placeholder="Enter email address"
               value={shareWithEmail || ""}
               onChange={(e) => setShareWithEmail(e.target.value)}
               onKeyDown={(e) => {
@@ -198,11 +198,11 @@ const ShareCard = () => {
       {/* Display share link or share button based on selection */}
       {shareWithEveryone ? (
         <div className={`${optionSelect ? "w-full px-4" : "w-full mt-8 px-4"}`}>
-          <p className="text-gray-900 dark:text-white mb-4">Link</p>
+          <p className="text-white">Link</p>
           <div className="w-full">
             <input
               id="text-box"
-              className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
+              className="w-full bg-slate-200 border-2 border-[#0D1F23] text-white-900 rounded-lg w-60 p-2.5 "
               defaultValue={shareLink}
               required
             ></input>
@@ -235,7 +235,7 @@ const ShareCard = () => {
           {message.open && message.text === "copied" && (
             <div
               id="toast-simple"
-              className="absolute top-76 flex items-center w-auto right-12 max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+              className="absolute top-76 flex items-center w-auto right-12 max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow"
               role="alert"
             >
               <svg
@@ -256,7 +256,7 @@ const ShareCard = () => {
               <div className="ps-4 text-sm font-normal">{message.text}</div>
               <button
                 type="button"
-                className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
                 data-dismiss-target="#toast-undo"
                 aria-label="Close"
                 onClick={() => setMessage({ open: false, text: "", type: "" })}

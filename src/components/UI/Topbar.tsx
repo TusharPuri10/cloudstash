@@ -19,7 +19,7 @@ export default function Topbar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
           {/* logo */}
           <button
-            className="ml-6 flex items-center py-6 self-center text-md sm:text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white"
+            className="ml-6 flex items-center py-6 self-center text-md text-white sm:text-xl md:text-2xl font-semibold whitespace-nowrap "
             onClick={() => {
               router.push("/");
             }}
@@ -104,7 +104,7 @@ export default function Topbar() {
                 <button
                   data-collapse-toggle="navbar-default"
                   type="button"
-                  className="flex items-center w-10 h-10 mr-4 ml-4 my-5 justify-center text-sm text-amber-500 rounded-lg hover:text-amber-600 dark:text-amber-500 dark:hover:text-amber-600"
+                  className="flex items-center w-10 h-10 mr-4 ml-4 my-5 justify-center text-sm text-amber-500 rounded-lg hover:text-amber-600 "
                   aria-controls="navbar-default"
                   aria-expanded="false"
                 >
@@ -148,14 +148,14 @@ export default function Topbar() {
                   <div>
                     {isUserMenuOpen && (
                       <div
-                        className="z-50 bg-[#253745] absolute right-2 min-w-40 text-base list-none divide-y divide-gray-100 rounded-lg shadow dark:divide-gray-600"
+                        className="border-2 border-[#0D1F23] z-50 bg-[#253745] absolute right-2 min-w-40 text-base list-none divide-y divide-[#0D1F23] rounded-lg shadow "
                         id="user-dropdown"
                       >
                         <div className="px-4 py-4">
-                          <span className="block text-sm text-gray-900 dark:text-white">
+                          <span className="block text-sm text-white ">
                             {session.user.name}
                           </span>
-                          <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                          <span className="block text-sm text-white truncate ">
                             {session.user.email}
                           </span>
                         </div>
@@ -165,7 +165,7 @@ export default function Topbar() {
                         >
                           <li>
                             <button
-                              className="h-8 px-4 m-2 text-sm bg-[#4A5C6A] text-white font-bold rounded dark:hover:text-gray-300"
+                              className="h-8 px-4 m-2 text-sm bg-[#4A5C6A] text-white font-bold rounded "
                               onClick={() => {
                                 signOut();
                               }}
@@ -184,7 +184,7 @@ export default function Topbar() {
                     <div role="status" className="py-3">
                       <svg
                         aria-hidden="true"
-                        className="w-11 h-11 mr-4 ml-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                        className="w-11 h-11 mr-4 ml-6 text-[#5A636A] animate-spin fill-amber-600"
                         viewBox="0 0 100 101"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

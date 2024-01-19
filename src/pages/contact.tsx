@@ -13,7 +13,7 @@ export default function App() {
       </Head>
       <div className=" inset-y-0 w-full absolute z-50 h-20">
         <Topbar />
-        <h1 className="pt-40 pl-8 mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+        <h1 className="pt-40 pl-8 mb-4 text-3xl text-white font-extrabold text-gray-900 md:text-5xl lg:text-6xl">
           Developed by Tushar Puri
         </h1>
         <p className="pt-4 pr-24 flex justify-center items-center text-lg font-normal text-white lg:text-xl space-x-6">

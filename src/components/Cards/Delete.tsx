@@ -88,8 +88,8 @@ const DeleteCard = () => {
   }
 
   return (
-    <div className="absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-40 mt-24 rounded-xl flex flex-col items-center bg-[#2D4A53]">
-      <label className="block my-6 mx-4 font-medium text-gray-900 dark:text-white">
+    <div className="border-4 border-[#0D1F23] absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-40 mt-24 rounded-xl flex flex-col items-center bg-[#2D4A53]">
+      <label className="block my-6 mx-4 font-medium text-white">
         Are you sure you want to permanently delete?
       </label>
       <div className="w-full text-right">

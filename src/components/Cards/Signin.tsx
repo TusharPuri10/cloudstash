@@ -6,7 +6,7 @@ const AuthCard = () => {
       className="absolute inset-0 z-50 mx-auto w-1/2 h-1/2 mt-36 rounded-xl auth-card flex flex-col items-center justify-center"
       style={{ backgroundColor: "#132E35" }}
     >
-      <h1 className="pb-4 md:text-3xl text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
+      <h1 className="pb-4 md:text-3xl text-2xl font-extrabold text-white md:text-4xl lg:text-5xl">
         Welcome to CloudStash
       </h1>
       <p className="md:text-lg text-md font-normal text-white lg:text-xl">

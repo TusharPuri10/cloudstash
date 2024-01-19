@@ -111,16 +111,16 @@ const RenameCard = () => {
 
   return (
     <div
-      className="absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-48 mt-24 rounded-xl flex flex-col items-center"
+      className="border-4 border-[#0D1F23] absolute inset-0 z-50 mx-auto md:w-1/4 w-3/5 h-48 mt-24 rounded-xl flex flex-col items-center"
       style={{ backgroundColor: "#2D4A53" }}
     >
-      <label className="w-full px-4 mt-6 mb-4 text-left text-xl font-medium text-gray-900 dark:text-white">
+      <label className="w-full px-4 mt-6 mb-4 text-left text-xl font-medium text-white">
         Edit the name
       </label>
       <div className="px-4 w-full">
         <input
           autoFocus={true}
-          className="w-full bg-gray-50 border border-white text text-gray-900 text rounded-lg w-60 p-2.5 dark:bg-gray-700 dark:text-white "
+          className="w-full bg-slate-200 border-2 border-[#0D1F23] text-white-900 rounded-lg p-2.5"
           value={defaultvalue}
           required
           onChange={(e) => {
