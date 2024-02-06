@@ -20,22 +20,6 @@ interface Props {
   index: number;
 }
 
-let tapTimer: ReturnType<typeof setTimeout>| null = null
-export function tap(singleTapFunc: Function, doubleTapFunc: Function) {
-  const dblTapDelta = 300
-  function dblTapTimeout() {
-    singleTapFunc()
-    tapTimer = null;
-  }
-  if (!tapTimer) {
-    tapTimer = setTimeout(dblTapTimeout, dblTapDelta)
-  } else {
-    clearTimeout(tapTimer)
-    tapTimer = null
-    doubleTapFunc()
-  }
-}
-
 export default function Folder({ folder, index }: Props) {
   const [showDetails, setShowDetails] = useState(false);
   const folderRef = useRef<HTMLDivElement>(null);
@@ -115,15 +99,12 @@ export default function Folder({ folder, index }: Props) {
         onMouseLeave={() => {
           setShowDetails(false);
         }}
-        onClick={() => tap(
-          () => {},
-          () => {
-            setDirectory((prevDirectory) => [
-              ...prevDirectory,
-              { id: folder.id, name: folder.name },
-            ]);
-          },
-        )}
+        onDoubleClick={() => {
+          setDirectory((prevDirectory) => [
+            ...prevDirectory,
+            { id: folder.id, name: folder.name },
+          ]);
+        }}
         style={{
           position: "absolute",
           transition: "transform 0.12s ease", // Add a smooth transition effect
