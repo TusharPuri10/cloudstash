@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import * as React from "react";
 import { useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useSpring, a } from "@react-spring/three";
@@ -19,14 +19,20 @@ function Object() {
     rotation: [0, 0, 0],
     config: { friction: 10 },
   }));
-  const bind = useGesture({
-    onHover: ({ hovering }) => {
-      const targetRotation = hovering ? [0.4, 0, 0] : [0, 0, 0];
+  useFrame((state, delta) =>{ 
+    const t = performance.now() / 900;
+      const targetRotation = (Math.sin(t)>0) ? [0.4, 0, 0] : [0, 0, 0];
       set.start({ rotation: targetRotation });
-    },
+      ref.current.position.x=0.8;
   });
+  // const bind = useGesture({
+  //   onHover: ({ hovering }) => {
+  //     const targetRotation = hovering ? [0.4, 0, 0] : [0, 0, 0];
+  //     set.start({ rotation: targetRotation });
+  //   },
+  // });
   return (
-    <a.mesh ref={ref} {...spring as any} {...bind()}>
+    <a.mesh ref={ref} {...spring as any}>
       <primitive object={gltf.scene} />
     </a.mesh>
   );
@@ -76,7 +82,7 @@ export default function Bin() {
   });
   return (
     <div ref={drop} className="md:h-32 h-24">
-      <Canvas camera={{ position: [1.5, 1, 3] }}>
+      <Canvas camera={{ position: [2.5, 0.8, 3.2] }}>
         <ambientLight intensity={2} />
         <directionalLight
           castShadow
