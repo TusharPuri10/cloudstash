@@ -84,6 +84,7 @@ export default function Folder({ folder, index }: Props) {
       window.removeEventListener("bounds", updateBounds);
     };
   }, [index, card, window.innerWidth]);
+  let lastTap = useRef(0);
 
   return (
     <Draggable
@@ -106,10 +107,15 @@ export default function Folder({ folder, index }: Props) {
           ]);
         }}
         onTouchStart={() => {
-          setDirectory((prevDirectory) => [
-            ...prevDirectory,
-            { id: folder.id, name: folder.name },
-          ]);
+          const now = Date.now();
+          const DOUBLE_TAP_DELAY = 300; // Adjust as needed
+          if (now - lastTap.current <= DOUBLE_TAP_DELAY) {
+            setDirectory((prevDirectory) => [
+              ...prevDirectory,
+              { id: folder.id, name: folder.name },
+            ]);
+          }
+          lastTap.current = now;
         }}
         style={{
           position: "absolute",

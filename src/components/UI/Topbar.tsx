@@ -28,7 +28,7 @@ export default function Topbar() {
           </button>
           {/* Menu - Home, About, contact */}
           {router.asPath === "/root" ? (
-            <div>
+            <div className="hidden sm:block">
               <Breadcrumb />
             </div>
           ) : (
@@ -213,6 +213,9 @@ export default function Topbar() {
             </div>
           </div>
         </div>
+        {router.asPath === "/root" && <div className="block sm:hidden w-full justify-center flex">
+          <Breadcrumb/>
+        </div>}
       </nav>
     </div>
   );
