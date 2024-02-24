@@ -99,7 +99,13 @@ export default function Folder({ folder, index }: Props) {
         onMouseLeave={() => {
           setShowDetails(false);
         }}
-        onDoubleClick={() => {
+        onDoubleClick={()=> {
+          setDirectory((prevDirectory) => [
+            ...prevDirectory,
+            { id: folder.id, name: folder.name },
+          ]);
+        }}
+        onTouchStart={() => {
           setDirectory((prevDirectory) => [
             ...prevDirectory,
             { id: folder.id, name: folder.name },
