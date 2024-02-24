@@ -259,8 +259,8 @@ export default function App() {
               <button
                 className={
                   directory.length > 1 || mainFolder === "shared"
-                    ? "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 "
-                    : "absolute border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 "
+                    ? "border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-amber-50 hover:text-amber-400 h-10 "
+                    : "border-lime-800 rounded-ee-lg rounded-ss-lg border-2 border-teal-900 top-20 left-6 p-1 text-gray-500 h-10"
                 }
                 onClick={() => {
                   if (directory.length > 1) {

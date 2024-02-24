@@ -67,6 +67,7 @@ const CreateFolderCard = () => {
               setLoading(true);
             }
           }}
+          maxLength={16}
         ></input>
       </div>
       <div className="mt-6 w-full text-right">
