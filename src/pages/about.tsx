@@ -12,7 +12,7 @@ const AboutPage = () => {
       <div className="pt-10 text-center">
         <div className="flex justify-center">
           <img
-            src="/icons/logo.jpg"
+            src="/icons/logo.webp"
             alt=""
             className="object-cover h-48 w-48 rounded-full"
           />

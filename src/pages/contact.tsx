@@ -20,14 +20,14 @@ export default function App() {
           <a href="https://github.com/TusharPuri10" target="_blank">
             <img
               className="rounded-full w-10 h-10 bg-white hover:opacity-75"
-              src="/icons/github.png"
+              src="/icons/github.webp"
               alt=""
             />
           </a>
-          <a href="https://medium.com/@iamtusharpuri_72563" target="_blank">
+          <a href="https://twitter.com/TusharP78096727" target="_blank">
             <img
               className="rounded-full w-10 h-10 hover:opacity-75"
-              src="/icons/medium.png"
+              src="/icons/x.webp"
               alt=""
             />
           </a>
@@ -37,14 +37,14 @@ export default function App() {
           >
             <img
               className="rounded-full w-10 h-10 hover:opacity-75"
-              src="/icons/linkedin.png"
+              src="/icons/linkedin.webp"
               alt=""
             />
           </a>
           <a href="https://www.instagram.com/tusharpuri10/" target="_blank">
             <img
               className="rounded-full w-10 h-10 hover:opacity-75"
-              src="/icons/instagram.png"
+              src="/icons/instagram.webp"
               alt=""
             />
           </a>
