@@ -27,7 +27,7 @@ export default function App() {
           <a href="https://twitter.com/TusharP78096727" target="_blank">
             <img
               className="rounded-full w-10 h-10 hover:opacity-75"
-              src="/icons/x.webp"
+              src="/icons/twitter.webp"
               alt=""
             />
           </a>
