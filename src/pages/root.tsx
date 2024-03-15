@@ -386,7 +386,7 @@ export default function App() {
             {message.open &&
               (message.text === "You have reached the limit" ||
                 message.text === "User not found" ||
-                message.text === "File shared") && (
+                message.text === "File shared" || message.text) && (
                 <div
                   id="toast-simple"
                   className="absolute flex bottom-24 my-auto w-auto max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow space-x "
