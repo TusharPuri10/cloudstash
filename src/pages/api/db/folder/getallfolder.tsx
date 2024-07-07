@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 async function getFoldersInsideFolder(parentFolderId: number,userId:string) {
   try {
     const folders = await prisma.folder.findMany({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         parentId: parentFolderId,
         userId: userId,

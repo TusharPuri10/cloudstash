@@ -5,6 +5,7 @@ async function deleteFolder(folderId: number) {
   try {
     // Delete all files and subfolders inside the folder
     await prisma.folder.delete({
+      
       where: {
           id: folderId 
       },

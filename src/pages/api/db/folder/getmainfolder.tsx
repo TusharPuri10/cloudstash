@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 async function getmainFolder(userId: string, folderName: string) {
   try {
     const folders = await prisma.folder.findFirst({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         name: folderName,
         userId: userId

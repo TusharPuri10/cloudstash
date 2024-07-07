@@ -3,7 +3,8 @@ import prisma from "@/lib/prisma";
 
 async function renameFolder(folderId: number, newName: string) {
   try {
-    const updatedFolder = await prisma.folder.update({
+    await prisma.folder.update({
+      
       where: {
         id: folderId,
       },

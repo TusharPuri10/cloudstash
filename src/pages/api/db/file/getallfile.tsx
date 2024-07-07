@@ -5,6 +5,7 @@ async function getAllFilesInFolder(folderId: number) {
   try {
     
     const files = await prisma.file.findMany({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         folderId: folderId,
         },

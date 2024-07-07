@@ -9,6 +9,7 @@ async function shareFile(
   try {
     // Check if the user with the specified email exists
     const user = await prisma.user.findUnique({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         email: userEmail,
       },
@@ -20,6 +21,7 @@ async function shareFile(
 
     // Find the source file information
     const sourceFile = await prisma.file.findUnique({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         filekey: originalFileKey,
       },
@@ -31,6 +33,7 @@ async function shareFile(
 
     // Find the "shared" folder
     const sharedFolder = await prisma.folder.findFirst({
+      cacheStrategy: { ttl: 3_600 }, 
       where: {
         name: "shared",
         userId: user.id,
